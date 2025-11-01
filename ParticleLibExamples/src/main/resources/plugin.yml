@@ -1,0 +1,12 @@
+name: ParticleLibExamples
+version: '1.0'
+main: me.pm7.particleLibExamples.ParticleLibExamples
+api-version: '1.21'
+commands:
+  test:
+    description: "tests"
+  particleeditor:
+    description: "particleedits"
+  flame:
+    description: "runs the flame demonstration"
+depend: [ParticleLib]

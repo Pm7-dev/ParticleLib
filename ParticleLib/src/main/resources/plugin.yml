@@ -1,0 +1,5 @@
+name: ParticleLib
+version: '1.0'
+main: me.pm7.particlelib.ParticleLib
+api-version: '1.21'
+load: STARTUP

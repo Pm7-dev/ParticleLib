@@ -1,0 +1,135 @@
+package me.pm7.particleLibExamples.commands;
+
+import me.pm7.particleLibExamples.ParticleLibExamples;
+import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.emitter.ParticleEmitter;
+import me.pm7.particlelib.emitter.ParticleEmitterConstant;
+import me.pm7.particlelib.interpolation.gradient.GradientColor;
+import me.pm7.particlelib.interpolation.gradient.GradientVector;
+import me.pm7.particlelib.interpolation.gradient.RangedGradientDouble;
+import me.pm7.particlelib.interpolation.keyframe.EasingMode;
+import me.pm7.particlelib.interpolation.keyframe.Keyframe;
+import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.particledata.ParticleDataSquare;
+import me.pm7.particlelib.physics.GravityAxis;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.command.BlockCommandSender;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class flame implements CommandExecutor {
+
+    private static final ParticleManager manager = ParticleLibExamples.getParticleManager();
+
+    List<ParticleEmitter> flameEmitters = new ArrayList<>();
+
+    ParticleDataSquare flameDataOrange = new ParticleDataSquare()
+            .initialDirection(new ValueRange<>(new Vector(-1, -1, -1), new Vector(1, 1, 1)))
+            .particleLifeTicks(15)
+            .colorOverLifetime(new GradientColor(
+                    EasingMode.LINEAR,
+                    new Keyframe<>(Color.WHITE, 0.05),
+                    new Keyframe<>(Color.fromRGB(252, 211, 3), 0.20),
+                    new Keyframe<>(Color.fromRGB(255, 136, 0), 0.40),
+                    new Keyframe<>(Color.fromRGB(222, 64, 11), 0.70)
+            ))
+            .initialRoll(new ValueRange<>(0.0, 360.0))
+            .rollSpeedOverLifetime(new RangedGradientDouble(-100, 100))
+            .scaleOverLifetime(new GradientVector(
+                    EasingMode.SINE_OUT,
+                    new Keyframe<>(new Vector(0.165 ,0.165 ,0.165), 0.75),
+                    new Keyframe<>(new Vector(0 ,0 ,0), 0.9)
+            ))
+            .gravity(new GravityAxis()
+                    .initialSpeed(2.0)
+                    .axisOverLifetime(new Vector(0, 1, 0))
+                    .towardsAxisStrengthOverLifetime(8.0)
+                    .alongAxisStrengthOverLifetime(12.0)
+            )
+            .shaded(false);
+
+
+    ParticleDataSquare flameDataBlue = flameDataOrange.clone()
+            .colorOverLifetime(new GradientColor(
+                    EasingMode.LINEAR,
+                    new Keyframe<>(Color.WHITE, 0.05),
+                    new Keyframe<>(Color.fromRGB(64, 188, 255), 0.10),
+                    new Keyframe<>(Color.fromRGB(0, 17, 201), 0.30),
+                    new Keyframe<>(Color.fromRGB(252, 211, 3), 0.50),
+                    new Keyframe<>(Color.fromRGB(222, 64, 11), 0.70)
+            )
+    );
+
+
+    ParticleDataSquare flameDataWhite = flameDataOrange.clone()
+            .colorOverLifetime(new GradientColor(
+                    EasingMode.LINEAR,
+                    new Keyframe<>(Color.WHITE, 0.10),
+                    new Keyframe<>(Color.BLACK, 0.60)
+            )
+    );
+
+    ParticleDataSquare flameDataLime = flameDataOrange.clone()
+            .colorOverLifetime(new GradientColor(
+                    EasingMode.LINEAR,
+                    new Keyframe<>(Color.WHITE, 0.05),
+                    new Keyframe<>(Color.fromRGB(63, 232, 74), 0.20),
+                    new Keyframe<>(Color.fromRGB(0, 255, 51), 0.40),
+                    new Keyframe<>(Color.fromRGB(31, 201, 8), 0.70)
+            )
+    );
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] args) {
+
+        Location location;
+
+        if (sender instanceof Player) {
+            location = ((Player) sender).getLocation();
+        }
+        else if (sender instanceof BlockCommandSender bcs) {
+            location = bcs.getBlock().getLocation().add(0.5, 1.5, 0.5);
+        } else return false;
+
+
+        switch (args[0].toLowerCase()) {
+            case "0": {
+                flameEmitters.add(new ParticleEmitterConstant(manager, location, flameDataOrange, 10, 1));
+                flameEmitters.getLast().start();
+                break;
+            }
+            case "1": {
+                flameEmitters.add(new ParticleEmitterConstant(manager, location, flameDataWhite, 10, 1));
+                flameEmitters.getLast().start();
+                break;
+            }
+            case "2": {
+                flameEmitters.add(new ParticleEmitterConstant(manager, location, flameDataBlue, 10, 1));
+                flameEmitters.getLast().start();
+                break;
+            }
+            case "3": {
+                flameEmitters.add(new ParticleEmitterConstant(manager, location, flameDataLime, 10, 1));
+                flameEmitters.getLast().start();
+                break;
+            }
+            case "7": {
+                while (!flameEmitters.isEmpty()) {
+                    flameEmitters.getFirst().remove();
+                    flameEmitters.removeFirst();
+                }
+                break;
+            }
+        }
+
+        return true;
+    }
+}
