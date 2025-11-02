@@ -102,22 +102,22 @@ public class flame implements CommandExecutor {
 
         switch (args[0].toLowerCase()) {
             case "0": {
-                flameEmitters.add(new ParticleEmitterConstant(manager, location, flameDataOrange, 10, 1));
+                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataOrange));
                 flameEmitters.getLast().start();
                 break;
             }
             case "1": {
-                flameEmitters.add(new ParticleEmitterConstant(manager, location, flameDataWhite, 10, 1));
+                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataWhite));
                 flameEmitters.getLast().start();
                 break;
             }
             case "2": {
-                flameEmitters.add(new ParticleEmitterConstant(manager, location, flameDataBlue, 10, 1));
+                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataBlue));
                 flameEmitters.getLast().start();
                 break;
             }
             case "3": {
-                flameEmitters.add(new ParticleEmitterConstant(manager, location, flameDataLime, 10, 1));
+                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataLime));
                 flameEmitters.getLast().start();
                 break;
             }

@@ -5,10 +5,10 @@ import me.pm7.particlelib.interpolation.gradient.GradientVector;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
 import me.pm7.particlelib.particle.Particle;
 import org.bukkit.Location;
-import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Display;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -134,7 +134,7 @@ public class GravityDirection extends Gravity implements ConfigurationSerializab
 
     // Config stuff
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
         map.put("type", "direction");
         map.put("initialSpeed", initialSpeed);

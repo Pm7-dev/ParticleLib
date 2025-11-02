@@ -11,6 +11,7 @@ import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.EntityType;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +30,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
 
     /**
      * Creates a new ParticleEmitter
+     * @param manager The particle manager to tick this emitter
      * @param location The location to spawn the ParticleEmitter's display entity
      * @param particleBuilder The particle data to use when this emitter spawns a particle
      */
@@ -109,7 +111,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
 
     // Config stuff
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
         map.put("type", "none");
         map.put("uuid", gameObject.getUniqueId());

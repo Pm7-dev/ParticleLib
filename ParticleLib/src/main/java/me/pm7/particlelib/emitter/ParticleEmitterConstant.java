@@ -4,6 +4,7 @@ import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.particlebuilder.ParticleBuilder;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,12 +21,13 @@ public class ParticleEmitterConstant extends ParticleEmitter {
 
     /**
      * Creates a new constant particle emitter
-     * @param location The location to spawn the ParticleEmitter's display entity
-     * @param particleBuilder The particle data to use when this emitter spawns a particle
+     * @param manager The particle manager to tick this emitter
      * @param particlesPerSpawn The amount of particles to spawn each time the emitter spawns particles
      * @param ticksPerSpawn The amount of ticks to pass between each spawn
+     * @param location The location to spawn the ParticleEmitter's display entity
+     * @param particleBuilder The particle data to use when this emitter spawns a particle
      */
-    public ParticleEmitterConstant(ParticleManager manager, Location location, ParticleBuilder particleBuilder, int particlesPerSpawn, int ticksPerSpawn) {
+    public ParticleEmitterConstant(ParticleManager manager, int particlesPerSpawn, int ticksPerSpawn, Location location, ParticleBuilder particleBuilder) {
         super(manager, location, particleBuilder);
         this.particlesPerSpawn = particlesPerSpawn;
         this.ticksPerSpawn = ticksPerSpawn;
@@ -48,21 +50,21 @@ public class ParticleEmitterConstant extends ParticleEmitter {
 
     /**
      * Sets the amount of particles to spawn each time the emitter spawns particles
-     * @param particlesPerSpawn
+     * @param particlesPerSpawn the new amount.
      */
     public void setParticlesPerSpawn(int particlesPerSpawn) {this.particlesPerSpawn = particlesPerSpawn;}
     public int getParticlesPerSpawn() {return particlesPerSpawn;}
 
     /**
      * Sets the amount of ticks that must pass before each emitter spawn
-     * @param ticksPerSpawn
+     * @param ticksPerSpawn the new amount.
      */
     public void setTicksPerSpawn(int ticksPerSpawn) {this.ticksPerSpawn = ticksPerSpawn;}
     public int getTicksPerSpawn() {return ticksPerSpawn;}
 
     // Config stuff
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>(super.serialize());
         map.put("type", "constant");
         map.put("particlesPerSpawn", particlesPerSpawn);

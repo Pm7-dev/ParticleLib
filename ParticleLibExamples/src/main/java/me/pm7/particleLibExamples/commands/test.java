@@ -37,6 +37,8 @@ public class test implements CommandExecutor {
         Location loc = ((Player) commandSender).getLocation();
         ParticleEmitter emitter = new ParticleEmitterConstant(
                 manager,
+                6,
+                1,
                 loc,
                 new ParticleBuilderSquare()
                     .initialDirection(new ValueRange<>(new Vector(-1, 0.2, -1), new Vector(1, 0.4, 1)))
@@ -59,9 +61,8 @@ public class test implements CommandExecutor {
                             .initialSpeed(new ValueRange<>(1.8, 2.4))
                             .axisOverLifetime(new Vector(0, 1, 0))
                             .towardsAxisStrengthOverLifetime(10.0)
-                            .alongAxisStrengthOverLifetime(14.0)),
-                6,
-                1);
+                            .alongAxisStrengthOverLifetime(14.0))
+        );
         emitter.start();
 
         return true;

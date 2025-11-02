@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.components.CustomModelDataComponent;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -108,7 +109,7 @@ public class ParticleBuilderCube extends ParticleBuilder3D {
 
     // Config stuff
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
 Map<String, Object> map = new HashMap<>(super.serialize());
         map.put("type", "cube");
         map.put("colorOverLifetime", colorOverLifetime);

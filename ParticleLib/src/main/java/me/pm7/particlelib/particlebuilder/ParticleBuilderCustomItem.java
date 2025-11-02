@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -96,7 +97,7 @@ public class ParticleBuilderCustomItem extends ParticleBuilder3D {
 
     // Config stuff
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
 Map<String, Object> map = new HashMap<>(super.serialize());
         map.put("type", "customItem");
         map.put("colorOverLifetime", colorOverLifetime);

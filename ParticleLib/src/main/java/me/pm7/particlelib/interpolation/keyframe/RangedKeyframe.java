@@ -1,6 +1,7 @@
 package me.pm7.particlelib.interpolation.keyframe;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class RangedKeyframe<T> extends ValueRange<T> implements ConfigurationSer
 
     // Config stuff
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
 Map<String, Object> map = new HashMap<>(super.serialize());
         map.put("v1", v1);
         map.put("v2", v2);

@@ -5,6 +5,7 @@ import me.pm7.particlelib.interpolation.keyframe.Keyframe;
 import org.bukkit.Color;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -96,7 +97,7 @@ public class GradientVector extends Gradient implements ConfigurationSerializabl
     
     // Config stuff
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
         map.put("easing", easingMode.toString());
         map.put("keyframes", keyframes);

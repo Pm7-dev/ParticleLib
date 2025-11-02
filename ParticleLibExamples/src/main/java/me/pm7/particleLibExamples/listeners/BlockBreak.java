@@ -52,7 +52,7 @@ public class BlockBreak implements Listener {
         e.getBlock().setType(Material.AIR);
         Location loc = e.getBlock().getLocation().add(0.5, 0.5, 0.5);
 
-        new ParticleEmitterBurst(manager, loc, particleData, 25).start();
+        new ParticleEmitterBurst(manager, 25, loc, particleData).start();
     }
 
 }

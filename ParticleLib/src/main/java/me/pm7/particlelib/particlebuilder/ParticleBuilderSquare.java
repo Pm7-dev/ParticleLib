@@ -9,6 +9,7 @@ import me.pm7.particlelib.physics.Gravity;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -79,7 +80,7 @@ public class ParticleBuilderSquare extends ParticleBuilder2D {
 
     // Config stuff
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         return super.serialize();
     }
     public ParticleBuilderSquare(Map<String, Object> map) {

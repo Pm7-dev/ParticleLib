@@ -4,6 +4,7 @@ import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.particlebuilder.ParticleBuilder;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +18,12 @@ public class ParticleEmitterBurst extends ParticleEmitter {
 
     /**
      * Creates a new burst particle emitter
+     * @param manager The particle manager to tick this emitter
+     * @param count The amount of particles to spawn as part of this burst
      * @param location The location to spawn the ParticleEmitter's display entity
      * @param particleBuilder The particle data to use when this emitter spawns a particle
-     * @param count The amount of particles to spawn as part of this burst
      */
-    public ParticleEmitterBurst(ParticleManager manager, Location location, ParticleBuilder particleBuilder, int count) {
+    public ParticleEmitterBurst(ParticleManager manager, int count, Location location, ParticleBuilder particleBuilder) {
         super(manager, location, particleBuilder);
         this.count = count;
     }
@@ -39,7 +41,7 @@ public class ParticleEmitterBurst extends ParticleEmitter {
 
     // Config stuff
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>(super.serialize());
         map.put("type", "burst");
         map.put("count", count);

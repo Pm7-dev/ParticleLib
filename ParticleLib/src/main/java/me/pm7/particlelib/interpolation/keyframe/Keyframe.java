@@ -2,6 +2,8 @@ package me.pm7.particlelib.interpolation.keyframe;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +42,7 @@ public class Keyframe<T> implements ConfigurationSerializable {
 
     // Config stuff
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
         map.put("value", value);
         map.put("position", position);
