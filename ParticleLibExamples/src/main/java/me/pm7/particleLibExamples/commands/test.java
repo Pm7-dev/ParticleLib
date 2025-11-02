@@ -17,7 +17,7 @@ import me.pm7.particlelib.interpolation.keyframe.EasingMode;
 import me.pm7.particlelib.interpolation.keyframe.Keyframe;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
 import me.pm7.particlelib.physics.GravityAxis;
-import me.pm7.particlelib.particledata.ParticleDataSquare;
+import me.pm7.particlelib.particlebuilder.ParticleBuilderSquare;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -38,7 +38,7 @@ public class test implements CommandExecutor {
         ParticleEmitter emitter = new ParticleEmitterConstant(
                 manager,
                 loc,
-                new ParticleDataSquare()
+                new ParticleBuilderSquare()
                     .initialDirection(new ValueRange<>(new Vector(-1, 0.2, -1), new Vector(1, 0.4, 1)))
                     .particleLifeTicks(15)
                     .colorOverLifetime(new GradientColor(

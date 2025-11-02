@@ -1,7 +1,7 @@
 package me.pm7.particlelib.emitter;
 
 import me.pm7.particlelib.ParticleManager;
-import me.pm7.particlelib.particledata.ParticleData;
+import me.pm7.particlelib.particlebuilder.ParticleBuilder;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -18,11 +18,11 @@ public class ParticleEmitterBurst extends ParticleEmitter {
     /**
      * Creates a new burst particle emitter
      * @param location The location to spawn the ParticleEmitter's display entity
-     * @param particleData The particle data to use when this emitter spawns a particle
+     * @param particleBuilder The particle data to use when this emitter spawns a particle
      * @param count The amount of particles to spawn as part of this burst
      */
-    public ParticleEmitterBurst(ParticleManager manager, Location location, ParticleData particleData, int count) {
-        super(manager, location, particleData);
+    public ParticleEmitterBurst(ParticleManager manager, Location location, ParticleBuilder particleBuilder, int count) {
+        super(manager, location, particleBuilder);
         this.count = count;
     }
 
@@ -32,7 +32,7 @@ public class ParticleEmitterBurst extends ParticleEmitter {
     @Override
     public void tick() {
         for(int i=0; i<count; i++) {
-            spawner.spawnParticle(manager, getLocation());
+            spawner.build(manager, getLocation());
         }
         remove();
     }

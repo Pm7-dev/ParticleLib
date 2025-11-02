@@ -10,7 +10,7 @@ import me.pm7.particlelib.interpolation.gradient.RangedGradientDouble;
 import me.pm7.particlelib.interpolation.keyframe.EasingMode;
 import me.pm7.particlelib.interpolation.keyframe.Keyframe;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
-import me.pm7.particlelib.particledata.ParticleDataSquare;
+import me.pm7.particlelib.particlebuilder.ParticleBuilderSquare;
 import me.pm7.particlelib.physics.GravityAxis;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -31,7 +31,7 @@ public class flame implements CommandExecutor {
 
     List<ParticleEmitter> flameEmitters = new ArrayList<>();
 
-    ParticleDataSquare flameDataOrange = new ParticleDataSquare()
+    ParticleBuilderSquare flameDataOrange = new ParticleBuilderSquare()
             .initialDirection(new ValueRange<>(new Vector(-1, -1, -1), new Vector(1, 1, 1)))
             .particleLifeTicks(15)
             .colorOverLifetime(new GradientColor(
@@ -57,7 +57,7 @@ public class flame implements CommandExecutor {
             .shaded(false);
 
 
-    ParticleDataSquare flameDataBlue = flameDataOrange.clone()
+    ParticleBuilderSquare flameDataBlue = flameDataOrange.clone()
             .colorOverLifetime(new GradientColor(
                     EasingMode.LINEAR,
                     new Keyframe<>(Color.WHITE, 0.05),
@@ -69,7 +69,7 @@ public class flame implements CommandExecutor {
     );
 
 
-    ParticleDataSquare flameDataWhite = flameDataOrange.clone()
+    ParticleBuilderSquare flameDataWhite = flameDataOrange.clone()
             .colorOverLifetime(new GradientColor(
                     EasingMode.LINEAR,
                     new Keyframe<>(Color.WHITE, 0.10),
@@ -77,7 +77,7 @@ public class flame implements CommandExecutor {
             )
     );
 
-    ParticleDataSquare flameDataLime = flameDataOrange.clone()
+    ParticleBuilderSquare flameDataLime = flameDataOrange.clone()
             .colorOverLifetime(new GradientColor(
                     EasingMode.LINEAR,
                     new Keyframe<>(Color.WHITE, 0.05),

@@ -1,4 +1,4 @@
-package me.pm7.particlelib.particledata;
+package me.pm7.particlelib.particlebuilder;
 
 import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.interpolation.gradient.*;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public abstract class ParticleData implements ConfigurationSerializable {
+public abstract class ParticleBuilder implements ConfigurationSerializable {
     protected final Random random = new Random();
 
     protected ValueRange<Integer> particleLifeTicks;
@@ -24,7 +24,7 @@ public abstract class ParticleData implements ConfigurationSerializable {
     protected ValueRange<Double> rotationOverVelocity;
     protected Gravity gravity;
 
-    public ParticleData() {
+    public ParticleBuilder() {
         this.particleLifeTicks = new ValueRange<>(60, 60);
         this.spawnOffset = new ValueRange<>(new Vector(0, 0, 0));
         this.initialDirection = new ValueRange<>(new Vector(-0.5, 1.0, -0.5), new Vector(0.5, 1.0, 0.5));
@@ -33,7 +33,7 @@ public abstract class ParticleData implements ConfigurationSerializable {
         this.gravity = new GravityNone(new GradientDouble(1.0));
     }
 
-    protected ParticleData(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Vector> initialDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity) {
+    protected ParticleBuilder(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Vector> initialDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity) {
         this.particleLifeTicks = particleLifeTicks;
         this.spawnOffset = spawnOffset;
         this.initialDirection = initialDirection;
@@ -42,26 +42,26 @@ public abstract class ParticleData implements ConfigurationSerializable {
         this.gravity = gravity;
     }
 
-    public abstract Particle spawnParticle(ParticleManager manager, Location location);
+    public abstract Particle build(ParticleManager manager, Location location);
 
-    public abstract ParticleData particleLifeTicks(ValueRange<Integer> particleLifeTicks);
-    public abstract ParticleData particleLifeTicks(int particleLifeTicks);
+    public abstract ParticleBuilder particleLifeTicks(ValueRange<Integer> particleLifeTicks);
+    public abstract ParticleBuilder particleLifeTicks(int particleLifeTicks);
 
-    public abstract ParticleData spawnOffset(ValueRange<Vector> spawnOffset);
-    public abstract ParticleData spawnOffset(Vector spawnOffset);
+    public abstract ParticleBuilder spawnOffset(ValueRange<Vector> spawnOffset);
+    public abstract ParticleBuilder spawnOffset(Vector spawnOffset);
 
-    public abstract ParticleData initialDirection(ValueRange<Vector> initialDirection);
-    public abstract ParticleData initialDirection(Vector initialDirection);
+    public abstract ParticleBuilder initialDirection(ValueRange<Vector> initialDirection);
+    public abstract ParticleBuilder initialDirection(Vector initialDirection);
 
-    public abstract ParticleData scaleOverLifetime(RangedGradientVector scaleGradient);
-    public abstract ParticleData scaleOverLifetime(GradientVector scaleGradient);
-    public abstract ParticleData scaleOverLifetime(Vector scale);
+    public abstract ParticleBuilder scaleOverLifetime(RangedGradientVector scaleGradient);
+    public abstract ParticleBuilder scaleOverLifetime(GradientVector scaleGradient);
+    public abstract ParticleBuilder scaleOverLifetime(Vector scale);
 
-    public abstract ParticleData rotationOverVelocity(ValueRange<Double> rotationOverVelocity);
+    public abstract ParticleBuilder rotationOverVelocity(ValueRange<Double> rotationOverVelocity);
 
-    public abstract ParticleData gravity(Gravity gravity);
+    public abstract ParticleBuilder gravity(Gravity gravity);
 
-    public abstract ParticleData clone();
+    public abstract ParticleBuilder clone();
 
     // Config stuff
     @Override
@@ -76,7 +76,7 @@ public abstract class ParticleData implements ConfigurationSerializable {
         map.put("gravity", gravity);
         return map;
     }
-    public ParticleData(Map<String, Object> map) {
+    public ParticleBuilder(Map<String, Object> map) {
         this.particleLifeTicks = (ValueRange<Integer>) map.get("particleLifeTicks");
         this.spawnOffset = (ValueRange<Vector>) map.get("spawnOffset");
         this.initialDirection = (ValueRange<Vector>) map.get("initialDirection");

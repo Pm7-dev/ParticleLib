@@ -1,7 +1,7 @@
 package me.pm7.particlelib.emitter;
 
 import me.pm7.particlelib.ParticleManager;
-import me.pm7.particlelib.particledata.ParticleData;
+import me.pm7.particlelib.particlebuilder.ParticleBuilder;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -21,12 +21,12 @@ public class ParticleEmitterConstant extends ParticleEmitter {
     /**
      * Creates a new constant particle emitter
      * @param location The location to spawn the ParticleEmitter's display entity
-     * @param particleData The particle data to use when this emitter spawns a particle
+     * @param particleBuilder The particle data to use when this emitter spawns a particle
      * @param particlesPerSpawn The amount of particles to spawn each time the emitter spawns particles
      * @param ticksPerSpawn The amount of ticks to pass between each spawn
      */
-    public ParticleEmitterConstant(ParticleManager manager, Location location, ParticleData particleData, int particlesPerSpawn, int ticksPerSpawn) {
-        super(manager, location, particleData);
+    public ParticleEmitterConstant(ParticleManager manager, Location location, ParticleBuilder particleBuilder, int particlesPerSpawn, int ticksPerSpawn) {
+        super(manager, location, particleBuilder);
         this.particlesPerSpawn = particlesPerSpawn;
         this.ticksPerSpawn = ticksPerSpawn;
         loopTick = ticksPerSpawn;
@@ -41,7 +41,7 @@ public class ParticleEmitterConstant extends ParticleEmitter {
         if(loopTick >= ticksPerSpawn) {
             loopTick = 0;
             for(int i=0; i<particlesPerSpawn; i++) {
-                spawner.spawnParticle(manager, getLocation());
+                spawner.build(manager, getLocation());
             }
         }
     }

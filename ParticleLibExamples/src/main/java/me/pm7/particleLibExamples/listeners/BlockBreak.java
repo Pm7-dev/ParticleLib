@@ -8,7 +8,7 @@ import me.pm7.particlelib.interpolation.keyframe.EasingMode;
 import me.pm7.particlelib.interpolation.keyframe.RangedKeyframe;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
 import me.pm7.particlelib.physics.GravityDirection;
-import me.pm7.particlelib.particledata.ParticleDataBlock;
+import me.pm7.particlelib.particlebuilder.ParticleBuilderBlock;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -19,7 +19,7 @@ import org.bukkit.util.Vector;
 public class BlockBreak implements Listener {
     private static final ParticleManager manager = ParticleLibExamples.getParticleManager();
 
-    private final ParticleDataBlock particleData = new ParticleDataBlock()
+    private final ParticleBuilderBlock particleData = new ParticleBuilderBlock()
             .particleLifeTicks(new ValueRange<>(26, 34))
             .gravity(new GravityDirection()
                     .initialSpeed(3.0)

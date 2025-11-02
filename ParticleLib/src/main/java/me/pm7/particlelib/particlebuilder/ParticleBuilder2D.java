@@ -1,4 +1,4 @@
-package me.pm7.particlelib.particledata;
+package me.pm7.particlelib.particlebuilder;
 
 import me.pm7.particlelib.interpolation.gradient.*;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
@@ -9,7 +9,7 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class ParticleData2D extends ParticleData {
+public abstract class ParticleBuilder2D extends ParticleBuilder {
 
     protected ValueRange<Double> initialRoll;
     protected Gradient rollSpeedOverLifetime;
@@ -18,7 +18,7 @@ public abstract class ParticleData2D extends ParticleData {
 
     protected boolean shaded;
 
-    public ParticleData2D() {
+    public ParticleBuilder2D() {
         super();
         this.initialRoll = new ValueRange<>(0.0);
         this.rollSpeedOverLifetime = new GradientDouble(0.0);
@@ -26,25 +26,25 @@ public abstract class ParticleData2D extends ParticleData {
         this.shaded = true;
     }
 
-    protected ParticleData2D(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Vector> initialDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Double> initialRoll, Gradient rollSpeedOverLifetime, Gradient colorOverLifetime, boolean shaded) {
+    protected ParticleBuilder2D(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Vector> initialDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Double> initialRoll, Gradient rollSpeedOverLifetime, Gradient colorOverLifetime, boolean shaded) {
         super(particleLifeTicks, spawnOffset, initialDirection, scaleOverLifetime, rotationOverVelocity, gravity);
         this.initialRoll = initialRoll;
         this.rollSpeedOverLifetime = rollSpeedOverLifetime;
         this.colorOverLifetime = colorOverLifetime;
     }
 
-    public abstract ParticleData2D initialRoll(ValueRange<Double> initialRoll);
-    public abstract ParticleData2D initialRoll(double initialRoll);
+    public abstract ParticleBuilder2D initialRoll(ValueRange<Double> initialRoll);
+    public abstract ParticleBuilder2D initialRoll(double initialRoll);
 
-    public abstract ParticleData2D rollSpeedOverLifetime(RangedGradientDouble rollSpeedOverLifetime);
-    public abstract ParticleData2D rollSpeedOverLifetime(GradientDouble rollSpeedOverLifetime);
-    public abstract ParticleData2D rollSpeedOverLifetime(double rollSpeed);
+    public abstract ParticleBuilder2D rollSpeedOverLifetime(RangedGradientDouble rollSpeedOverLifetime);
+    public abstract ParticleBuilder2D rollSpeedOverLifetime(GradientDouble rollSpeedOverLifetime);
+    public abstract ParticleBuilder2D rollSpeedOverLifetime(double rollSpeed);
 
-    public abstract ParticleData2D colorOverLifetime(RangedGradientColor colorGradient);
-    public abstract ParticleData2D colorOverLifetime(GradientColor colorGradient);
-    public abstract ParticleData2D colorOverLifetime(Color color);
+    public abstract ParticleBuilder2D colorOverLifetime(RangedGradientColor colorGradient);
+    public abstract ParticleBuilder2D colorOverLifetime(GradientColor colorGradient);
+    public abstract ParticleBuilder2D colorOverLifetime(Color color);
 
-    public abstract ParticleData2D shaded(boolean shaded);
+    public abstract ParticleBuilder2D shaded(boolean shaded);
 
     // Config stuff
     @Override
@@ -57,7 +57,7 @@ Map<String, Object> map = new HashMap<>(super.serialize());
         map.put("shaded", shaded);
         return map;
     }
-    public ParticleData2D(Map<String, Object> map) {
+    public ParticleBuilder2D(Map<String, Object> map) {
         super(map);
         this.initialRoll = (ValueRange<Double>) map.get("initialRoll");
         this.rollSpeedOverLifetime = (Gradient) map.get("rollSpeedOverLifetime");

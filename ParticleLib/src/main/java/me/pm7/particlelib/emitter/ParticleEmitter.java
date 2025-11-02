@@ -2,7 +2,7 @@ package me.pm7.particlelib.emitter;
 
 import me.pm7.particlelib.ParticleLib;
 import me.pm7.particlelib.ParticleManager;
-import me.pm7.particlelib.particledata.ParticleData;
+import me.pm7.particlelib.particlebuilder.ParticleBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -25,21 +25,21 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     protected BlockDisplay gameObject;
     private boolean active;
 
-    protected ParticleData spawner;
+    protected ParticleBuilder spawner;
 
     /**
      * Creates a new ParticleEmitter
      * @param location The location to spawn the ParticleEmitter's display entity
-     * @param particleData The particle data to use when this emitter spawns a particle
+     * @param particleBuilder The particle data to use when this emitter spawns a particle
      */
-    public ParticleEmitter(ParticleManager manager, Location location, ParticleData particleData) {
+    public ParticleEmitter(ParticleManager manager, Location location, ParticleBuilder particleBuilder) {
         this.manager = manager;
 
         this.gameObject = (BlockDisplay) location.getWorld().spawnEntity(location, EntityType.BLOCK_DISPLAY);
         this.gameObject.getPersistentDataContainer().set(ParticleLib.EMITTER_KEY, PersistentDataType.LONG, ParticleLib.SESSION_IDENTIFIER);
 
         this.active = false;
-        this.spawner = particleData;
+        this.spawner = particleBuilder;
 
         manager.allEmitters.add(this);
     }
@@ -96,16 +96,16 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
 
     /**
      * Sets the particle spawn data of this emitter and returns the emitter
-     * @param particleData The new spawn data for the emitter
+     * @param particleBuilder The new spawn data for the emitter
      * @return The emitter after the change
      */
-    public ParticleEmitter particleData(ParticleData particleData) {this.spawner = particleData; return this;}
+    public ParticleEmitter particleData(ParticleBuilder particleBuilder) {this.spawner = particleBuilder; return this;}
 
     /**
      * Returns the particle spawn data of this emitter
      * @return The particle spawn data
      */
-    public ParticleData particleData() {return spawner;}
+    public ParticleBuilder particleData() {return spawner;}
 
     // Config stuff
     @Override
@@ -122,7 +122,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
         Location loc = (Location) map.get("location");
         if(!loc.isChunkLoaded()) loc.getWorld().loadChunk(loc.getChunk());
         this.gameObject = (BlockDisplay) Bukkit.getEntity((UUID) map.get("uuid"));
-        this.spawner = (ParticleData) map.get("spawner");
+        this.spawner = (ParticleBuilder) map.get("spawner");
         this.manager = manager;
     }
 }

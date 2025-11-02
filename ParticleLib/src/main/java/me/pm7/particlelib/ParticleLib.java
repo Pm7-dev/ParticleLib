@@ -8,17 +8,16 @@ import me.pm7.particlelib.interpolation.keyframe.Keyframe;
 import me.pm7.particlelib.interpolation.keyframe.RangedKeyframe;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
 import me.pm7.particlelib.particle.Particle;
+import me.pm7.particlelib.particlebuilder.*;
 import me.pm7.particlelib.physics.GravityAxis;
 import me.pm7.particlelib.physics.GravityDirection;
 import me.pm7.particlelib.physics.GravityLocation;
 import me.pm7.particlelib.physics.GravityNone;
-import me.pm7.particlelib.particledata.*;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ParticleLib extends JavaPlugin {
@@ -50,14 +49,14 @@ public class ParticleLib extends JavaPlugin {
         ConfigurationSerialization.registerClass(GravityDirection.class);
         ConfigurationSerialization.registerClass(GravityLocation.class);
         ConfigurationSerialization.registerClass(GravityNone.class);
-        ConfigurationSerialization.registerClass(ParticleData.class);
-        ConfigurationSerialization.registerClass(ParticleData2D.class);
-        ConfigurationSerialization.registerClass(ParticleData3D.class);
-        ConfigurationSerialization.registerClass(ParticleDataBlock.class);
-        ConfigurationSerialization.registerClass(ParticleDataCube.class);
-        ConfigurationSerialization.registerClass(ParticleDataCustomItem.class);
-        ConfigurationSerialization.registerClass(ParticleDataCustomText.class);
-        ConfigurationSerialization.registerClass(ParticleDataSquare.class);
+        ConfigurationSerialization.registerClass(ParticleBuilder.class);
+        ConfigurationSerialization.registerClass(ParticleBuilder2D.class);
+        ConfigurationSerialization.registerClass(ParticleBuilder3D.class);
+        ConfigurationSerialization.registerClass(ParticleBuilderBlock.class);
+        ConfigurationSerialization.registerClass(ParticleBuilderCube.class);
+        ConfigurationSerialization.registerClass(ParticleBuilderCustomItem.class);
+        ConfigurationSerialization.registerClass(ParticleBuilderCustomText.class);
+        ConfigurationSerialization.registerClass(ParticleBuilderSquare.class);
         ConfigurationSerialization.registerClass(ParticleEmitter.class);
         ConfigurationSerialization.registerClass(ParticleEmitterBurst.class);
         ConfigurationSerialization.registerClass(ParticleEmitterConstant.class);

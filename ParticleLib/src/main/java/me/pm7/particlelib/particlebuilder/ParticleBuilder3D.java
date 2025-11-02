@@ -1,4 +1,4 @@
-package me.pm7.particlelib.particledata;
+package me.pm7.particlelib.particlebuilder;
 
 import me.pm7.particlelib.interpolation.gradient.*;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
@@ -9,29 +9,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public abstract class ParticleData3D extends ParticleData {
+public abstract class ParticleBuilder3D extends ParticleBuilder {
 
     protected ValueRange<Vector> initialRotation;
     protected Gradient rotationSpeedOverLifetime;
 
-    public ParticleData3D() {
+    public ParticleBuilder3D() {
         super();
         this.initialRotation = new ValueRange<>(new Vector(0, 0, 0));
         this.rotationSpeedOverLifetime = new GradientVector(new Vector());
     }
 
-    protected ParticleData3D(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Vector> initialDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, Gradient rotationSpeedOverLifetime) {
+    protected ParticleBuilder3D(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Vector> initialDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, Gradient rotationSpeedOverLifetime) {
         super(particleLifeTicks, spawnOffset, initialDirection, scaleOverLifetime, rotationOverVelocity, gravity);
         this.initialRotation = initialRotation;
         this.rotationSpeedOverLifetime = rotationSpeedOverLifetime;
     }
 
-    public abstract ParticleData3D initialRotation(ValueRange<Vector> initialRotation);
-    public abstract ParticleData3D initialRotation(Vector initialRotation);
+    public abstract ParticleBuilder3D initialRotation(ValueRange<Vector> initialRotation);
+    public abstract ParticleBuilder3D initialRotation(Vector initialRotation);
 
-    public abstract ParticleData3D rotationSpeedOverLifetime(RangedGradientVector rotationSpeedOverLifetime);
-    public abstract ParticleData3D rotationSpeedOverLifetime(GradientVector rotationSpeedOverLifetime);
-    public abstract ParticleData3D rotationSpeedOverLifetime(Vector rotationSpeed);
+    public abstract ParticleBuilder3D rotationSpeedOverLifetime(RangedGradientVector rotationSpeedOverLifetime);
+    public abstract ParticleBuilder3D rotationSpeedOverLifetime(GradientVector rotationSpeedOverLifetime);
+    public abstract ParticleBuilder3D rotationSpeedOverLifetime(Vector rotationSpeed);
 
     // Config stuff
     @Override
@@ -42,7 +42,7 @@ Map<String, Object> map = new HashMap<>(super.serialize());
         map.put("rotationSpeedOverLifetime", rotationSpeedOverLifetime);
         return map;
     }
-    public ParticleData3D(Map<String, Object> map) {
+    public ParticleBuilder3D(Map<String, Object> map) {
         super(map);
         this.initialRotation = (ValueRange<Vector>) map.get("initialRotation");
         this.rotationSpeedOverLifetime = (Gradient) map.get("rotationSpeedOverLifetime");
