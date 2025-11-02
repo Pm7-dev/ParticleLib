@@ -15,6 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Stores data about 3D (Item-Display) particles created through an ItemStack.
+ */
 public class ParticleBuilderCustomText extends ParticleBuilder2D {
 
     private Component text;

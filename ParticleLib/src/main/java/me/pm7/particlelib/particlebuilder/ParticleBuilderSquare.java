@@ -13,6 +13,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
+/**
+ * Stores data about 2D (Text-Display) particles with no text. They are just solid-colour squares.
+ */
 public class ParticleBuilderSquare extends ParticleBuilder2D {
 
     public ParticleBuilderSquare() {

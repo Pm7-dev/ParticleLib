@@ -9,7 +9,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * Stores data about particles rendered using item displays and can build 3D particles with that data
+ */
 public abstract class ParticleBuilder3D extends ParticleBuilder {
 
     protected ValueRange<Vector> initialRotation;

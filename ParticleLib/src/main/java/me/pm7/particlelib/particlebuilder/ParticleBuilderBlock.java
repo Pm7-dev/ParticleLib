@@ -17,6 +17,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Stores data about 3D (Item-Display) particles created by inputting block data.
+ */
 public class ParticleBuilderBlock extends ParticleBuilder3D {
 
     private BlockData blockData;

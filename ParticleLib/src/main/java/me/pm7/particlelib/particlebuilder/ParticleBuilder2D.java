@@ -10,6 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Stores data about particles rendered using text displays and can build 2D particles with that data
+ */
 public abstract class ParticleBuilder2D extends ParticleBuilder {
 
     protected ValueRange<Double> initialRoll;

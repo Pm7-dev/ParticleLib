@@ -18,6 +18,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Stores data about 2D (Text-Display) particles created through a text component
+ */
 public class ParticleBuilderCustomItem extends ParticleBuilder3D {
     private Gradient colorOverLifetime;
     private ItemStack item;

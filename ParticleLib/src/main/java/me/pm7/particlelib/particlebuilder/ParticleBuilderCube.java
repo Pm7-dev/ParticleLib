@@ -21,6 +21,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Stores data about particles using my custom cube models
+ */
 public class ParticleBuilderCube extends ParticleBuilder3D {
 
     private Gradient colorOverLifetime;

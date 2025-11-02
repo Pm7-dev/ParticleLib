@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Stores data about particles and can build particles with that data
+ */
 public abstract class ParticleBuilder implements ConfigurationSerializable {
     protected final Random random = new Random();
 
