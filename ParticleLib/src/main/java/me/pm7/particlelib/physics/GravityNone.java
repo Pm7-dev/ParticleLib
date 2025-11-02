@@ -11,6 +11,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * ""Gravity"" that does not affect a particle's velocity direction. The initial direction of the particle is maintained
+ * throughout all the particle's life, with only the velocity magnitude (speed) being controlled.
+ */
 public class GravityNone extends Gravity implements ConfigurationSerializable {
 
     private GradientDouble speedOverLifetime;

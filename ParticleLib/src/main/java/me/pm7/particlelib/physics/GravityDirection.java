@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Gravity that pushes particles in an axis direction. Good for a default gravity system where you just want to make
+ * particles move down.
+ */
 public class GravityDirection extends Gravity implements ConfigurationSerializable {
 
     private static final Random random = new Random();

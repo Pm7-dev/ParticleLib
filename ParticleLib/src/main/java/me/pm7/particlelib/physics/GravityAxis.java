@@ -14,6 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Gravity that pushes particles both towards AND along a defined axis. Gonna be honest I only made this system to
+ * recreate the fire particles in the Cymaera video, but I guess this could also be cool for comets, fireworks, lasers,
+ * and all sorts of stuff :3
+ */
 public class GravityAxis extends Gravity implements ConfigurationSerializable {
 
     private static final Random random = new Random();

@@ -6,6 +6,9 @@ import org.bukkit.util.Vector;
 
 import java.util.Random;
 
+/**
+ * Abstract class for gravity systems
+ */
 public abstract class Gravity {
     private static final Random random = new Random();
 
