@@ -15,7 +15,7 @@ import java.util.Random;
 
 /**
  * Gravity that pushes particles towards a relative (offset from the particle's spawn location) center. Simulates gravitational pull around a point.
- * Might be good for planetary motion but idk why you'd be using a particle library for that.
+ * Might be good for planetary motion but idk why you'd be using a particle library for that. play around with this and have fun I guess :D
  */
 public class GravityLocation extends Gravity implements ConfigurationSerializable {
 

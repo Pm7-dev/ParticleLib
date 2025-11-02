@@ -87,6 +87,26 @@ public class flame implements CommandExecutor {
             )
     );
 
+    ParticleBuilderSquare flameDataPink = flameDataOrange.clone()
+            .colorOverLifetime(new GradientColor(
+                            EasingMode.LINEAR,
+                            new Keyframe<>(Color.WHITE, 0.05),
+                            new Keyframe<>(Color.fromRGB(63, 232, 74), 0.20),
+                            new Keyframe<>(Color.fromRGB(0, 255, 51), 0.40),
+                            new Keyframe<>(Color.fromRGB(31, 201, 8), 0.70)
+                    )
+            );
+
+    ParticleBuilderSquare flameDataLightBlue = flameDataOrange.clone()
+            .colorOverLifetime(new GradientColor(
+                            EasingMode.LINEAR,
+                            new Keyframe<>(Color.WHITE, 0.05),
+                            new Keyframe<>(Color.fromRGB(63, 232, 74), 0.20),
+                            new Keyframe<>(Color.fromRGB(0, 255, 51), 0.40),
+                            new Keyframe<>(Color.fromRGB(31, 201, 8), 0.70)
+                    )
+            );
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] args) {
 
@@ -117,6 +137,16 @@ public class flame implements CommandExecutor {
                 break;
             }
             case "3": {
+                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataLime));
+                flameEmitters.getLast().start();
+                break;
+            }
+            case "4": {
+                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataLime));
+                flameEmitters.getLast().start();
+                break;
+            }
+            case "5": {
                 flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataLime));
                 flameEmitters.getLast().start();
                 break;
