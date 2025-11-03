@@ -83,7 +83,7 @@ public class flame implements CommandExecutor {
                     new Keyframe<>(Color.WHITE, 0.05),
                     new Keyframe<>(Color.fromRGB(63, 232, 74), 0.20),
                     new Keyframe<>(Color.fromRGB(0, 255, 51), 0.40),
-                    new Keyframe<>(Color.fromRGB(31, 201, 8), 0.70)
+                    new Keyframe<>(Color.fromRGB(59, 201, 40), 0.70)
             )
     );
 
@@ -91,9 +91,9 @@ public class flame implements CommandExecutor {
             .colorOverLifetime(new GradientColor(
                             EasingMode.LINEAR,
                             new Keyframe<>(Color.WHITE, 0.05),
-                            new Keyframe<>(Color.fromRGB(63, 232, 74), 0.20),
-                            new Keyframe<>(Color.fromRGB(0, 255, 51), 0.40),
-                            new Keyframe<>(Color.fromRGB(31, 201, 8), 0.70)
+                            new Keyframe<>(Color.fromRGB(221, 63, 232), 0.20),
+                            new Keyframe<>(Color.fromRGB(234, 0, 255), 0.40),
+                            new Keyframe<>(Color.fromRGB(193, 67, 204), 0.70)
                     )
             );
 
@@ -101,9 +101,9 @@ public class flame implements CommandExecutor {
             .colorOverLifetime(new GradientColor(
                             EasingMode.LINEAR,
                             new Keyframe<>(Color.WHITE, 0.05),
-                            new Keyframe<>(Color.fromRGB(63, 232, 74), 0.20),
-                            new Keyframe<>(Color.fromRGB(0, 255, 51), 0.40),
-                            new Keyframe<>(Color.fromRGB(31, 201, 8), 0.70)
+                            new Keyframe<>(Color.fromRGB(63, 86, 232), 0.20),
+                            new Keyframe<>(Color.fromRGB(0, 94, 255), 0.40),
+                            new Keyframe<>(Color.fromRGB(66, 111, 189), 0.70)
                     )
             );
 
@@ -142,16 +142,16 @@ public class flame implements CommandExecutor {
                 break;
             }
             case "4": {
-                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataLime));
+                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataPink));
                 flameEmitters.getLast().start();
                 break;
             }
             case "5": {
-                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataLime));
+                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataLightBlue));
                 flameEmitters.getLast().start();
                 break;
             }
-            case "7": {
+            case "6": {
                 while (!flameEmitters.isEmpty()) {
                     flameEmitters.getFirst().remove();
                     flameEmitters.removeFirst();
