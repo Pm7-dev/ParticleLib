@@ -114,16 +114,17 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
         map.put("type", "none");
-        map.put("uuid", gameObject.getUniqueId());
+        map.put("uuid", gameObject.getUniqueId().toString());
         map.put("location", getLocation());
         map.put("spawner", spawner);
         return map;
     }
-    public ParticleEmitter(ParticleManager manager, ConfigurationSection section) {
-        Map<String, Object> map = section.getValues(false);
+    public ParticleEmitter(ParticleManager manager, ConfigurationSection section, String name) {
+
+        Map<String, Object> map = (Map<String, Object>) section.get(name);
         Location loc = (Location) map.get("location");
         if(!loc.isChunkLoaded()) loc.getWorld().loadChunk(loc.getChunk());
-        this.gameObject = (BlockDisplay) Bukkit.getEntity((UUID) map.get("uuid"));
+        this.gameObject = (BlockDisplay) Bukkit.getEntity(UUID.fromString((String) map.get("uuid")));
         this.spawner = (ParticleBuilder) map.get("spawner");
         this.manager = manager;
     }

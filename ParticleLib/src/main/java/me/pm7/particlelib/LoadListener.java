@@ -11,7 +11,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoadListener implements Listener {
+class LoadListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onEntitiesLoad(EntitiesLoadEvent e) {

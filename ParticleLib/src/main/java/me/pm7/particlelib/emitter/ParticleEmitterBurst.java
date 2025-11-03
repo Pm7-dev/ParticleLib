@@ -47,8 +47,8 @@ public class ParticleEmitterBurst extends ParticleEmitter {
         map.put("count", count);
         return map;
     }
-    public ParticleEmitterBurst(ParticleManager manager, ConfigurationSection section) {
-        super(manager, section);
+    public ParticleEmitterBurst(ParticleManager manager, ConfigurationSection section, String name) {
+        super(manager, section, name);
         Map<String, Object> map = section.getValues(false);
         this.count = (int) map.get("count");
     }

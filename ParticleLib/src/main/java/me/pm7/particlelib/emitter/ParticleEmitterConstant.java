@@ -71,8 +71,8 @@ public class ParticleEmitterConstant extends ParticleEmitter {
         map.put("ticksPerSpawn", ticksPerSpawn);
         return map;
     }
-    public ParticleEmitterConstant(ParticleManager manager, ConfigurationSection section) {
-        super(manager, section);
+    public ParticleEmitterConstant(ParticleManager manager, ConfigurationSection section, String name) {
+        super(manager, section, name);
         Map<String, Object> map = section.getValues(false);
         this.particlesPerSpawn = (int) map.get("particlesPerSpawn");
         this.ticksPerSpawn = (int) map.get("ticksPerSpawn");

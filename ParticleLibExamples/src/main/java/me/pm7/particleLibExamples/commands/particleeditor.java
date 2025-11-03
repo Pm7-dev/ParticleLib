@@ -3,19 +3,21 @@ package me.pm7.particleLibExamples.commands;
 import me.pm7.particleLibExamples.ParticleLibExamples;
 import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.emitter.ParticleEmitterConstant;
-import me.pm7.particlelib.interpolation.gradient.GradientColor;
-import me.pm7.particlelib.interpolation.gradient.GradientVector;
-import me.pm7.particlelib.interpolation.gradient.RangedGradientDouble;
+import me.pm7.particlelib.interpolation.gradient.*;
 import me.pm7.particlelib.interpolation.keyframe.EasingMode;
 import me.pm7.particlelib.interpolation.keyframe.Keyframe;
+import me.pm7.particlelib.interpolation.keyframe.RangedKeyframe;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.particlebuilder.ParticleBuilderCube;
 import me.pm7.particlelib.particlebuilder.ParticleBuilderSquare;
 import me.pm7.particlelib.physics.GravityAxis;
+import me.pm7.particlelib.physics.GravityDirection;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -45,46 +47,39 @@ public class particleeditor implements CommandExecutor {
         if(args[0].toLowerCase().equals("spawn")) {
             emitter = new ParticleEmitterConstant(
                     manager,
-                    6,
-                    1,
+                    60,
+                    80,
                     loc,
-                    new ParticleBuilderSquare()
-                            .initialDirection(new ValueRange<>(new Vector(-1, 0.2, -1), new Vector(1, 0.4, 1)))
+                    new ParticleBuilderCube()
+                            .shaded(false)
+                            .initialDirection(new ValueRange<>(new Vector(-1, -1, -1), new Vector(1, 1, 1)))
                             .particleLifeTicks(15)
-                            .colorOverLifetime(new GradientColor(
-                                    EasingMode.LINEAR,
-                                    new Keyframe<>(Color.WHITE, 0.15),
-                                    new Keyframe<>(Color.BLACK, 0.70),
-                                    new Keyframe<>(Color.BLACK, 0.80),
-                                    new Keyframe<>(Color.BLACK.setAlpha(0), 1.0)
-                            ))
-                            .initialRoll(new ValueRange<>(0.0, 360.0))
-                            .rollSpeedOverLifetime(new RangedGradientDouble(-100, 100))
-                            .scaleOverLifetime(new GradientVector(
+                            .colorOverLifetime(new RangedGradientColor(Color.fromRGB(252, 118, 40), Color.fromRGB(252, 234, 40)))
+                            .rotationOverVelocity(new ValueRange<>(120.0, 140.0))
+                            .scaleOverLifetime(new RangedGradientVector(
                                     EasingMode.SINE_OUT,
-                                    new Keyframe<>(new Vector(1.3 ,1.3 ,1.3), 0.75),
-                                    new Keyframe<>(new Vector(0 ,0 ,0), 1.0)
+                                    new RangedKeyframe<>(new Vector(.45,.45,.45), new Vector(.6,.6,.6), 0.25),
+                                    new RangedKeyframe<>(new Vector(0 ,0 ,0), 1.0)
                             ))
-                            .gravity(new GravityAxis()
-                                    .initialSpeed(new ValueRange<>(1.8, 2.4))
-                                    .axisOverLifetime(new Vector(0, 1, 0))
-                                    .towardsAxisStrengthOverLifetime(10.0)
-                                    .alongAxisStrengthOverLifetime(14.0))
+                            .gravity(new GravityDirection()
+                                    .initialSpeed(12.0)
+                                    .strengthOverLifetime(25)
+                                    .bouncinessOverLifetime(0.8)
+                            )
                     );
             emitter.start();
 
-            config.set("particleData", emitter.particleData());
-            config.set("particlesPerSpawn", emitter.getParticlesPerSpawn());
-            config.set("ticksPerSpawn", emitter.getTicksPerSpawn());
+            config.set("emitterEditor", emitter);
             manager.getPlugin().saveConfig();
+
         } else if(args[0].toLowerCase().equals("reload")) {
             emitter = new ParticleEmitterConstant(
                     manager,
-                    config
+                    config,
+                    "emitterEditor"
             );
             emitter.start();
         }
-
 
         return true;
     }
