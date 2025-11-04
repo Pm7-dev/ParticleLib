@@ -3,7 +3,6 @@ package me.pm7.particlelib.emitter;
 import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.particlebuilder.ParticleBuilder;
 import org.bukkit.Location;
-import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -46,7 +45,7 @@ public class ParticleEmitterConstant extends ParticleEmitter {
         if(loopTick >= ticksPerSpawn) {
             loopTick = 0;
             for(int i=0; i<particlesPerSpawn; i++) {
-                spawner.build(manager, getLocation());
+                particleBuilder.build(manager, getLocation());
             }
         }
     }

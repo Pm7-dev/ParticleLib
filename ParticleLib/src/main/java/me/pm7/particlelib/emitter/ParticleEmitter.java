@@ -5,7 +5,6 @@ import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.particlebuilder.ParticleBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Display;
@@ -29,7 +28,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     protected BlockDisplay gameObject;
     private boolean active;
 
-    protected ParticleBuilder spawner;
+    protected ParticleBuilder particleBuilder;
 
     /**
      * Creates a new ParticleEmitter
@@ -44,7 +43,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
         this.gameObject.getPersistentDataContainer().set(ParticleLib.EMITTER_KEY, PersistentDataType.LONG, ParticleLib.SESSION_IDENTIFIER);
 
         this.active = false;
-        this.spawner = particleBuilder;
+        this.particleBuilder = particleBuilder;
 
         manager.allEmitters.add(this);
     }
@@ -104,13 +103,13 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
      * @param particleBuilder The new spawn data for the emitter
      * @return The emitter after the change
      */
-    public ParticleEmitter particleData(ParticleBuilder particleBuilder) {this.spawner = particleBuilder; return this;}
+    public ParticleEmitter particleData(ParticleBuilder particleBuilder) {this.particleBuilder = particleBuilder; return this;}
 
     /**
      * Returns the particle spawn data of this emitter
      * @return The particle spawn data
      */
-    public ParticleBuilder particleData() {return spawner;}
+    public ParticleBuilder particleData() {return particleBuilder;}
 
     public void setParticleManager(ParticleManager manager) {
         if(this.manager != null) this.manager.allEmitters.remove(this);
@@ -127,7 +126,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
         map.put("type", "none");
         map.put("uuid", gameObject.getUniqueId().toString());
         map.put("location", getLocation());
-        map.put("spawner", spawner);
+        map.put("particleBuilder", particleBuilder);
         return map;
     }
     public ParticleEmitter(Map<String, Object> map) {
@@ -143,7 +142,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
             this.gameObject.teleport(loc);
         }
 
-        this.spawner = (ParticleBuilder) map.get("spawner");
+        this.particleBuilder = (ParticleBuilder) map.get("particleBuilder");
         this.active = false;
     }
 }
