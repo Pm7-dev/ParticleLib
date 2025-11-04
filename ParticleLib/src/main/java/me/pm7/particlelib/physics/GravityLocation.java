@@ -102,7 +102,7 @@ public class GravityLocation extends Gravity implements ConfigurationSerializabl
                 case LAVA -> LAVA_DRAG_MULTIPLIER;
                 default -> AIR_DRAG_MULTIPLIER;
             };
-            velocity.multiply(densityMultiplier * dragMultiplier);
+            velocity.multiply(1-((1-densityMultiplier)*dragMultiplier));
         }
         particle.teleport(loc);
     }

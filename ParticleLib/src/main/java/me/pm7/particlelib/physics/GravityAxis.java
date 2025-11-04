@@ -112,7 +112,7 @@ public class GravityAxis extends Gravity implements ConfigurationSerializable {
                 case LAVA -> LAVA_DRAG_MULTIPLIER;
                 default -> AIR_DRAG_MULTIPLIER;
             };
-            velocity.multiply(densityMultiplier * dragMultiplier);
+            velocity.multiply(1-((1-densityMultiplier)*dragMultiplier));
         }
         particle.teleport(loc);
     }
