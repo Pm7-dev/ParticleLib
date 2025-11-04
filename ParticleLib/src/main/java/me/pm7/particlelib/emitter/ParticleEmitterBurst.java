@@ -11,6 +11,9 @@ import java.util.Map;
 
 /**
  * A Particle Emitter that, once activated, ticks once and deletes itself.
+ * <p>
+ * NOTE: While this class implements ConfigurationSerializable, when loading any ParticleEmitterConstant from a FileConfiguration
+ * you MUST  use the setParticleManager() method, as the ParticleManager is not saved to config.
  */
 public class ParticleEmitterBurst extends ParticleEmitter {
 
@@ -47,9 +50,8 @@ public class ParticleEmitterBurst extends ParticleEmitter {
         map.put("count", count);
         return map;
     }
-    public ParticleEmitterBurst(ParticleManager manager, ConfigurationSection section, String name) {
-        super(manager, section, name);
-        Map<String, Object> map = section.getValues(false);
+    public ParticleEmitterBurst(Map<String, Object> map) {
+        super(map);
         this.count = (int) map.get("count");
     }
 }

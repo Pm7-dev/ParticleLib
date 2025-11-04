@@ -11,6 +11,9 @@ import java.util.Map;
 
 /**
  * A particle emitter that, while activated, spawns particles at a specified rate
+ * <p>
+ * NOTE: While this class implements ConfigurationSerializable, when loading any ParticleEmitterConstant from a FileConfiguration
+ * you MUST  use the setParticleManager() method, as the ParticleManager is not saved to config.
  */
 public class ParticleEmitterConstant extends ParticleEmitter {
 
@@ -71,9 +74,8 @@ public class ParticleEmitterConstant extends ParticleEmitter {
         map.put("ticksPerSpawn", ticksPerSpawn);
         return map;
     }
-    public ParticleEmitterConstant(ParticleManager manager, ConfigurationSection section, String name) {
-        super(manager, section, name);
-        Map<String, Object> map = section.getValues(false);
+    public ParticleEmitterConstant(Map<String, Object> map) {
+        super(map);
         this.particlesPerSpawn = (int) map.get("particlesPerSpawn");
         this.ticksPerSpawn = (int) map.get("ticksPerSpawn");
     }

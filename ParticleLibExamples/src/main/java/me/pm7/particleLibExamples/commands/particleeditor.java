@@ -73,11 +73,8 @@ public class particleeditor implements CommandExecutor {
             manager.getPlugin().saveConfig();
 
         } else if(args[0].toLowerCase().equals("reload")) {
-            emitter = new ParticleEmitterConstant(
-                    manager,
-                    config,
-                    "emitterEditor"
-            );
+            emitter = (ParticleEmitterConstant) config.get("emitterEditor");
+            emitter.setParticleManager(manager);
             emitter.start();
         }
 

@@ -18,10 +18,13 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * An emitter of particles bound to an empty display entity
+ * An emitter of particles bound to the location of an an empty display entity
+ * <p>
+ * NOTE: While this class implements ConfigurationSerializable, when loading any ParticleEmitterConstant from a FileConfiguration
+ * you MUST  use the setParticleManager() method, as the ParticleManager is not saved to config.
  */
 public abstract class ParticleEmitter implements ConfigurationSerializable {
-    protected final ParticleManager manager;
+    protected ParticleManager manager;
 
     protected BlockDisplay gameObject;
     private boolean active;
@@ -109,6 +112,14 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
      */
     public ParticleBuilder particleData() {return spawner;}
 
+    public void setParticleManager(ParticleManager manager) {
+        if(this.manager != null) this.manager.allEmitters.remove(this);
+        this.manager = manager;
+        manager.allEmitters.add(this);
+    }
+
+    public ParticleManager getParticleManager() {return manager;}
+
     // Config stuff
     @Override
     public @NotNull Map<String, Object> serialize() {
@@ -119,13 +130,20 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
         map.put("spawner", spawner);
         return map;
     }
-    public ParticleEmitter(ParticleManager manager, ConfigurationSection section, String name) {
+    public ParticleEmitter(Map<String, Object> map) {
+        this.manager = null;
 
-        Map<String, Object> map = (Map<String, Object>) section.get(name);
         Location loc = (Location) map.get("location");
         if(!loc.isChunkLoaded()) loc.getWorld().loadChunk(loc.getChunk());
-        this.gameObject = (BlockDisplay) Bukkit.getEntity(UUID.fromString((String) map.get("uuid")));
+        this.gameObject = (BlockDisplay) Bukkit.getEntity(UUID.fromString( (String) map.get("uuid")));
+        if(gameObject == null) {
+            this.gameObject = (BlockDisplay) loc.getWorld().spawnEntity(loc, EntityType.BLOCK_DISPLAY);
+            this.gameObject.getPersistentDataContainer().set(ParticleLib.EMITTER_KEY, PersistentDataType.LONG, ParticleLib.SESSION_IDENTIFIER);
+        } else {
+            this.gameObject.teleport(loc);
+        }
+
         this.spawner = (ParticleBuilder) map.get("spawner");
-        this.manager = manager;
+        this.active = false;
     }
 }
