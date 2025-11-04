@@ -53,16 +53,6 @@ public abstract class Particle {
         manager.addParticle(this);
     }
 
-    protected void initialTransform() {
-        // Set initial transformations
-        transform(0, 0);
-        color(0);
-
-        display.setInterpolationDelay(0);
-        display.setInterpolationDuration(manager.TICKS_PER_PARTICLE_CALCULATION);
-        display.setTeleportDuration(manager.TICKS_PER_PARTICLE_CALCULATION);
-    }
-
     // Ticks the particle a number of steps forward
     public void tick(int steps) {
 

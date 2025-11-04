@@ -10,7 +10,6 @@ import me.pm7.particlelib.interpolation.keyframe.ValueRange;
 import me.pm7.particlelib.physics.Gravity;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -22,7 +21,6 @@ import org.joml.Vector3f;
 public class ParticleItem extends Particle {
 
     private final GradientVector rotationSpeedOverLifetime;
-    private final Vector initialRotation;
 
     private final GradientColor colorOverLifetime;
 
@@ -31,22 +29,47 @@ public class ParticleItem extends Particle {
                         ValueRange<Double> rotationOverVelocity, GradientColor colorOverLifetime, ItemStack item) {
         super(manager, location, lifeTicks, gravity, initialDirection, scaleOverLifetime, rotationOverVelocity);
 
-        this.initialRotation = initialRotation;
         this.rotationSpeedOverLifetime = rotationSpeedOverLifetime;
 
         this.colorOverLifetime = colorOverLifetime;
 
+        // Rotate the particle downward so the blue line doesn't interfere with the sweats who have hitboxes on
         Location loc = location.clone().add(spawnOffset);
         loc.setPitch(90.0f);
         loc.setYaw(0.0f);
 
-        // This section is all the ParticleItem-Specific code
-        display = (ItemDisplay) loc.getWorld().spawnEntity(loc, EntityType.ITEM_DISPLAY);
-        ItemDisplay itemDisplay = getDisplay();
-        itemDisplay.setItemStack(item);
+        // Set up display entity with all its initial data
+        display = loc.getWorld().spawn(loc, ItemDisplay.class, entity -> {
 
-        display.getPersistentDataContainer().set(ParticleLib.PARTICLE_KEY, PersistentDataType.BOOLEAN, true);
-        super.initialTransform();
+            // Add a little tracker that makes the plugin recognize that this is a particle
+            entity.getPersistentDataContainer().set(ParticleLib.PARTICLE_KEY, PersistentDataType.BOOLEAN, true);
+
+            // Set initial color
+            Color color = colorOverLifetime.interpolate(0);
+            PotionContents.Builder builder = PotionContents.potionContents();
+            builder.potion(null);
+            builder.customColor(color);
+            item.setData(DataComponentTypes.POTION_CONTENTS, builder);
+            entity.setItemStack(item); // set item
+
+            // Get initial scale
+            Vector scale = scaleOverLifetime.interpolate(0.0);
+            Vector3f scalef = new Vector3f((float) scale.getX(), (float) scale.getY(), (float) scale.getZ());
+
+            // Get initial rotation
+            Quaternionf rotation = new Quaternionf()
+                    .rotateX((float)(-Math.PI / 2)) // Undo initial downward rotation
+                    .rotateY((float) Math.toRadians(initialRotation.getY())) // get initial for the rest
+                    .rotateX((float) Math.toRadians(initialRotation.getX()))
+                    .rotateZ((float) Math.toRadians(initialRotation.getZ()));
+
+            // Set initial transformation
+            entity.setTransformation(new Transformation(new Vector3f(), rotation, scalef, new Quaternionf()));
+
+            entity.setInterpolationDelay(0);
+            entity.setInterpolationDuration(manager.TICKS_PER_PARTICLE_CALCULATION);
+            entity.setTeleportDuration(manager.TICKS_PER_PARTICLE_CALCULATION);
+        });
     }
 
     protected void transform(double lifePosition, int steps) {
@@ -57,42 +80,28 @@ public class ParticleItem extends Particle {
 
         Quaternionf rotation = display.getTransformation().getLeftRotation();
 
-        // Either set up initial rotation or modify rotation
-        if(lifePosition == 0.0) {
-            rotation
-                    .rotateX((float)(-Math.PI / 2)) // Undo initial downward rotation
-                    .rotateY((float) Math.toRadians(initialRotation.getY())) // get initial for the rest
-                    .rotateX((float) Math.toRadians(initialRotation.getX()))
-                    .rotateZ((float) Math.toRadians(initialRotation.getZ()));
-        } else {
-            // Get the changes in rotation
-            Vector rotationSpeed = rotationSpeedOverLifetime.interpolate(lifePosition);
-            float yawChange   = (float) Math.toRadians(rotationSpeed.getY() * 0.05 * steps);
-            float pitchChange = (float) Math.toRadians(rotationSpeed.getX() * 0.05 * steps);
-            float rollChange  = (float) Math.toRadians(rotationSpeed.getZ() * 0.05 * steps);
+        // modify rotation
+        Vector rotationSpeed = rotationSpeedOverLifetime.interpolate(lifePosition);
+        float yawChange   = (float) Math.toRadians(rotationSpeed.getY() * 0.05 * steps);
+        float pitchChange = (float) Math.toRadians(rotationSpeed.getX() * 0.05 * steps);
+        float rollChange  = (float) Math.toRadians(rotationSpeed.getZ() * 0.05 * steps);
 
-            // Rotation over velocity
-            double magnitude = displacement.length();
-            int mul = velocityRotationDirectionPositive ? 1 : -1;
-            double v1 = rotationOverVelocity.getV1();
-            double v2 = rotationOverVelocity.getV2();
-            yawChange   += (float) (magnitude * mul * Math.toRadians(v2 + random.nextDouble()*(v2-v1) - v1/2));
-            pitchChange += (float) (magnitude * mul * Math.toRadians(v2 + random.nextDouble()*(v2-v1) - v1/2));
-            rollChange  += (float) (magnitude * mul * Math.toRadians(v2 + random.nextDouble()*(v2-v1) - v1/2));
+        // Rotation over velocity
+        double magnitude = displacement.length();
+        int mul = velocityRotationDirectionPositive ? 1 : -1;
+        double v1 = rotationOverVelocity.getV1();
+        double v2 = rotationOverVelocity.getV2();
+        yawChange   += (float) (magnitude * mul * Math.toRadians(v2 + random.nextDouble()*(v2-v1) - v1/2));
+        pitchChange += (float) (magnitude * mul * Math.toRadians(v2 + random.nextDouble()*(v2-v1) - v1/2));
+        rollChange  += (float) (magnitude * mul * Math.toRadians(v2 + random.nextDouble()*(v2-v1) - v1/2));
 
-            // Apply change in rotation
-            rotation
-                    .rotateY(yawChange)
-                    .rotateX(pitchChange)
-                    .rotateZ(rollChange);
-        }
+        // Apply change in rotation
+        rotation
+                .rotateY(yawChange)
+                .rotateX(pitchChange)
+                .rotateZ(rollChange);
 
-        display.setTransformation(new Transformation(
-                new Vector3f(),
-                rotation,
-                scalef,
-                new Quaternionf()
-        ));
+        display.setTransformation(new Transformation(new Vector3f(), rotation, scalef, new Quaternionf()));
     }
 
     @Override

@@ -53,18 +53,19 @@ public class particleeditor implements CommandExecutor {
                     new ParticleBuilderCube()
                             .shaded(false)
                             .initialDirection(new ValueRange<>(new Vector(-1, -1, -1), new Vector(1, 1, 1)))
-                            .particleLifeTicks(15)
+                            .particleLifeTicks(new ValueRange<>(17, 20))
                             .colorOverLifetime(new RangedGradientColor(Color.fromRGB(252, 118, 40), Color.fromRGB(252, 234, 40)))
                             .rotationOverVelocity(new ValueRange<>(120.0, 140.0))
                             .scaleOverLifetime(new RangedGradientVector(
-                                    EasingMode.SINE_OUT,
-                                    new RangedKeyframe<>(new Vector(.45,.45,.45), new Vector(.6,.6,.6), 0.25),
+                                    EasingMode.CUBIC_OUT,
+                                    new RangedKeyframe<>(new Vector(0.55,0.55,0.55), new Vector(0.45,0.45,0.45), 0.1),
                                     new RangedKeyframe<>(new Vector(0 ,0 ,0), 1.0)
                             ))
                             .gravity(new GravityDirection()
-                                    .initialSpeed(12.0)
-                                    .strengthOverLifetime(25)
+                                    .initialSpeed(new ValueRange<>(12.0, 15.0))
+                                    .strengthOverLifetime(18)
                                     .bouncinessOverLifetime(0.8)
+                                    .dragMultiplier(18.0)
                             )
                     );
             emitter.start();
