@@ -73,8 +73,8 @@ public class ParticleText extends Particle {
             Quaternionf rotation = new Quaternionf().rotateZ((float) Math.toRadians(initialRoll));
 
             // Set initial transformation
-            if(text == null) display.setTransformation(new Transformation(new Vector3f(), rotation, scalef.mul(SQUARE_SCALE_MULTIPLIER), new Quaternionf()));
-            else display.setTransformation(new Transformation(new Vector3f(), rotation, scalef, new Quaternionf()));
+            if(text == null) entity.setTransformation(new Transformation(new Vector3f(), rotation, scalef.mul(SQUARE_SCALE_MULTIPLIER), new Quaternionf()));
+            else entity.setTransformation(new Transformation(new Vector3f(), rotation, scalef, new Quaternionf()));
 
             // Set initial color
             Color color = colorOverLifetime.interpolate(0);
