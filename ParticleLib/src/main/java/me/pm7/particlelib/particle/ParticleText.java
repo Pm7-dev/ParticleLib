@@ -123,6 +123,11 @@ public class ParticleText extends Particle {
             textDisplay.setBackgroundColor(color);
         } else {
             textDisplay.text(text.color(TextColor.color(color.getRed(), color.getGreen(), color.getBlue())));
+
+            int alpha = color.getAlpha();
+            if(alpha < 10) alpha = 10;
+            if(alpha > 255) alpha = 255;
+            textDisplay.setTextOpacity((byte) alpha);
         }
     }
 

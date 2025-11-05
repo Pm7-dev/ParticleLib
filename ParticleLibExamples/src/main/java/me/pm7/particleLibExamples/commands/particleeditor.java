@@ -9,9 +9,12 @@ import me.pm7.particlelib.interpolation.keyframe.Keyframe;
 import me.pm7.particlelib.interpolation.keyframe.RangedKeyframe;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
 import me.pm7.particlelib.particlebuilder.ParticleBuilderCube;
+import me.pm7.particlelib.particlebuilder.ParticleBuilderCustomText;
 import me.pm7.particlelib.particlebuilder.ParticleBuilderSquare;
 import me.pm7.particlelib.physics.GravityAxis;
 import me.pm7.particlelib.physics.GravityDirection;
+import me.pm7.particlelib.physics.GravityNone;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -47,26 +50,38 @@ public class particleeditor implements CommandExecutor {
         if(args[0].toLowerCase().equals("spawn")) {
             emitter = new ParticleEmitterConstant(
                     manager,
-                    60,
-                    80,
+                    16,
+                    40,
                     loc,
-                    new ParticleBuilderCube()
-                            .shaded(false)
-                            .initialDirection(new ValueRange<>(new Vector(-1, -1, -1), new Vector(1, 1, 1)))
-                            .particleLifeTicks(new ValueRange<>(17, 20))
-                            .colorOverLifetime(new RangedGradientColor(Color.fromRGB(252, 118, 40), Color.fromRGB(252, 234, 40)))
-                            .rotationOverVelocity(new ValueRange<>(120.0, 140.0))
-                            .scaleOverLifetime(new RangedGradientVector(
-                                    EasingMode.CUBIC_OUT,
-                                    new RangedKeyframe<>(new Vector(0.55,0.55,0.55), new Vector(0.45,0.45,0.45), 0.1),
-                                    new RangedKeyframe<>(new Vector(0 ,0 ,0), 1.0)
-                            ))
-                            .gravity(new GravityDirection()
-                                    .initialSpeed(new ValueRange<>(12.0, 15.0))
-                                    .strengthOverLifetime(18)
-                                    .bouncinessOverLifetime(0.8)
-                                    .dragMultiplier(18.0)
+                    new ParticleBuilderCustomText()
+                            .particleLifeTicks(25)
+                            .text(Component.text("\uE002"))
+                            .gravity(new GravityNone(new GradientDouble(
+                                        EasingMode.CUBIC_OUT,
+                                        new Keyframe<>(5.0, 0.0),
+                                        new Keyframe<>(0.0, 1.0)
+                                    ))
                             )
+                            .rollSpeedOverLifetime(new RangedGradientDouble(
+                                    EasingMode.LINEAR,
+                                    new RangedKeyframe<>(360.0, -360.0, 0.0),
+                                    new RangedKeyframe<>(0.0, 0.65)
+                            ))
+                            .initialDirection(new ValueRange<>(
+                                    new Vector(-1, -0.3, -1),
+                                    new Vector(1, 0.3, 1))
+                            )
+                            .scaleOverLifetime(new GradientVector(
+                                    EasingMode.LINEAR,
+                                    new Keyframe<>(new Vector(0.1, 0.1, 0.1), 0.0),
+                                    new Keyframe<>()
+                            ))
+                            .scaleOverLifetime(new Vector(2, 2, 2))
+                            .colorOverLifetime(new GradientColor(
+                                    EasingMode.LINEAR,
+                                    new Keyframe<>(Color.fromARGB(255 ,255 ,255, 255), 0.85),
+                                    new Keyframe<>(Color.fromARGB(0 ,255 ,255, 255), 1.0)
+                            ))
                     );
             emitter.start();
 

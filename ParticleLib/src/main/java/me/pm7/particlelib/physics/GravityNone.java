@@ -38,6 +38,7 @@ public class GravityNone extends Gravity implements ConfigurationSerializable {
             int ticksLived = particle.getTicksLived()-step+i;
             double lifePosition = (double) ticksLived/particle.getLifeTicks();
 
+            if(velocity.lengthSquared() == 0) continue;
             loc.add(velocity.clone().multiply(0.20)); // Advance by the current velocity
             velocity.normalize().multiply(speedOverLifetime.interpolate(lifePosition)); // adjust velocity
         }
