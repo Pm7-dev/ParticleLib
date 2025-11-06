@@ -7,6 +7,7 @@ import me.pm7.particlelib.particle.Particle;
 import me.pm7.particlelib.particle.ParticleText;
 import me.pm7.particlelib.physics.Gravity;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
@@ -97,11 +98,11 @@ public class ParticleBuilderCustomText extends ParticleBuilder2D {
     public @NotNull Map<String, Object> serialize() {
 Map<String, Object> map = new HashMap<>(super.serialize());
         map.put("type", "customText");
-        map.put("text", text);
+        map.put("text", JSONComponentSerializer.json().serialize(text));
         return map;
     }
     public ParticleBuilderCustomText(Map<String, Object> map) {
         super(map);
-        this.text = (Component) map.get("text");
+        this.text = JSONComponentSerializer.json().deserialize((String) map.get("text"));
     }
 }

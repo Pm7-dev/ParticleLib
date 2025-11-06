@@ -54,32 +54,31 @@ public class particleeditor implements CommandExecutor {
                     40,
                     loc,
                     new ParticleBuilderCustomText()
-                            .particleLifeTicks(25)
+                            .particleLifeTicks(18)
                             .text(Component.text("\uE002"))
                             .gravity(new GravityNone(new GradientDouble(
-                                        EasingMode.CUBIC_OUT,
+                                        EasingMode.SINE_OUT,
                                         new Keyframe<>(5.0, 0.0),
-                                        new Keyframe<>(0.0, 1.0)
+                                        new Keyframe<>(0.0, 0.7)
                                     ))
                             )
                             .rollSpeedOverLifetime(new RangedGradientDouble(
-                                    EasingMode.LINEAR,
-                                    new RangedKeyframe<>(360.0, -360.0, 0.0),
-                                    new RangedKeyframe<>(0.0, 0.65)
+                                    EasingMode.SINE_OUT,
+                                    new RangedKeyframe<>(540.0, -540.0, 0.0),
+                                    new RangedKeyframe<>(0.0, 0.7)
                             ))
                             .initialDirection(new ValueRange<>(
                                     new Vector(-1, -0.3, -1),
                                     new Vector(1, 0.3, 1))
                             )
                             .scaleOverLifetime(new GradientVector(
-                                    EasingMode.LINEAR,
-                                    new Keyframe<>(new Vector(0.1, 0.1, 0.1), 0.0),
-                                    new Keyframe<>()
+                                    EasingMode.SINE_OUT,
+                                    new Keyframe<>(new Vector(0.5, 0.5, 0.5), 0.0),
+                                    new Keyframe<>(new Vector(1.35, 1.35, 1.35), 0.7)
                             ))
-                            .scaleOverLifetime(new Vector(2, 2, 2))
                             .colorOverLifetime(new GradientColor(
                                     EasingMode.LINEAR,
-                                    new Keyframe<>(Color.fromARGB(255 ,255 ,255, 255), 0.85),
+                                    new Keyframe<>(Color.fromARGB(255 ,255 ,255, 255), 0.8),
                                     new Keyframe<>(Color.fromARGB(0 ,255 ,255, 255), 1.0)
                             ))
                     );
