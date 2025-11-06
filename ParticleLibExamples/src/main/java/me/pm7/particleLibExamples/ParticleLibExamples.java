@@ -3,6 +3,7 @@ package me.pm7.particleLibExamples;
 import me.pm7.particleLibExamples.commands.flame;
 import me.pm7.particleLibExamples.commands.particleeditor;
 import me.pm7.particleLibExamples.commands.test;
+import me.pm7.particleLibExamples.listeners.Anvil;
 import me.pm7.particleLibExamples.listeners.BlockBreak;
 import me.pm7.particleLibExamples.listeners.Explosion;
 import me.pm7.particlelib.ParticleManager;
@@ -23,6 +24,7 @@ public final class ParticleLibExamples extends JavaPlugin {
         getCommand("particleeditor").setExecutor(new particleeditor());
         Bukkit.getPluginManager().registerEvents(new BlockBreak(), this);
         Bukkit.getPluginManager().registerEvents(new Explosion(), this);
+        Bukkit.getPluginManager().registerEvents(new Anvil(), this);
     }
 
     @Override
