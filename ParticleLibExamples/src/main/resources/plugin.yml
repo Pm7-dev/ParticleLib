@@ -9,4 +9,6 @@ commands:
     description: "particleedits"
   flame:
     description: "runs the flame demonstration"
+  trail:
+    description: "starts/stops the trail demonstration"
 depend: [ParticleLib]

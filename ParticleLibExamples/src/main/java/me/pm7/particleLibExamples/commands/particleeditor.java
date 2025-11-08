@@ -50,36 +50,29 @@ public class particleeditor implements CommandExecutor {
         if(args[0].toLowerCase().equals("spawn")) {
             emitter = new ParticleEmitterConstant(
                     manager,
-                    16,
-                    40,
+                    3,
+                    1,
                     loc,
-                    new ParticleBuilderCustomText()
-                            .particleLifeTicks(18)
-                            .text(Component.text("\uE002"))
-                            .gravity(new GravityNone(new GradientDouble(
-                                        EasingMode.SINE_OUT,
-                                        new Keyframe<>(5.0, 0.0),
-                                        new Keyframe<>(0.0, 0.7)
-                                    ))
-                            )
-                            .rollSpeedOverLifetime(new RangedGradientDouble(
-                                    EasingMode.SINE_OUT,
-                                    new RangedKeyframe<>(540.0, -540.0, 0.0),
-                                    new RangedKeyframe<>(0.0, 0.7)
+                    new ParticleBuilderCube()
+                            .shaded(false)
+                            .particleLifeTicks(45)
+                            .gravity(new GravityNone(new GradientDouble(0.0)))
+                            .initialRotation(new ValueRange<>(
+                                    new Vector(0, 0, 0),
+                                    new Vector(360, 360, 360)
                             ))
-                            .initialDirection(new ValueRange<>(
-                                    new Vector(-1, -0.3, -1),
-                                    new Vector(1, 0.3, 1))
-                            )
                             .scaleOverLifetime(new GradientVector(
-                                    EasingMode.SINE_OUT,
-                                    new Keyframe<>(new Vector(0.5, 0.5, 0.5), 0.0),
-                                    new Keyframe<>(new Vector(1.35, 1.35, 1.35), 0.7)
+                                    EasingMode.SINE_IN,
+                                    new Keyframe<>(new Vector(0.2, 0.2, 0.2), 0.9),
+                                    new Keyframe<>(new Vector(0, 0, 0), 1.0)
                             ))
-                            .colorOverLifetime(new GradientColor(
-                                    EasingMode.LINEAR,
-                                    new Keyframe<>(Color.fromARGB(255 ,255 ,255, 255), 0.8),
-                                    new Keyframe<>(Color.fromARGB(0 ,255 ,255, 255), 1.0)
+                            .colorOverLifetime(new RangedGradientColor(
+                                    Color.fromARGB(255,0, 94, 194),
+                                    Color.fromARGB(255,0, 10, 194)
+                            ))
+                            .spawnOffset(new ValueRange<>(
+                                    new Vector(-0.03, -1.1, -0.03),
+                                    new Vector(0.03, -1.0, 0.03)
                             ))
                     );
             emitter.start();

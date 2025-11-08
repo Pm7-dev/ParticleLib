@@ -89,8 +89,7 @@ public class Anvil implements Listener {
                     EasingMode.LINEAR,
                     new Keyframe<>(Color.fromARGB(255 ,255 ,255, 255), 0.8),
                     new Keyframe<>(Color.fromARGB(0 ,255 ,255, 255), 1.0)
-            ))
-;
+            ));
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
