@@ -1,6 +1,7 @@
 package me.pm7.particlelib.particle;
 
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.interpolation.gradient.GradientVector;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
 import me.pm7.particlelib.physics.Gravity;
@@ -12,14 +13,10 @@ import org.joml.Vector3f;
 import java.util.Random;
 
 public abstract class Particle {
-    protected final ParticleManager manager;
-
-    private final int spawnTick;
+    protected final ParticleEmitter emitter;
 
     private final Vector spawnLocation;
     private final int lifeTicks;
-    private int ticksLived;
-
     protected final Random random;
 
     private final Gravity gravity;
@@ -28,15 +25,13 @@ public abstract class Particle {
     protected final boolean velocityRotationDirectionPositive;
     protected final Vector velocity; // This gets modified by the gravity
 
+    private int ticksLived;
     protected Display display;
-
     protected Vector displacement;
 
-    protected Particle(ParticleManager manager, Location location, int lifeTicks, Gravity gravity, Vector initialDirection, GradientVector scaleOverLifetime, ValueRange<Double> rotationOverVelocity) {
-        this.manager = manager;
+    protected Particle(ParticleEmitter emitter, Location location, int lifeTicks, Gravity gravity, Vector initialDirection, GradientVector scaleOverLifetime, ValueRange<Double> rotationOverVelocity) {
+        this.emitter = emitter;
         this.random = new Random();
-
-        this.spawnTick = manager.getCurrentSpawnTick();
 
         this.spawnLocation = location.toVector();
         this.lifeTicks = lifeTicks;
@@ -49,8 +44,6 @@ public abstract class Particle {
         this.velocity = initialDirection.normalize();
 
         this.velocityRotationDirectionPositive = random.nextDouble() > 0.5;
-
-        manager.addParticle(this);
     }
 
     // Ticks the particle a number of steps forward
@@ -96,7 +89,11 @@ public abstract class Particle {
 
     public void remove() {
         display.remove();
-        manager.allParticles.remove(this);
+        if(emitter == null) {
+            ParticleManager.getOrphanedParticles().remove(this);
+        } else {
+            emitter.getParticles().remove(this);
+        }
     }
 
     public Vector getVelocity() {return velocity;}

@@ -4,6 +4,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.PotionContents;
 import me.pm7.particlelib.ParticleLib;
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.interpolation.gradient.GradientColor;
 import me.pm7.particlelib.interpolation.gradient.GradientVector;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
@@ -24,10 +25,10 @@ public class ParticleItem extends Particle {
 
     private final GradientColor colorOverLifetime;
 
-    public ParticleItem(ParticleManager manager, Location location, int lifeTicks, Vector spawnOffset, Gravity gravity, Vector initialDirection,
+    public ParticleItem(ParticleEmitter emitter, Location location, int lifeTicks, Vector spawnOffset, Gravity gravity, Vector initialDirection,
                         GradientVector scaleOverLifetime, Vector initialRotation, GradientVector rotationSpeedOverLifetime,
                         ValueRange<Double> rotationOverVelocity, GradientColor colorOverLifetime, ItemStack item) {
-        super(manager, location, lifeTicks, gravity, initialDirection, scaleOverLifetime, rotationOverVelocity);
+        super(emitter, location, lifeTicks, gravity, initialDirection, scaleOverLifetime, rotationOverVelocity);
 
         this.rotationSpeedOverLifetime = rotationSpeedOverLifetime;
 

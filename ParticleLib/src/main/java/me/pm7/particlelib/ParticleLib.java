@@ -7,7 +7,6 @@ import me.pm7.particlelib.interpolation.gradient.*;
 import me.pm7.particlelib.interpolation.keyframe.Keyframe;
 import me.pm7.particlelib.interpolation.keyframe.RangedKeyframe;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
-import me.pm7.particlelib.particle.Particle;
 import me.pm7.particlelib.particlebuilder.*;
 import me.pm7.particlelib.physics.GravityAxis;
 import me.pm7.particlelib.physics.GravityDirection;
@@ -64,17 +63,11 @@ public class ParticleLib extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
-        for(ParticleManager manager : ParticleManager.managers) {
-            List<Particle> allParticles = manager.allParticles;
-            while(!allParticles.isEmpty()) {
-                allParticles.getFirst().remove();
-            }
-
-            List<ParticleEmitter> allEmitters = manager.allEmitters;
-            while (!allEmitters.isEmpty()) {
-                allEmitters.getFirst().remove();
-            }
+        List<ParticleEmitter> allEmitters = ParticleManager.getAllEmitters();
+        while (!allEmitters.isEmpty()) {
+            allEmitters.getFirst().remove();
         }
+
+        ParticleManager.killAllOrphans();
     }
 }

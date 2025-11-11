@@ -3,6 +3,7 @@ package me.pm7.particlelib.particlebuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.PotionContents;
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.interpolation.gradient.*;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
 import me.pm7.particlelib.particle.Particle;
@@ -42,7 +43,7 @@ public class ParticleBuilderCube extends ParticleBuilder3D {
     }
 
     @Override
-    public Particle build(ParticleManager manager, Location location) {
+    public Particle build(ParticleEmitter emitter, Location location) {
         int pLifeticks = random.nextInt(particleLifeTicks.getV1(), particleLifeTicks.getV2() + 1);
 
         // Bake ranged gradients into gradients if necessary
@@ -66,7 +67,7 @@ public class ParticleBuilderCube extends ParticleBuilder3D {
         builder.customColor(color.interpolate(0));
         item.setData(DataComponentTypes.POTION_CONTENTS, builder);
 
-        return new ParticleItem(manager, location, pLifeticks, offset, gravity, direction, scale, rotation, rotationSpeed, rotationOverVelocity, color, item);
+        return new ParticleItem(emitter, location, pLifeticks, offset, gravity, direction, scale, rotation, rotationSpeed, rotationOverVelocity, color, item);
     }
 
 

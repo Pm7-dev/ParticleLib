@@ -2,6 +2,7 @@ package me.pm7.particlelib.particle;
 
 import me.pm7.particlelib.ParticleLib;
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.interpolation.gradient.GradientColor;
 import me.pm7.particlelib.interpolation.gradient.GradientDouble;
 import me.pm7.particlelib.interpolation.gradient.GradientVector;
@@ -30,11 +31,11 @@ public class ParticleText extends Particle {
     private final GradientColor colorOverLifetime;
     private final Component text;
 
-    public ParticleText(ParticleManager manager, Location location, int lifeTicks, Vector spawnOffset, Gravity gravity, Vector initialDirection,
+    public ParticleText(ParticleEmitter emitter, Location location, int lifeTicks, Vector spawnOffset, Gravity gravity, Vector initialDirection,
                         GradientVector scaleOverLifetime, double initialRoll, GradientDouble rotationSpeedOverLifetime,
                         ValueRange<Double> rotationOverVelocity, GradientColor colorOverLifetime, boolean shaded,
                         Component text) {
-        super(manager, location, lifeTicks, gravity, initialDirection, scaleOverLifetime, rotationOverVelocity);
+        super(emitter, location, lifeTicks, gravity, initialDirection, scaleOverLifetime, rotationOverVelocity);
 
         this.rotationSpeedOverLifetime = rotationSpeedOverLifetime;
         this.velocityRotationDirectionPositive = random.nextDouble() > 0.5;

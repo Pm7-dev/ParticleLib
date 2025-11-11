@@ -4,7 +4,6 @@ import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.particle.Particle;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,32 +12,22 @@ import java.util.List;
 
 public class ParticleManager {
 
-    public static List<ParticleManager> managers = new ArrayList<>();
+    private static List<ParticleEmitter> allEmitters;
+    private static List<Particle> orphanedParticles;
 
-    private final JavaPlugin plugin;
 
-    public final long MAX_PARTICLES;
-    public final int TICKS_PER_PARTICLE_CALCULATION;
-    public final long MAX_DISTANCE;
-
-    public final List<ParticleEmitter> allEmitters;
-    public final List<Particle> allParticles;
-
-    public ParticleManager(JavaPlugin plugin, int period, long maxParticles, long maxDistance) {
-        this.plugin = plugin;
-
-        this.MAX_PARTICLES = maxParticles;
-        this.TICKS_PER_PARTICLE_CALCULATION = period;
-        this.MAX_DISTANCE = maxDistance;
+    static void init(JavaPlugin plugin) {
 
         allEmitters = new ArrayList<>();
-        allParticles = new ArrayList<>();
+        orphanedParticles = new ArrayList<>();
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this::tick, 0L, period);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
+            tick();
+        }, 0L, 1L);
     }
 
     private int spawnTick = 0;
-    private void tick() {
+    private static void tick() {
 
         for(int i=0; i<allEmitters.size(); i++) {
             ParticleEmitter emitter = allEmitters.get(i);
@@ -64,11 +53,11 @@ public class ParticleManager {
             if(!allEmitters.contains(emitter)) i--;// avoid concurrentmodificationexception if the emitter dies this tick
         }
 
-        for(int i=0; i<allParticles.size(); i++) {
-            Particle particle = allParticles.get(i);
+        for(int i = 0; i< orphanedParticles.size(); i++) {
+            Particle particle = orphanedParticles.get(i);
             if(spawnTick == particle.getSpawnTick()) {
                 particle.tick(TICKS_PER_PARTICLE_CALCULATION);
-                if(!allParticles.contains(particle)) i--; // avoid concurrentmodificationexception if the particle dies this tick
+                if(!orphanedParticles.contains(particle)) i--; // avoid concurrentmodificationexception if the particle dies this tick
             }
         }
 
@@ -77,14 +66,20 @@ public class ParticleManager {
     }
 
     public void addParticle(Particle particle) {
-        allParticles.add(particle);
-        while(allParticles.size() > MAX_PARTICLES) {
-            allParticles.getFirst().remove();
+        orphanedParticles.add(particle);
+        while(orphanedParticles.size() > MAX_PARTICLES) {
+            orphanedParticles.getFirst().remove();
         }
     }
 
     public int getCurrentSpawnTick() {return spawnTick;}
 
-    public JavaPlugin getPlugin() {return plugin;}
-
+    public static List<ParticleEmitter> getAllEmitters() {return allEmitters;}
+    public static List<Particle> getOrphanedParticles() {return orphanedParticles;}
+    public static void killAllOrphans() {
+        while (!orphanedParticles.isEmpty()) {
+            orphanedParticles.getFirst().remove();
+            orphanedParticles.removeFirst();
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package me.pm7.particlelib.particlebuilder;
 
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.interpolation.gradient.*;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
 import me.pm7.particlelib.particle.Particle;
@@ -35,7 +36,7 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
     }
 
     @Override
-    public Particle build(ParticleManager manager, Location location) {
+    public Particle build(ParticleEmitter emitter, Location location) {
         int pLifeticks = random.nextInt(particleLifeTicks.getV1(), particleLifeTicks.getV2() + 1);
 
         // Bake ranged gradients into gradients if necessary
@@ -48,7 +49,7 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
         ItemStack item = new ItemStack(blockData.getMaterial());
 
 
-        return new ParticleItem(manager, location, pLifeticks, offset, gravity, direction, scale, rotation, rotationSpeed, rotationOverVelocity, new GradientColor(Color.WHITE), item);
+        return new ParticleItem(emitter, location, pLifeticks, offset, gravity, direction, scale, rotation, rotationSpeed, rotationOverVelocity, new GradientColor(Color.WHITE), item);
     }
 
 

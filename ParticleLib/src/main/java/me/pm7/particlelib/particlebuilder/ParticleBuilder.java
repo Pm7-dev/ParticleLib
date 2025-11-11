@@ -1,6 +1,7 @@
 package me.pm7.particlelib.particlebuilder;
 
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.interpolation.gradient.*;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
 import me.pm7.particlelib.particle.Particle;
@@ -20,6 +21,8 @@ import java.util.Random;
  */
 public abstract class ParticleBuilder implements ConfigurationSerializable {
     protected final Random random = new Random();
+
+    //TODO: add ticksPerCalculation here. it will not be fun.
 
     protected ValueRange<Integer> particleLifeTicks;
     protected ValueRange<Vector> spawnOffset;
@@ -46,7 +49,7 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
         this.gravity = gravity;
     }
 
-    public abstract Particle build(ParticleManager manager, Location location);
+    public abstract Particle build(ParticleEmitter emitter, Location location);
 
     public abstract ParticleBuilder particleLifeTicks(ValueRange<Integer> particleLifeTicks);
     public abstract ParticleBuilder particleLifeTicks(int particleLifeTicks);

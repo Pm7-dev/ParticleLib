@@ -1,6 +1,7 @@
 package me.pm7.particlelib.particlebuilder;
 
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.interpolation.gradient.*;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;
 import me.pm7.particlelib.particle.ParticleText;
@@ -27,7 +28,7 @@ public class ParticleBuilderSquare extends ParticleBuilder2D {
     }
 
     @Override
-    public Particle build(ParticleManager manager, Location location) {
+    public Particle build(ParticleEmitter emitter, Location location) {
         int pLifeticks = random.nextInt(particleLifeTicks.getV1(), particleLifeTicks.getV2() + 1);
 
         // Bake ranged gradients into gradients if necessary
@@ -38,7 +39,7 @@ public class ParticleBuilderSquare extends ParticleBuilder2D {
         double roll = random.nextDouble() * (initialRoll.getV2() - initialRoll.getV1()) + initialRoll.getV1();
         Vector direction = ValueRange.getRandom(initialDirection).normalize();
 
-        return new ParticleText(manager, location, pLifeticks, offset, gravity, direction, scale, roll, rollSpeed, rotationOverVelocity, color, shaded, null);
+        return new ParticleText(emitter, location, pLifeticks, offset, gravity, direction, scale, roll, rollSpeed, rotationOverVelocity, color, shaded, null);
     }
 
 

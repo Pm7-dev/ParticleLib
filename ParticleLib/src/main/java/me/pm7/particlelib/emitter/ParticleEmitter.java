@@ -2,6 +2,7 @@ package me.pm7.particlelib.emitter;
 
 import me.pm7.particlelib.ParticleLib;
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.particle.Particle;
 import me.pm7.particlelib.particlebuilder.ParticleBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,6 +14,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,29 +25,32 @@ import java.util.UUID;
  * you MUST  use the setParticleManager() method, as the ParticleManager is not saved to config.
  */
 public abstract class ParticleEmitter implements ConfigurationSerializable {
-    protected ParticleManager manager;
 
     protected BlockDisplay gameObject;
     private boolean active;
+    private long maxParticles;
+    private int viewDistance;
+    private List<Particle> particles;
 
     protected ParticleBuilder particleBuilder;
 
     /**
      * Creates a new ParticleEmitter
-     * @param manager The particle manager to tick this emitter
      * @param location The location to spawn the ParticleEmitter's display entity
      * @param particleBuilder The particle data to use when this emitter spawns a particle
      */
-    public ParticleEmitter(ParticleManager manager, Location location, ParticleBuilder particleBuilder) {
-        this.manager = manager;
+    public ParticleEmitter(ParticleBuilder particleBuilder, Location location, long maxParticles, int viewDistance) {
+        this.particleBuilder = particleBuilder;
 
         this.gameObject = (BlockDisplay) location.getWorld().spawnEntity(location, EntityType.BLOCK_DISPLAY);
         this.gameObject.getPersistentDataContainer().set(ParticleLib.EMITTER_KEY, PersistentDataType.LONG, ParticleLib.SESSION_IDENTIFIER);
 
-        this.active = false;
-        this.particleBuilder = particleBuilder;
+        this.maxParticles = maxParticles;
+        this.viewDistance = viewDistance;
 
-        manager.allEmitters.add(this);
+        this.active = false;
+
+        ParticleManager.getAllEmitters().add(this);
     }
 
     /**
@@ -90,12 +95,23 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
      */
     public Display getGameObject() {return gameObject;}
 
+    //TODO: documentation maybe
+    public long getMaxParticles() {return maxParticles;}
+    public void setMaxParticles(long maxParticles) {this.maxParticles = maxParticles;}
+
+    public int getViewDistance() {return viewDistance;}
+    public void setViewDistance(int viewDistance) {this.viewDistance = viewDistance;}
+
     /**
-     * Removes this emitter (Does not remove currently active particles spawned by it)
+     * Removes this emitter and sends all currently active particles to the "orphaned particles" list in the ParticleManager
      */
     public void remove() {
         gameObject.remove();
-        manager.allEmitters.remove(this);
+
+        ParticleManager.getOrphanedParticles().addAll(particles);
+        particles.clear();
+
+        ParticleManager.getAllEmitters().remove(this);
     }
 
     /**
@@ -103,22 +119,17 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
      * @param particleBuilder The new spawn data for the emitter
      * @return The emitter after the change
      */
-    public ParticleEmitter particleData(ParticleBuilder particleBuilder) {this.particleBuilder = particleBuilder; return this;}
+    public ParticleEmitter particleBuilder(ParticleBuilder particleBuilder) {this.particleBuilder = particleBuilder; return this;}
 
     /**
      * Returns the particle spawn data of this emitter
      * @return The particle spawn data
      */
-    public ParticleBuilder particleData() {return particleBuilder;}
+    public ParticleBuilder particleBuilder() {return particleBuilder;}
 
-    public void setParticleManager(ParticleManager manager) {
-        if(this.manager != null) this.manager.allEmitters.remove(this);
-        this.manager = manager;
-        manager.allEmitters.add(this);
-    }
+    public List<Particle> getParticles() {return particles;}
 
-    public ParticleManager getParticleManager() {return manager;}
-
+    // TODO: save/load new data for config
     // Config stuff
     @Override
     public @NotNull Map<String, Object> serialize() {
@@ -130,8 +141,6 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
         return map;
     }
     public ParticleEmitter(Map<String, Object> map) {
-        this.manager = null;
-
         Location loc = (Location) map.get("location");
         if(!loc.isChunkLoaded()) loc.getWorld().loadChunk(loc.getChunk());
         this.gameObject = (BlockDisplay) Bukkit.getEntity(UUID.fromString( (String) map.get("uuid")));
