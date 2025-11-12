@@ -1,6 +1,5 @@
 package me.pm7.particlelib.particlebuilder;
 
-import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.interpolation.gradient.*;
 import me.pm7.particlelib.interpolation.keyframe.ValueRange;

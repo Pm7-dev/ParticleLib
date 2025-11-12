@@ -13,6 +13,7 @@ import org.joml.Vector3f;
 import java.util.Random;
 
 public abstract class Particle {
+
     protected final ParticleEmitter emitter;
 
     private final Vector spawnLocation;
@@ -47,7 +48,7 @@ public abstract class Particle {
     }
 
     // Ticks the particle a number of steps forward
-    public void tick(int steps) {
+    public void tick() {
 
         // If the display is dead, kill this particle
         if(display == null || display.isDead()) {
@@ -56,19 +57,19 @@ public abstract class Particle {
         }
 
         // Advance life ticks by steps
-        ticksLived+=steps;
+        ticksLived+=1;
         if(ticksLived >= lifeTicks) {
             remove();
             return;
         }
 
         // Tick velocity & apply gravity
-        gravity.applyGravity(this, steps);
+        gravity.applyGravity(this, 1);
 
         // Animate transformation and color
         double lifePosition = getLifePosition();
         display.setInterpolationDelay(0); // I think this has to go before transformations?
-        transform(lifePosition, steps);
+        transform(lifePosition, 1);
         color(lifePosition);
     }
 
@@ -108,7 +109,4 @@ public abstract class Particle {
     public Vector getSpawnLocation() {return spawnLocation.clone();}
     public int getLifeTicks() {return lifeTicks;}
     public int getTicksLived() {return ticksLived;}
-
-    public int getSpawnTick() {return spawnTick;}
-
 }

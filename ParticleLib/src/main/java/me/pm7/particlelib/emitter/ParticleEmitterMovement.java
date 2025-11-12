@@ -26,7 +26,6 @@ public class ParticleEmitterMovement extends ParticleEmitter {
 
     /**
      * Creates a new constant particle emitter
-     * @param manager The particle manager to tick this emitter
      * @param metersPerParticle The distance in meters required to spawn one particle.
      * @param particleCutoff If the distance moved in a single tick is more than enough to spawn this number of particles, this movement
      *                       will be ignored. This is to prevent large distance teleportations (going through portals, teleporting an emitter far away, etc. ) from lagging/crashing
@@ -34,8 +33,8 @@ public class ParticleEmitterMovement extends ParticleEmitter {
      * @param location The location to spawn the ParticleEmitter's display entity
      * @param particleBuilder The particle data to use when this emitter spawns a particle
      */
-    public ParticleEmitterMovement(ParticleManager manager, double metersPerParticle, int particleCutoff, Location location, ParticleBuilder particleBuilder) {
-        super(manager, location, particleBuilder);
+    public ParticleEmitterMovement(double metersPerParticle, int particleCutoff, ParticleBuilder particleBuilder, Location location, long maxParticles, int viewDistance) {
+        super(particleBuilder, location, maxParticles, viewDistance);
 
         this.metersPerParticle = metersPerParticle;
 
@@ -82,7 +81,7 @@ public class ParticleEmitterMovement extends ParticleEmitter {
         // Spawn particles in a line between the current location and the previous location for a smooth effect
         for(int i=0; i<particlesToSpawn; i++) {
             Location particleLoc = currentLocation.clone().add(previousLocation.clone().subtract(currentLocation).toVector().normalize().multiply(metersPerParticle * i));
-            particleBuilder.build(manager, particleLoc);
+            particleBuilder.build(this, particleLoc);
         }
 
         previousLocation = currentLocation.clone();

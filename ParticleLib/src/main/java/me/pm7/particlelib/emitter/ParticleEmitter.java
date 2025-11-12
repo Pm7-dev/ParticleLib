@@ -13,10 +13,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * An emitter of particles bound to the location of an an empty display entity
@@ -30,7 +27,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     private boolean active;
     private long maxParticles;
     private int viewDistance;
-    private List<Particle> particles;
+    private final List<Particle> particles;
 
     protected ParticleBuilder particleBuilder;
 
@@ -40,6 +37,8 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
      * @param particleBuilder The particle data to use when this emitter spawns a particle
      */
     public ParticleEmitter(ParticleBuilder particleBuilder, Location location, long maxParticles, int viewDistance) {
+        this.particles = new ArrayList<>();
+
         this.particleBuilder = particleBuilder;
 
         this.gameObject = (BlockDisplay) location.getWorld().spawnEntity(location, EntityType.BLOCK_DISPLAY);
@@ -141,8 +140,11 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
         return map;
     }
     public ParticleEmitter(Map<String, Object> map) {
+        this.particles = new ArrayList<>();
+
         Location loc = (Location) map.get("location");
         if(!loc.isChunkLoaded()) loc.getWorld().loadChunk(loc.getChunk());
+
         this.gameObject = (BlockDisplay) Bukkit.getEntity(UUID.fromString( (String) map.get("uuid")));
         if(gameObject == null) {
             this.gameObject = (BlockDisplay) loc.getWorld().spawnEntity(loc, EntityType.BLOCK_DISPLAY);

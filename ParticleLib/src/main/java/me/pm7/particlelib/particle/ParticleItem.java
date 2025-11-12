@@ -68,8 +68,8 @@ public class ParticleItem extends Particle {
             entity.setTransformation(new Transformation(new Vector3f(), rotation, scalef, new Quaternionf()));
 
             entity.setInterpolationDelay(0);
-            entity.setInterpolationDuration(manager.TICKS_PER_PARTICLE_CALCULATION);
-            entity.setTeleportDuration(manager.TICKS_PER_PARTICLE_CALCULATION);
+            entity.setInterpolationDuration(1); //TODO: ticks per calculation
+            entity.setTeleportDuration(1);
         });
     }
 

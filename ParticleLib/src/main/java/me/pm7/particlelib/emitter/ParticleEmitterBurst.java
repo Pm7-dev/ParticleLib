@@ -20,13 +20,12 @@ public class ParticleEmitterBurst extends ParticleEmitter {
 
     /**
      * Creates a new burst particle emitter
-     * @param manager The particle manager to tick this emitter
      * @param count The amount of particles to spawn as part of this burst
      * @param location The location to spawn the ParticleEmitter's display entity
      * @param particleBuilder The particle data to use when this emitter spawns a particle
      */
-    public ParticleEmitterBurst(ParticleManager manager, int count, Location location, ParticleBuilder particleBuilder) {
-        super(manager, location, particleBuilder);
+    public ParticleEmitterBurst(int count, ParticleBuilder particleBuilder, Location location, int viewDistance) {
+        super(particleBuilder, location, 0, viewDistance);
         this.count = count;
     }
 
@@ -36,7 +35,7 @@ public class ParticleEmitterBurst extends ParticleEmitter {
     @Override
     public void tick() {
         for(int i=0; i<count; i++) {
-            particleBuilder.build(manager, getLocation());
+            particleBuilder.build(this, getLocation());
         }
         remove();
     }

@@ -84,8 +84,8 @@ public class ParticleText extends Particle {
 
 
             entity.setInterpolationDelay(0);
-            entity.setInterpolationDuration(manager.TICKS_PER_PARTICLE_CALCULATION);
-            entity.setTeleportDuration(manager.TICKS_PER_PARTICLE_CALCULATION);
+            entity.setInterpolationDuration(1);
+            entity.setTeleportDuration(1);
         });
     }
 

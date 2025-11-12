@@ -21,9 +21,7 @@ public class ParticleManager {
         allEmitters = new ArrayList<>();
         orphanedParticles = new ArrayList<>();
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-            tick();
-        }, 0L, 1L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, ParticleManager::tick, 0L, 1L);
     }
 
     private int spawnTick = 0;
@@ -31,10 +29,20 @@ public class ParticleManager {
 
         for(int i=0; i<allEmitters.size(); i++) {
             ParticleEmitter emitter = allEmitters.get(i);
+
+            // Tick the emitter's particles
+            List<Particle> particles = emitter.getParticles();
+            for(int p=0; p<particles.size(); p++) {
+                Particle particle = particles.get(p);
+                particle.tick();
+                if(!particles.contains(particle)) i--; // avoid concurrentmodificationexception if the particle dies this tick
+            }
+
             if(!emitter.isActive()) continue;
 
             // Only tick emitter if there is a player close enough to it.
-            if(MAX_DISTANCE > 0) {
+            int viewDistance = emitter.getViewDistance();
+            if(viewDistance > 0) {
                 Location emitterLoc = emitter.getLocation();
                 long closestDistance = Long.MAX_VALUE;
                 for(Player p : emitterLoc.getWorld().getPlayers()) {
@@ -43,7 +51,7 @@ public class ParticleManager {
                         closestDistance = (long) distanceSquared;
                     }
                 }
-                if(closestDistance > MAX_DISTANCE * MAX_DISTANCE) {
+                if(closestDistance > (long) viewDistance * viewDistance) {
                     continue;
                 }
             }
@@ -55,21 +63,13 @@ public class ParticleManager {
 
         for(int i = 0; i< orphanedParticles.size(); i++) {
             Particle particle = orphanedParticles.get(i);
-            if(spawnTick == particle.getSpawnTick()) {
-                particle.tick(TICKS_PER_PARTICLE_CALCULATION);
-                if(!orphanedParticles.contains(particle)) i--; // avoid concurrentmodificationexception if the particle dies this tick
-            }
+            particle.tick();
+            if(!orphanedParticles.contains(particle)) i--; // avoid concurrentmodificationexception if the particle dies this tick
         }
-
-        spawnTick++;
-        if(spawnTick == TICKS_PER_PARTICLE_CALCULATION) spawnTick = 0;
     }
 
     public void addParticle(Particle particle) {
         orphanedParticles.add(particle);
-        while(orphanedParticles.size() > MAX_PARTICLES) {
-            orphanedParticles.getFirst().remove();
-        }
     }
 
     public int getCurrentSpawnTick() {return spawnTick;}

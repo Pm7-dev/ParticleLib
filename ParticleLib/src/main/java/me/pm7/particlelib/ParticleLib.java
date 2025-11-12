@@ -31,6 +31,7 @@ public class ParticleLib extends JavaPlugin {
     public void onEnable() {
 
         plugin = this;
+        ParticleManager.init(plugin);
 
         Bukkit.getPluginManager().registerEvents(new LoadListener(), this);
 

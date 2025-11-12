@@ -23,14 +23,13 @@ public class ParticleEmitterConstant extends ParticleEmitter {
 
     /**
      * Creates a new constant particle emitter
-     * @param manager The particle manager to tick this emitter
      * @param particlesPerSpawn The amount of particles to spawn each time the emitter spawns particles
      * @param ticksPerSpawn The amount of ticks to pass between each spawn
      * @param location The location to spawn the ParticleEmitter's display entity
      * @param particleBuilder The particle data to use when this emitter spawns a particle
      */
-    public ParticleEmitterConstant(ParticleManager manager, int particlesPerSpawn, int ticksPerSpawn, Location location, ParticleBuilder particleBuilder) {
-        super(manager, location, particleBuilder);
+    public ParticleEmitterConstant(int particlesPerSpawn, int ticksPerSpawn, ParticleBuilder particleBuilder, Location location, long maxParticles, int viewDistance) {
+        super(particleBuilder, location, maxParticles, viewDistance);
         this.particlesPerSpawn = particlesPerSpawn;
         this.ticksPerSpawn = ticksPerSpawn;
         loopTick = ticksPerSpawn;
@@ -45,7 +44,7 @@ public class ParticleEmitterConstant extends ParticleEmitter {
         if(loopTick >= ticksPerSpawn) {
             loopTick = 0;
             for(int i=0; i<particlesPerSpawn; i++) {
-                particleBuilder.build(manager, getLocation());
+                particleBuilder.build(this, getLocation());
             }
         }
     }
