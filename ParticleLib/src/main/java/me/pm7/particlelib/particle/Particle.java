@@ -14,11 +14,10 @@ import java.util.Random;
 
 public abstract class Particle {
 
-    protected final ParticleEmitter emitter;
-
-    private final Vector spawnLocation;
-    private final int lifeTicks;
+    protected final ParticleEmitter parentEmitter;
     protected final Random random;
+    private final int lifeTicks;
+    private final Vector spawnLocation;
 
     private final Gravity gravity;
     protected final GradientVector scaleOverLifetime;
@@ -26,29 +25,35 @@ public abstract class Particle {
     protected final boolean velocityRotationDirectionPositive;
     protected final Vector velocity; // This gets modified by the gravity
 
+    protected final int ticksPerCalculation;
+    private int currentTick;
     private int ticksLived;
-    protected Display display;
     protected Vector displacement;
 
-    protected Particle(ParticleEmitter emitter, Location location, int lifeTicks, Gravity gravity, Vector initialDirection, GradientVector scaleOverLifetime, ValueRange<Double> rotationOverVelocity) {
-        this.emitter = emitter;
+    protected Display display;
+
+    protected Particle(ParticleEmitter parentEmitter, Location location, int lifeTicks, Gravity gravity, Vector initialDirection, GradientVector scaleOverLifetime, ValueRange<Double> rotationOverVelocity) {
+        this.parentEmitter = parentEmitter;
         this.random = new Random();
-
-        this.spawnLocation = location.toVector();
         this.lifeTicks = lifeTicks;
-        this.ticksLived = 0;
-        this.gravity = gravity;
+        this.spawnLocation = location.toVector();
 
+        this.gravity = gravity;
         this.scaleOverLifetime = scaleOverLifetime;
         this.rotationOverVelocity = rotationOverVelocity;
-
+        this.velocityRotationDirectionPositive = random.nextDouble() > 0.5;
         this.velocity = initialDirection.normalize();
 
-        this.velocityRotationDirectionPositive = random.nextDouble() > 0.5;
+        this.ticksPerCalculation = 1; //TODO: get from particle builder
+        this.currentTick = 0;
+        this.ticksLived = 0;
     }
 
     // Ticks the particle a number of steps forward
     public void tick() {
+        currentTick++;
+        if(currentTick>=ticksPerCalculation) currentTick=0;
+        else return;
 
         // If the display is dead, kill this particle
         if(display == null || display.isDead()) {
@@ -57,19 +62,19 @@ public abstract class Particle {
         }
 
         // Advance life ticks by steps
-        ticksLived+=1;
+        ticksLived+=ticksPerCalculation;
         if(ticksLived >= lifeTicks) {
             remove();
             return;
         }
 
         // Tick velocity & apply gravity
-        gravity.applyGravity(this, 1);
+        gravity.applyGravity(this, ticksPerCalculation);
 
         // Animate transformation and color
         double lifePosition = getLifePosition();
         display.setInterpolationDelay(0); // I think this has to go before transformations?
-        transform(lifePosition, 1);
+        transform(lifePosition, ticksPerCalculation);
         color(lifePosition);
     }
 
@@ -90,10 +95,10 @@ public abstract class Particle {
 
     public void remove() {
         display.remove();
-        if(emitter == null) {
+        if(parentEmitter == null) {
             ParticleManager.getOrphanedParticles().remove(this);
         } else {
-            emitter.getParticles().remove(this);
+            parentEmitter.getParticles().remove(this);
         }
     }
 

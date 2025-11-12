@@ -25,10 +25,10 @@ public class ParticleItem extends Particle {
 
     private final GradientColor colorOverLifetime;
 
-    public ParticleItem(ParticleEmitter emitter, Location location, int lifeTicks, Vector spawnOffset, Gravity gravity, Vector initialDirection,
+    public ParticleItem(ParticleEmitter parentEmitter, Location location, int lifeTicks, Vector spawnOffset, Gravity gravity, Vector initialDirection,
                         GradientVector scaleOverLifetime, Vector initialRotation, GradientVector rotationSpeedOverLifetime,
                         ValueRange<Double> rotationOverVelocity, GradientColor colorOverLifetime, ItemStack item) {
-        super(emitter, location, lifeTicks, gravity, initialDirection, scaleOverLifetime, rotationOverVelocity);
+        super(parentEmitter, location, lifeTicks, gravity, initialDirection, scaleOverLifetime, rotationOverVelocity);
 
         this.rotationSpeedOverLifetime = rotationSpeedOverLifetime;
 
@@ -68,8 +68,8 @@ public class ParticleItem extends Particle {
             entity.setTransformation(new Transformation(new Vector3f(), rotation, scalef, new Quaternionf()));
 
             entity.setInterpolationDelay(0);
-            entity.setInterpolationDuration(1); //TODO: ticks per calculation
-            entity.setTeleportDuration(1);
+            entity.setInterpolationDuration(ticksPerCalculation);
+            entity.setTeleportDuration(ticksPerCalculation);
         });
     }
 
