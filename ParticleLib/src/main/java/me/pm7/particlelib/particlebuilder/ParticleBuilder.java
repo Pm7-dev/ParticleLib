@@ -24,6 +24,7 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
     //TODO: add ticksPerCalculation here. it will not be fun.
 
     protected ValueRange<Integer> particleLifeTicks;
+    protected int ticksPerCalculation;
     protected ValueRange<Vector> spawnOffset;
     protected ValueRange<Vector> initialDirection;
     protected Gradient scaleOverLifetime;
@@ -32,6 +33,7 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
 
     public ParticleBuilder() {
         this.particleLifeTicks = new ValueRange<>(60, 60);
+        this.ticksPerCalculation = 1;
         this.spawnOffset = new ValueRange<>(new Vector(0, 0, 0));
         this.initialDirection = new ValueRange<>(new Vector(-0.5, 1.0, -0.5), new Vector(0.5, 1.0, 0.5));
         this.scaleOverLifetime = new GradientVector(new Vector(0.125, 0.125, 0.125));
@@ -52,6 +54,8 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
 
     public abstract ParticleBuilder particleLifeTicks(ValueRange<Integer> particleLifeTicks);
     public abstract ParticleBuilder particleLifeTicks(int particleLifeTicks);
+
+    public abstract ParticleBuilder ticksPerCalculation(int ticksPerCalculation);
 
     public abstract ParticleBuilder spawnOffset(ValueRange<Vector> spawnOffset);
     public abstract ParticleBuilder spawnOffset(Vector spawnOffset);

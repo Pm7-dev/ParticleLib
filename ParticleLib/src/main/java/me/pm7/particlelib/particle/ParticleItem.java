@@ -25,10 +25,10 @@ public class ParticleItem extends Particle {
 
     private final GradientColor colorOverLifetime;
 
-    public ParticleItem(ParticleEmitter parentEmitter, Location location, int lifeTicks, Vector spawnOffset, Gravity gravity, Vector initialDirection,
+    public ParticleItem(ParticleEmitter parentEmitter, Location location, int lifeTicks, int ticksPerCalculation, Vector spawnOffset, Gravity gravity, Vector initialDirection,
                         GradientVector scaleOverLifetime, Vector initialRotation, GradientVector rotationSpeedOverLifetime,
                         ValueRange<Double> rotationOverVelocity, GradientColor colorOverLifetime, ItemStack item) {
-        super(parentEmitter, location, lifeTicks, gravity, initialDirection, scaleOverLifetime, rotationOverVelocity);
+        super(parentEmitter, location, lifeTicks, ticksPerCalculation, gravity, initialDirection, scaleOverLifetime, rotationOverVelocity);
 
         this.rotationSpeedOverLifetime = rotationSpeedOverLifetime;
 

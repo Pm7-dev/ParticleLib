@@ -49,7 +49,7 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
         ItemStack item = new ItemStack(blockData.getMaterial());
 
 
-        return new ParticleItem(emitter, location, pLifeticks, offset, gravity, direction, scale, rotation, rotationSpeed, rotationOverVelocity, new GradientColor(Color.WHITE), item);
+        return new ParticleItem(emitter, location, pLifeticks, ticksPerCalculation, offset, gravity, direction, scale, rotation, rotationSpeed, rotationOverVelocity, new GradientColor(Color.WHITE), item);
     }
 
 
@@ -71,6 +71,8 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
     // Data general to all ParticleSpawners
     public ParticleBuilderBlock particleLifeTicks(ValueRange<Integer> particleLifeTicks) {this.particleLifeTicks = particleLifeTicks; return this;}
     public ParticleBuilderBlock particleLifeTicks(int particleLifeTicks) {this.particleLifeTicks = new ValueRange<>(particleLifeTicks); return this;}
+
+    public ParticleBuilderBlock ticksPerCalculation(int ticksPerCalculation) {this.ticksPerCalculation = ticksPerCalculation; return this;}
 
     public ParticleBuilderBlock spawnOffset(ValueRange<Vector> spawnOffset) {this.spawnOffset = spawnOffset; return this;}
     public ParticleBuilderBlock spawnOffset(Vector spawnOffset) {this.spawnOffset = new ValueRange<>(spawnOffset); return this;}

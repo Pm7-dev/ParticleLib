@@ -31,11 +31,11 @@ public class ParticleText extends Particle {
     private final GradientColor colorOverLifetime;
     private final Component text;
 
-    public ParticleText(ParticleEmitter parentEmitter, Location location, int lifeTicks, Vector spawnOffset, Gravity gravity, Vector initialDirection,
+    public ParticleText(ParticleEmitter parentEmitter, Location location, int lifeTicks, int ticksPerCalculation, Vector spawnOffset, Gravity gravity, Vector initialDirection,
                         GradientVector scaleOverLifetime, double initialRoll, GradientDouble rotationSpeedOverLifetime,
                         ValueRange<Double> rotationOverVelocity, GradientColor colorOverLifetime, boolean shaded,
                         Component text) {
-        super(parentEmitter, location, lifeTicks, gravity, initialDirection, scaleOverLifetime, rotationOverVelocity);
+        super(parentEmitter, location, lifeTicks, ticksPerCalculation, gravity, initialDirection, scaleOverLifetime, rotationOverVelocity);
 
         this.rotationSpeedOverLifetime = rotationSpeedOverLifetime;
         this.velocityRotationDirectionPositive = random.nextDouble() > 0.5;

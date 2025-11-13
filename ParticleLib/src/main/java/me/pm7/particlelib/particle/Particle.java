@@ -29,22 +29,22 @@ public abstract class Particle {
     private int currentTick;
     private int ticksLived;
     protected Vector displacement;
-
+    
     protected Display display;
 
-    protected Particle(ParticleEmitter parentEmitter, Location location, int lifeTicks, Gravity gravity, Vector initialDirection, GradientVector scaleOverLifetime, ValueRange<Double> rotationOverVelocity) {
+    protected Particle(ParticleEmitter parentEmitter, Location location, int lifeTicks, int ticksPerCalculation, Gravity gravity, Vector initialDirection, GradientVector scaleOverLifetime, ValueRange<Double> rotationOverVelocity) {
         this.parentEmitter = parentEmitter;
         this.random = new Random();
         this.lifeTicks = lifeTicks;
+        this.ticksPerCalculation = ticksPerCalculation;
         this.spawnLocation = location.toVector();
-
+        
         this.gravity = gravity;
         this.scaleOverLifetime = scaleOverLifetime;
         this.rotationOverVelocity = rotationOverVelocity;
         this.velocityRotationDirectionPositive = random.nextDouble() > 0.5;
         this.velocity = initialDirection.normalize();
 
-        this.ticksPerCalculation = 1; //TODO: get from particle builder
         this.currentTick = 0;
         this.ticksLived = 0;
     }

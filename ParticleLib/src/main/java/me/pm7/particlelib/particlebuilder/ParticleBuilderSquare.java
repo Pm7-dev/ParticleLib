@@ -39,7 +39,7 @@ public class ParticleBuilderSquare extends ParticleBuilder2D {
         double roll = random.nextDouble() * (initialRoll.getV2() - initialRoll.getV1()) + initialRoll.getV1();
         Vector direction = ValueRange.getRandom(initialDirection).normalize();
 
-        return new ParticleText(emitter, location, pLifeticks, offset, gravity, direction, scale, roll, rollSpeed, rotationOverVelocity, color, shaded, null);
+        return new ParticleText(emitter, location, pLifeticks, ticksPerCalculation, offset, gravity, direction, scale, roll, rollSpeed, rotationOverVelocity, color, shaded, null);
     }
 
 
@@ -63,6 +63,8 @@ public class ParticleBuilderSquare extends ParticleBuilder2D {
     // Data general to all ParticleSpawners
     public ParticleBuilderSquare particleLifeTicks(ValueRange<Integer> particleLifeTicks) {this.particleLifeTicks = particleLifeTicks; return this;}
     public ParticleBuilderSquare particleLifeTicks(int particleLifeTicks) {this.particleLifeTicks = new ValueRange<>(particleLifeTicks); return this;}
+
+    public ParticleBuilderSquare ticksPerCalculation(int ticksPerCalculation) {this.ticksPerCalculation = ticksPerCalculation; return this;}
 
     public ParticleBuilderSquare spawnOffset(ValueRange<Vector> spawnOffset) {this.spawnOffset = spawnOffset; return this;}
     public ParticleBuilderSquare spawnOffset(Vector spawnOffset) {this.spawnOffset = new ValueRange<>(spawnOffset); return this;}

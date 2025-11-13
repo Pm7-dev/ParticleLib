@@ -55,7 +55,7 @@ public class ParticleBuilderCustomItem extends ParticleBuilder3D {
         builder.customColor(color.interpolate(0));
         item.setData(DataComponentTypes.POTION_CONTENTS, builder);
 
-        return new ParticleItem(emitter, location, pLifeticks, offset, gravity, direction, scale, rotation, rotationSpeed, rotationOverVelocity, color, item);
+        return new ParticleItem(emitter, location, pLifeticks, ticksPerCalculation, offset, gravity, direction, scale, rotation, rotationSpeed, rotationOverVelocity, color, item);
     }
 
 
@@ -81,6 +81,8 @@ public class ParticleBuilderCustomItem extends ParticleBuilder3D {
     // Data general to all ParticleSpawners
     public ParticleBuilderCustomItem particleLifeTicks(ValueRange<Integer> particleLifeTicks) {this.particleLifeTicks = particleLifeTicks; return this;}
     public ParticleBuilderCustomItem particleLifeTicks(int particleLifeTicks) {this.particleLifeTicks = new ValueRange<>(particleLifeTicks); return this;}
+
+    public ParticleBuilderCustomItem ticksPerCalculation(int ticksPerCalculation) {this.ticksPerCalculation = ticksPerCalculation; return this;}
 
     public ParticleBuilderCustomItem spawnOffset(ValueRange<Vector> spawnOffset) {this.spawnOffset = spawnOffset; return this;}
     public ParticleBuilderCustomItem spawnOffset(Vector spawnOffset) {this.spawnOffset = new ValueRange<>(spawnOffset); return this;}
