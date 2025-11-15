@@ -20,9 +20,21 @@ public class ParticleEmitterBurst extends ParticleEmitter {
      * @param count The number of particles to spawn as part of this burst
      * @param location The location to spawn the ParticleEmitter's display entity
      * @param particleBuilder The particle data to use when this emitter spawns a particle
+     * @param viewDistance The furthest distance a player can be before the emitter does not tick
      */
     public ParticleEmitterBurst(int count, ParticleBuilder particleBuilder, Location location, int viewDistance) {
         super(particleBuilder, location, 0, viewDistance);
+        this.count = count;
+    }
+
+    /**
+     * Creates a new burst particle emitter
+     * @param count The number of particles to spawn as part of this burst
+     * @param location The location to spawn the ParticleEmitter's display entity
+     * @param particleBuilder The particle data to use when this emitter spawns a particle
+     */
+    public ParticleEmitterBurst(int count, ParticleBuilder particleBuilder, Location location) {
+        super(particleBuilder, location, 0, 0);
         this.count = count;
     }
 

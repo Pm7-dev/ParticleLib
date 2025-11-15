@@ -21,11 +21,27 @@ public class ParticleEmitterConstant extends ParticleEmitter {
      * Creates a new constant particle emitter
      * @param particlesPerSpawn The number of particles to spawn each time the emitter spawns particles
      * @param ticksPerSpawn The number of ticks to pass between each spawn
-     * @param location The location to spawn the ParticleEmitter's display entity
      * @param particleBuilder The particle data to use when this emitter spawns a particle
+     * @param location The location to spawn the ParticleEmitter's display entity
+     * @param maxParticles The maximum number of particles that can be spawned by this emitter before it starts killing older particles
+     * @param viewDistance The furthest distance a player can be before the emitter does not tick
      */
     public ParticleEmitterConstant(int particlesPerSpawn, int ticksPerSpawn, ParticleBuilder particleBuilder, Location location, long maxParticles, int viewDistance) {
         super(particleBuilder, location, maxParticles, viewDistance);
+        this.particlesPerSpawn = particlesPerSpawn;
+        this.ticksPerSpawn = ticksPerSpawn;
+        loopTick = ticksPerSpawn;
+    }
+
+    /**
+     * Creates a new constant particle emitter
+     * @param particlesPerSpawn The number of particles to spawn each time the emitter spawns particles
+     * @param ticksPerSpawn The number of ticks to pass between each spawn
+     * @param particleBuilder The particle data to use when this emitter spawns a particle
+     * @param location The location to spawn the ParticleEmitter's display entity
+     */
+    public ParticleEmitterConstant(int particlesPerSpawn, int ticksPerSpawn, ParticleBuilder particleBuilder, Location location) {
+        super(particleBuilder, location, 0, 0);
         this.particlesPerSpawn = particlesPerSpawn;
         this.ticksPerSpawn = ticksPerSpawn;
         loopTick = ticksPerSpawn;

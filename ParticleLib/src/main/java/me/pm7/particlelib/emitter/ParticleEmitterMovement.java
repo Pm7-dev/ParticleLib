@@ -29,6 +29,8 @@ public class ParticleEmitterMovement extends ParticleEmitter {
      *                            a server.
      * @param location The location to spawn the ParticleEmitter's display entity
      * @param particleBuilder The particle data to use when this emitter spawns a particle
+     * @param maxParticles {@inheritDoc}
+     * @param viewDistance {@inheritDoc}
      */
     public ParticleEmitterMovement(double metersPerParticle, int particleCutoff, ParticleBuilder particleBuilder, Location location, long maxParticles, int viewDistance) {
         super(particleBuilder, location, maxParticles, viewDistance);
