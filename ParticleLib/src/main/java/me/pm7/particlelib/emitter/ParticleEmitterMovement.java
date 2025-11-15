@@ -10,9 +10,6 @@ import java.util.Map;
 
 /**
  * A particle emitter that, while activated, spawns particles depending on its movement
- * <p>
- * NOTE: While this class implements ConfigurationSerializable, when loading any ParticleEmitterConstant from a FileConfiguration
- * you MUST  use the setParticleManager() method, as the ParticleManager is not saved to config.
  */
 public class ParticleEmitterMovement extends ParticleEmitter {
 
@@ -82,6 +79,12 @@ public class ParticleEmitterMovement extends ParticleEmitter {
         for(int i=0; i<particlesToSpawn; i++) {
             Location particleLoc = currentLocation.clone().add(previousLocation.clone().subtract(currentLocation).toVector().normalize().multiply(metersPerParticle * i));
             particleBuilder.build(this, particleLoc);
+        }
+
+        // Remove particles if they are maxed out
+        while (particles.size() > maxParticles) {
+            particles.getFirst().remove();
+            particles.removeFirst();
         }
 
         previousLocation = currentLocation.clone();

@@ -10,9 +10,6 @@ import java.util.Map;
 
 /**
  * A Particle Emitter that, once activated, ticks once and deletes itself.
- * <p>
- * NOTE: While this class implements ConfigurationSerializable, when loading any ParticleEmitterConstant from a FileConfiguration
- * you MUST  use the setParticleManager() method, as the ParticleManager is not saved to config.
  */
 public class ParticleEmitterBurst extends ParticleEmitter {
 
@@ -20,7 +17,7 @@ public class ParticleEmitterBurst extends ParticleEmitter {
 
     /**
      * Creates a new burst particle emitter
-     * @param count The amount of particles to spawn as part of this burst
+     * @param count The number of particles to spawn as part of this burst
      * @param location The location to spawn the ParticleEmitter's display entity
      * @param particleBuilder The particle data to use when this emitter spawns a particle
      */
@@ -30,7 +27,7 @@ public class ParticleEmitterBurst extends ParticleEmitter {
     }
 
     /**
-     * Spawns all particles part of the burst before removing the emitter
+     * Spawns all particles that are part of the burst before removing the emitter
      */
     @Override
     public void tick() {

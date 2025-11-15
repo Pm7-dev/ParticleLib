@@ -1,6 +1,5 @@
 package me.pm7.particlelib.emitter;
 
-import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.particlebuilder.ParticleBuilder;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
@@ -10,9 +9,6 @@ import java.util.Map;
 
 /**
  * A particle emitter that, while activated, spawns particles at a specified rate
- * <p>
- * NOTE: While this class implements ConfigurationSerializable, when loading any ParticleEmitterConstant from a FileConfiguration
- * you MUST  use the setParticleManager() method, as the ParticleManager is not saved to config.
  */
 public class ParticleEmitterConstant extends ParticleEmitter {
 
@@ -23,8 +19,8 @@ public class ParticleEmitterConstant extends ParticleEmitter {
 
     /**
      * Creates a new constant particle emitter
-     * @param particlesPerSpawn The amount of particles to spawn each time the emitter spawns particles
-     * @param ticksPerSpawn The amount of ticks to pass between each spawn
+     * @param particlesPerSpawn The number of particles to spawn each time the emitter spawns particles
+     * @param ticksPerSpawn The number of ticks to pass between each spawn
      * @param location The location to spawn the ParticleEmitter's display entity
      * @param particleBuilder The particle data to use when this emitter spawns a particle
      */
@@ -45,6 +41,10 @@ public class ParticleEmitterConstant extends ParticleEmitter {
             loopTick = 0;
             for(int i=0; i<particlesPerSpawn; i++) {
                 particleBuilder.build(this, getLocation());
+            }
+            while (particles.size() > maxParticles) {
+                particles.getFirst().remove();
+                particles.removeFirst();
             }
         }
     }

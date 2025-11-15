@@ -16,18 +16,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 /**
- * An emitter of particles bound to the location of an an empty display entity
- * <p>
- * NOTE: While this class implements ConfigurationSerializable, when loading any ParticleEmitterConstant from a FileConfiguration
- * you MUST  use the setParticleManager() method, as the ParticleManager is not saved to config.
+ * An emitter of particles bound to the location of an empty display entity
  */
 public abstract class ParticleEmitter implements ConfigurationSerializable {
 
     protected BlockDisplay gameObject;
-    private boolean active;
-    private long maxParticles;
-    private int viewDistance;
-    private final List<Particle> particles;
+    protected boolean active;
+    protected long maxParticles;
+    protected int viewDistance;
+    protected final List<Particle> particles;
 
     protected ParticleBuilder particleBuilder;
 
@@ -46,6 +43,27 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
 
         this.maxParticles = maxParticles;
         this.viewDistance = viewDistance;
+
+        this.active = false;
+
+        ParticleManager.getAllEmitters().add(this);
+    }
+
+    /**
+     * Creates a new ParticleEmitter
+     * @param location The location to spawn the ParticleEmitter's display entity
+     * @param particleBuilder The particle data to use when this emitter spawns a particle
+     */
+    public ParticleEmitter(ParticleBuilder particleBuilder, Location location) {
+        this.particles = new ArrayList<>();
+
+        this.particleBuilder = particleBuilder;
+
+        this.gameObject = (BlockDisplay) location.getWorld().spawnEntity(location, EntityType.BLOCK_DISPLAY);
+        this.gameObject.getPersistentDataContainer().set(ParticleLib.EMITTER_KEY, PersistentDataType.LONG, ParticleLib.SESSION_IDENTIFIER);
+
+        this.maxParticles = 0;
+        this.viewDistance = 0;
 
         this.active = false;
 
