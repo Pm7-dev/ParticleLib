@@ -58,9 +58,15 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
 
 
     // Data specific to 3D particle spawners
+
+    /**{inheritDoc}*/
     public ParticleBuilderBlock initialRotation(ValueRange<Vector> initialRotation) {this.initialRotation = initialRotation; return this;}
+    /**{inheritDoc}*/
     public ParticleBuilderBlock initialRotation(Vector initialRotation) {this.initialRotation = new ValueRange<>(initialRotation); return this;}
 
+    /**
+     * {@inheritDoc}
+     */
     public ParticleBuilderBlock velocityOverridesRotation(boolean velocityOverridesRotation) {this.velocityOverridesRotation = velocityOverridesRotation; return this;}
 
     public ParticleBuilderBlock rotationSpeedOverLifetime(RangedGradientVector rotationSpeedOverLifetime) {this.rotationSpeedOverLifetime = rotationSpeedOverLifetime; return this;}
@@ -79,7 +85,9 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
     public ParticleBuilderBlock spawnOffset(ValueRange<Vector> spawnOffset) {this.spawnOffset = spawnOffset; return this;}
     public ParticleBuilderBlock spawnOffset(Vector spawnOffset) {this.spawnOffset = new ValueRange<>(spawnOffset); return this;}
 
+    /**{inheritDoc}*/
     public ParticleBuilderBlock initialMovementDirection(ValueRange<Direction> initialMovementDirection) {this.initialMovementDirection = initialMovementDirection; return this;}
+    /**{inheritDoc}*/
     public ParticleBuilderBlock initialMovementDirection(Direction initialMovementDirection) {this.initialMovementDirection = new ValueRange<>(initialMovementDirection); return this;}
 
     public ParticleBuilderBlock scaleOverLifetime(RangedGradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}

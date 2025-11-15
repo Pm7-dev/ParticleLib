@@ -59,7 +59,18 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
     public abstract ParticleBuilder spawnOffset(ValueRange<Vector> spawnOffset);
     public abstract ParticleBuilder spawnOffset(Vector spawnOffset);
 
+    /**
+     * Sets the initial MOVEMENT direction of the particle to a range of directions. This is NOT the rotation of the particle.
+     * @param initialMovementDirection the new initial movement direction
+     * @return this builder
+     */
     public abstract ParticleBuilder initialMovementDirection(ValueRange<Direction> initialMovementDirection);
+
+    /**
+     * Sets the initial MOVEMENT direction of the particle to a singular direction. This is NOT the rotation of the particle.
+     * @param initialMovementDirection the new initial movement direction
+     * @return this builder
+     */
     public abstract ParticleBuilder initialMovementDirection(Direction initialMovementDirection);
 
     public abstract ParticleBuilder scaleOverLifetime(RangedGradientVector scaleGradient);

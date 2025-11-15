@@ -32,9 +32,27 @@ public abstract class ParticleBuilder3D extends ParticleBuilder {
         this.rotationSpeedOverLifetime = rotationSpeedOverLifetime;
     }
 
+    /**
+     * Sets the initial VISUAL rotation of the particle to a range of rotation. Each component of the vector is one
+     * axis of rotation x -> y -> z, in degrees. This is NOT the movement direction of the particle.
+     * @param initialRotation the new initial rotation range
+     * @return this builder
+     */
     public abstract ParticleBuilder3D initialRotation(ValueRange<Vector> initialRotation);
+    /**
+     * Sets the initial VISUAL rotation of the particle to a single rotation. Each component of the vector is one
+     * axis of rotation x -> y -> z, in degrees. This is NOT the movement direction of the particle.
+     * @param initialRotation the new initial rotation
+     * @return this builder
+     */
     public abstract ParticleBuilder3D initialRotation(Vector initialRotation);
 
+    /**
+     * Sets whether the velocity of the particle should override the rotation of the particle (particle will face
+     * in the direction of the velocity)
+     * @param velocityOverridesRotation the value to set
+     * @return this builder
+     */
     public abstract ParticleBuilder3D velocityOverridesRotation(boolean velocityOverridesRotation);
 
     public abstract ParticleBuilder3D rotationSpeedOverLifetime(RangedGradientVector rotationSpeedOverLifetime);

@@ -82,7 +82,9 @@ public class ParticleBuilderCustomText extends ParticleBuilder2D {
     public ParticleBuilderCustomText spawnOffset(ValueRange<Vector> spawnOffset) {this.spawnOffset = spawnOffset; return this;}
     public ParticleBuilderCustomText spawnOffset(Vector spawnOffset) {this.spawnOffset = new ValueRange<>(spawnOffset); return this;}
 
+    /**{inheritDoc}*/
     public ParticleBuilderCustomText initialMovementDirection(ValueRange<Direction> initialMovementDirection) {this.initialMovementDirection = initialMovementDirection; return this;}
+    /**{inheritDoc}*/
     public ParticleBuilderCustomText initialMovementDirection(Direction initialMovementDirection) {this.initialMovementDirection = new ValueRange<>(initialMovementDirection); return this;}
 
     public ParticleBuilderCustomText scaleOverLifetime(RangedGradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
