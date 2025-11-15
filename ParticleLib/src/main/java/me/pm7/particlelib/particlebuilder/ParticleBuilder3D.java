@@ -1,7 +1,8 @@
 package me.pm7.particlelib.particlebuilder;
 
-import me.pm7.particlelib.interpolation.gradient.*;
-import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.data.Direction;
+import me.pm7.particlelib.data.gradient.*;
+import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.physics.Gravity;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -23,8 +24,8 @@ public abstract class ParticleBuilder3D extends ParticleBuilder {
         this.rotationSpeedOverLifetime = new GradientVector(new Vector());
     }
 
-    protected ParticleBuilder3D(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Vector> initialDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, Gradient rotationSpeedOverLifetime) {
-        super(particleLifeTicks, spawnOffset, initialDirection, scaleOverLifetime, rotationOverVelocity, gravity);
+    protected ParticleBuilder3D(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, Gradient rotationSpeedOverLifetime) {
+        super(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity);
         this.initialRotation = initialRotation;
         this.rotationSpeedOverLifetime = rotationSpeedOverLifetime;
     }

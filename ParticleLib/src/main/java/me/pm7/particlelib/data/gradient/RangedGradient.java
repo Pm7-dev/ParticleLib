@@ -1,6 +1,6 @@
-package me.pm7.particlelib.interpolation.gradient;
+package me.pm7.particlelib.data.gradient;
 
-import me.pm7.particlelib.interpolation.keyframe.EasingMode;
+import me.pm7.particlelib.data.keyframe.EasingMode;
 
 import java.util.Random;
 

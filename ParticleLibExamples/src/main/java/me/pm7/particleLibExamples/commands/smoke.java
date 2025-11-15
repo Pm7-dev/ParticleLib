@@ -1,11 +1,11 @@
 package me.pm7.particleLibExamples.commands;
 
 import me.pm7.particlelib.emitter.ParticleEmitterConstant;
-import me.pm7.particlelib.interpolation.gradient.GradientColor;
-import me.pm7.particlelib.interpolation.gradient.GradientDouble;
-import me.pm7.particlelib.interpolation.gradient.GradientVector;
-import me.pm7.particlelib.interpolation.keyframe.EasingMode;
-import me.pm7.particlelib.interpolation.keyframe.Keyframe;
+import me.pm7.particlelib.data.gradient.GradientColor;
+import me.pm7.particlelib.data.gradient.GradientDouble;
+import me.pm7.particlelib.data.gradient.GradientVector;
+import me.pm7.particlelib.data.keyframe.EasingMode;
+import me.pm7.particlelib.data.keyframe.Keyframe;
 import me.pm7.particlelib.particlebuilder.ParticleBuilderSquare;
 import me.pm7.particlelib.physics.GravityNone;
 import org.bukkit.Color;

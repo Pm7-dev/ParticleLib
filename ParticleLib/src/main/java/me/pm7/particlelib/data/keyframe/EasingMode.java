@@ -1,4 +1,4 @@
-package me.pm7.particlelib.interpolation.keyframe;
+package me.pm7.particlelib.data.keyframe;
 
 /**
  * Represents different ways to ease along a gradient

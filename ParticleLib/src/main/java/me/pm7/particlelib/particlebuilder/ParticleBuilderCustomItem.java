@@ -2,10 +2,10 @@ package me.pm7.particlelib.particlebuilder;
 
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.PotionContents;
-import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitter;
-import me.pm7.particlelib.interpolation.gradient.*;
-import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.data.gradient.*;
+import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.particle.ParticleItem;
 import me.pm7.particlelib.particle.Particle;
 import me.pm7.particlelib.physics.Gravity;
@@ -32,8 +32,8 @@ public class ParticleBuilderCustomItem extends ParticleBuilder3D {
         this.item = new ItemStack(Material.MAGENTA_GLAZED_TERRACOTTA);
     }
 
-    private ParticleBuilderCustomItem(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Vector> initialDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, Gradient rotationSpeedOverLifetime, Gradient colorOverLifetime, ItemStack item) {
-        super(particleLifeTicks, spawnOffset, initialDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRotation, rotationSpeedOverLifetime);
+    private ParticleBuilderCustomItem(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, Gradient rotationSpeedOverLifetime, Gradient colorOverLifetime, ItemStack item) {
+        super(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRotation, rotationSpeedOverLifetime);
         this.colorOverLifetime = colorOverLifetime;
         this.item = item;
     }
@@ -48,7 +48,7 @@ public class ParticleBuilderCustomItem extends ParticleBuilder3D {
         GradientColor color = colorOverLifetime instanceof RangedGradientColor ranged ? ranged.bake() : (GradientColor) colorOverLifetime;
         Vector offset = ValueRange.getRandom(spawnOffset);
         Vector rotation = ValueRange.getRandom(initialRotation);
-        Vector direction = ValueRange.getRandom(initialDirection).normalize();
+        Vector direction = Direction.getRandomVector(initialMovementDirection.getV1(), initialMovementDirection.getV2());
 
         PotionContents.Builder builder = PotionContents.potionContents();
         builder.potion(null);
@@ -87,8 +87,8 @@ public class ParticleBuilderCustomItem extends ParticleBuilder3D {
     public ParticleBuilderCustomItem spawnOffset(ValueRange<Vector> spawnOffset) {this.spawnOffset = spawnOffset; return this;}
     public ParticleBuilderCustomItem spawnOffset(Vector spawnOffset) {this.spawnOffset = new ValueRange<>(spawnOffset); return this;}
 
-    public ParticleBuilderCustomItem initialDirection(ValueRange<Vector> initialDirection) {this.initialDirection = initialDirection; return this;}
-    public ParticleBuilderCustomItem initialDirection(Vector initialDirection) {this.initialDirection = new ValueRange<>(initialDirection); return this;}
+    public ParticleBuilderCustomItem initialMovementDirection(ValueRange<Direction> initialMovementDirection) {this.initialMovementDirection = initialMovementDirection; return this;}
+    public ParticleBuilderCustomItem initialMovementDirection(Direction initialMovementDirection) {this.initialMovementDirection = new ValueRange<>(initialMovementDirection); return this;}
 
     public ParticleBuilderCustomItem scaleOverLifetime(RangedGradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
     public ParticleBuilderCustomItem scaleOverLifetime(GradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
@@ -98,7 +98,7 @@ public class ParticleBuilderCustomItem extends ParticleBuilder3D {
 
 
     public ParticleBuilderCustomItem clone() {
-        return new ParticleBuilderCustomItem(particleLifeTicks, spawnOffset, initialDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, rotationSpeedOverLifetime, colorOverLifetime, item);
+        return new ParticleBuilderCustomItem(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, rotationSpeedOverLifetime, colorOverLifetime, item);
     }
 
     // Config stuff

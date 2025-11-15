@@ -1,20 +1,17 @@
 package me.pm7.particlelib.particle;
 
 import me.pm7.particlelib.ParticleLib;
-import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.emitter.ParticleEmitter;
-import me.pm7.particlelib.interpolation.gradient.GradientColor;
-import me.pm7.particlelib.interpolation.gradient.GradientDouble;
-import me.pm7.particlelib.interpolation.gradient.GradientVector;
-import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.data.gradient.GradientColor;
+import me.pm7.particlelib.data.gradient.GradientDouble;
+import me.pm7.particlelib.data.gradient.GradientVector;
+import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.physics.Gravity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Transformation;

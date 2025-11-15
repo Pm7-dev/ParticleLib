@@ -3,10 +3,10 @@ package me.pm7.particleLibExamples.listeners;
 import me.pm7.particleLibExamples.ParticleLibExamples;
 import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.emitter.ParticleEmitterBurst;
-import me.pm7.particlelib.interpolation.gradient.RangedGradientVector;
-import me.pm7.particlelib.interpolation.keyframe.EasingMode;
-import me.pm7.particlelib.interpolation.keyframe.RangedKeyframe;
-import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.data.gradient.RangedGradientVector;
+import me.pm7.particlelib.data.keyframe.EasingMode;
+import me.pm7.particlelib.data.keyframe.RangedKeyframe;
+import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.physics.GravityDirection;
 import me.pm7.particlelib.particlebuilder.ParticleBuilderBlock;
 import org.bukkit.Location;
@@ -30,7 +30,7 @@ public class BlockBreak implements Listener {
                     new Vector(-0.4, -0.4, -0.4),
                     new Vector(0.4, 0.4, 0.4)
             ))
-            .initialDirection(new ValueRange<>(
+            .initialMovementDirection(new ValueRange<>(
                     new Vector(-0.6, 0.25, -0.6),
                     new Vector(0.6, 1, 0.6)
             ))

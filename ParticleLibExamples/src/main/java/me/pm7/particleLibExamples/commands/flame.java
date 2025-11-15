@@ -4,12 +4,12 @@ import me.pm7.particleLibExamples.ParticleLibExamples;
 import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.emitter.ParticleEmitterConstant;
-import me.pm7.particlelib.interpolation.gradient.GradientColor;
-import me.pm7.particlelib.interpolation.gradient.GradientVector;
-import me.pm7.particlelib.interpolation.gradient.RangedGradientDouble;
-import me.pm7.particlelib.interpolation.keyframe.EasingMode;
-import me.pm7.particlelib.interpolation.keyframe.Keyframe;
-import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.data.gradient.GradientColor;
+import me.pm7.particlelib.data.gradient.GradientVector;
+import me.pm7.particlelib.data.gradient.RangedGradientDouble;
+import me.pm7.particlelib.data.keyframe.EasingMode;
+import me.pm7.particlelib.data.keyframe.Keyframe;
+import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.particlebuilder.ParticleBuilderSquare;
 import me.pm7.particlelib.physics.GravityAxis;
 import org.bukkit.Color;
@@ -32,7 +32,7 @@ public class flame implements CommandExecutor {
     List<ParticleEmitter> flameEmitters = new ArrayList<>();
 
     ParticleBuilderSquare flameDataOrange = new ParticleBuilderSquare()
-            .initialDirection(new ValueRange<>(new Vector(-1, -1, -1), new Vector(1, 1, 1)))
+            .initialMovementDirection(new ValueRange<>(new Vector(-1, -1, -1), new Vector(1, 1, 1)))
             .particleLifeTicks(15)
             .colorOverLifetime(new GradientColor(
                     EasingMode.LINEAR,

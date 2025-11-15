@@ -2,10 +2,10 @@ package me.pm7.particlelib.particlebuilder;
 
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.PotionContents;
-import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitter;
-import me.pm7.particlelib.interpolation.gradient.*;
-import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.data.gradient.*;
+import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.particle.Particle;
 import me.pm7.particlelib.particle.ParticleItem;
 import me.pm7.particlelib.physics.Gravity;
@@ -36,8 +36,8 @@ public class ParticleBuilderCube extends ParticleBuilder3D {
         this.shaded = false;
     }
 
-    private ParticleBuilderCube(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Vector> initialDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, Gradient rotationSpeedOverLifetime, Gradient colorOverLifetime, boolean shaded) {
-        super(particleLifeTicks, spawnOffset, initialDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRotation, rotationSpeedOverLifetime);
+    private ParticleBuilderCube(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, Gradient rotationSpeedOverLifetime, Gradient colorOverLifetime, boolean shaded) {
+        super(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRotation, rotationSpeedOverLifetime);
         this.colorOverLifetime = colorOverLifetime;
         this.shaded = shaded;
     }
@@ -52,7 +52,7 @@ public class ParticleBuilderCube extends ParticleBuilder3D {
         GradientColor color = colorOverLifetime instanceof RangedGradientColor ranged ? ranged.bake() : (GradientColor) colorOverLifetime;
         Vector offset = ValueRange.getRandom(spawnOffset);
         Vector rotation = ValueRange.getRandom(initialRotation);
-        Vector direction = ValueRange.getRandom(initialDirection).normalize();
+        Vector direction = Direction.getRandomVector(initialMovementDirection.getV1(), initialMovementDirection.getV2());
 
         String model = this.shaded ? "particle_cube" : "particle_cube_shadeless";
         ItemStack item = new ItemStack(Material.POPPED_CHORUS_FRUIT);
@@ -99,8 +99,8 @@ public class ParticleBuilderCube extends ParticleBuilder3D {
     public ParticleBuilderCube spawnOffset(ValueRange<Vector> spawnOffset) {this.spawnOffset = spawnOffset; return this;}
     public ParticleBuilderCube spawnOffset(Vector spawnOffset) {this.spawnOffset = new ValueRange<>(spawnOffset); return this;}
 
-    public ParticleBuilderCube initialDirection(ValueRange<Vector> initialDirection) {this.initialDirection = initialDirection; return this;}
-    public ParticleBuilderCube initialDirection(Vector initialDirection) {this.initialDirection = new ValueRange<>(initialDirection); return this;}
+    public ParticleBuilderCube initialMovementDirection(ValueRange<Direction> initialMovementDirection) {this.initialMovementDirection = initialMovementDirection; return this;}
+    public ParticleBuilderCube initialMovementDirection(Direction initialMovementDirection) {this.initialMovementDirection = new ValueRange<>(initialMovementDirection); return this;}
 
     public ParticleBuilderCube scaleOverLifetime(RangedGradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
     public ParticleBuilderCube scaleOverLifetime(GradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
@@ -110,7 +110,7 @@ public class ParticleBuilderCube extends ParticleBuilder3D {
 
 
     public ParticleBuilderCube clone() {
-        return new ParticleBuilderCube(particleLifeTicks, spawnOffset, initialDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, rotationSpeedOverLifetime, colorOverLifetime, shaded);
+        return new ParticleBuilderCube(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, rotationSpeedOverLifetime, colorOverLifetime, shaded);
     }
 
     // Config stuff

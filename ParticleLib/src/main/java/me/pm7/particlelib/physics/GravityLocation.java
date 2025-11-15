@@ -1,7 +1,7 @@
 package me.pm7.particlelib.physics;
 
-import me.pm7.particlelib.interpolation.gradient.GradientDouble;
-import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.data.gradient.GradientDouble;
+import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.particle.Particle;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;

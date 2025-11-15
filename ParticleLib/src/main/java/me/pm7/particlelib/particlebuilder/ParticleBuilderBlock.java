@@ -1,9 +1,9 @@
 package me.pm7.particlelib.particlebuilder;
 
-import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitter;
-import me.pm7.particlelib.interpolation.gradient.*;
-import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.data.gradient.*;
+import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.particle.Particle;
 import me.pm7.particlelib.particle.ParticleItem;
 import me.pm7.particlelib.physics.Gravity;
@@ -30,8 +30,8 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
         this.blockData = Material.MAGENTA_GLAZED_TERRACOTTA.createBlockData();
     }
 
-    private ParticleBuilderBlock(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Vector> initialDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, Gradient rotationSpeedOverLifetime, BlockData blockData) {
-        super(particleLifeTicks, spawnOffset, initialDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRotation, rotationSpeedOverLifetime);
+    private ParticleBuilderBlock(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, Gradient rotationSpeedOverLifetime, BlockData blockData) {
+        super(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRotation, rotationSpeedOverLifetime);
         this.blockData = blockData;
     }
 
@@ -44,7 +44,7 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
         GradientVector rotationSpeed = rotationSpeedOverLifetime instanceof RangedGradientVector ranged ? ranged.bake() : (GradientVector) rotationSpeedOverLifetime;
         Vector offset = ValueRange.getRandom(spawnOffset);
         Vector rotation = ValueRange.getRandom(initialRotation);
-        Vector direction = ValueRange.getRandom(initialDirection).normalize();
+        Vector direction = Direction.getRandomVector(initialMovementDirection.getV1(), initialMovementDirection.getV2());
 
         ItemStack item = new ItemStack(blockData.getMaterial());
 
@@ -77,8 +77,8 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
     public ParticleBuilderBlock spawnOffset(ValueRange<Vector> spawnOffset) {this.spawnOffset = spawnOffset; return this;}
     public ParticleBuilderBlock spawnOffset(Vector spawnOffset) {this.spawnOffset = new ValueRange<>(spawnOffset); return this;}
 
-    public ParticleBuilderBlock initialDirection(ValueRange<Vector> initialDirection) {this.initialDirection = initialDirection; return this;}
-    public ParticleBuilderBlock initialDirection(Vector initialDirection) {this.initialDirection = new ValueRange<>(initialDirection); return this;}
+    public ParticleBuilderBlock initialMovementDirection(ValueRange<Direction> initialMovementDirection) {this.initialMovementDirection = initialMovementDirection; return this;}
+    public ParticleBuilderBlock initialMovementDirection(Direction initialMovementDirection) {this.initialMovementDirection = new ValueRange<>(initialMovementDirection); return this;}
 
     public ParticleBuilderBlock scaleOverLifetime(RangedGradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
     public ParticleBuilderBlock scaleOverLifetime(GradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
@@ -88,7 +88,7 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
 
 
     public ParticleBuilderBlock clone() {
-        return new ParticleBuilderBlock(particleLifeTicks, spawnOffset, initialDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, rotationSpeedOverLifetime, blockData);
+        return new ParticleBuilderBlock(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, rotationSpeedOverLifetime, blockData);
     }
 
     // Config stuff

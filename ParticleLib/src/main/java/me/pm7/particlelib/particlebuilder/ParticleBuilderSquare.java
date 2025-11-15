@@ -1,9 +1,9 @@
 package me.pm7.particlelib.particlebuilder;
 
-import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitter;
-import me.pm7.particlelib.interpolation.gradient.*;
-import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.data.gradient.*;
+import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.particle.ParticleText;
 import me.pm7.particlelib.particle.Particle;
 import me.pm7.particlelib.physics.Gravity;
@@ -23,8 +23,8 @@ public class ParticleBuilderSquare extends ParticleBuilder2D {
         super();
     }
 
-    private ParticleBuilderSquare(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Vector> initialDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Double> initialRoll, Gradient rollSpeedOverLifetime, Gradient colorOverLifetime, boolean shaded) {
-        super(particleLifeTicks, spawnOffset, initialDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRoll, rollSpeedOverLifetime, colorOverLifetime, shaded);
+    private ParticleBuilderSquare(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Double> initialRoll, Gradient rollSpeedOverLifetime, Gradient colorOverLifetime, boolean shaded) {
+        super(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRoll, rollSpeedOverLifetime, colorOverLifetime, shaded);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ParticleBuilderSquare extends ParticleBuilder2D {
         GradientColor color = colorOverLifetime instanceof RangedGradientColor ranged ? ranged.bake() : (GradientColor) colorOverLifetime;
         Vector offset = ValueRange.getRandom(spawnOffset);
         double roll = random.nextDouble() * (initialRoll.getV2() - initialRoll.getV1()) + initialRoll.getV1();
-        Vector direction = ValueRange.getRandom(initialDirection).normalize();
+        Vector direction = Direction.getRandomVector(initialMovementDirection.getV1(), initialMovementDirection.getV2());
 
         return new ParticleText(emitter, location, pLifeticks, ticksPerCalculation, offset, gravity, direction, scale, roll, rollSpeed, rotationOverVelocity, color, shaded, null);
     }
@@ -69,8 +69,8 @@ public class ParticleBuilderSquare extends ParticleBuilder2D {
     public ParticleBuilderSquare spawnOffset(ValueRange<Vector> spawnOffset) {this.spawnOffset = spawnOffset; return this;}
     public ParticleBuilderSquare spawnOffset(Vector spawnOffset) {this.spawnOffset = new ValueRange<>(spawnOffset); return this;}
 
-    public ParticleBuilderSquare initialDirection(ValueRange<Vector> initialDirection) {this.initialDirection = initialDirection; return this;}
-    public ParticleBuilderSquare initialDirection(Vector initialDirection) {this.initialDirection = new ValueRange<>(initialDirection); return this;}
+    public ParticleBuilderSquare initialMovementDirection(ValueRange<Direction> initialMovementDirection) {this.initialMovementDirection = initialMovementDirection; return this;}
+    public ParticleBuilderSquare initialMovementDirection(Direction initialMovementDirection) {this.initialMovementDirection = new ValueRange<>(initialMovementDirection); return this;}
 
     public ParticleBuilderSquare scaleOverLifetime(RangedGradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
     public ParticleBuilderSquare scaleOverLifetime(GradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
@@ -81,7 +81,7 @@ public class ParticleBuilderSquare extends ParticleBuilder2D {
 
 
     public ParticleBuilderSquare clone() {
-        return new ParticleBuilderSquare(particleLifeTicks, spawnOffset, initialDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRoll, rollSpeedOverLifetime, colorOverLifetime, shaded);
+        return new ParticleBuilderSquare(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRoll, rollSpeedOverLifetime, colorOverLifetime, shaded);
     }
 
     // Config stuff

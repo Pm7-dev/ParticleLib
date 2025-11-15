@@ -1,8 +1,9 @@
 package me.pm7.particlelib.particlebuilder;
 
+import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitter;
-import me.pm7.particlelib.interpolation.gradient.*;
-import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.data.gradient.*;
+import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.particle.Particle;
 import me.pm7.particlelib.physics.Gravity;
 import me.pm7.particlelib.physics.GravityNone;
@@ -21,12 +22,10 @@ import java.util.Random;
 public abstract class ParticleBuilder implements ConfigurationSerializable {
     protected final Random random = new Random();
 
-    //TODO: add ticksPerCalculation here. it will not be fun.
-
     protected ValueRange<Integer> particleLifeTicks;
     protected int ticksPerCalculation;
     protected ValueRange<Vector> spawnOffset;
-    protected ValueRange<Vector> initialDirection;
+    protected ValueRange<Direction> initialMovementDirection;
     protected Gradient scaleOverLifetime;
     protected ValueRange<Double> rotationOverVelocity;
     protected Gravity gravity;
@@ -35,16 +34,16 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
         this.particleLifeTicks = new ValueRange<>(60, 60);
         this.ticksPerCalculation = 1;
         this.spawnOffset = new ValueRange<>(new Vector(0, 0, 0));
-        this.initialDirection = new ValueRange<>(new Vector(-0.5, 1.0, -0.5), new Vector(0.5, 1.0, 0.5));
+        this.initialMovementDirection = new ValueRange<>(new Direction(0, 60), new Direction(360, 120));
         this.scaleOverLifetime = new GradientVector(new Vector(0.125, 0.125, 0.125));
         this.rotationOverVelocity = new ValueRange<>(0.0);
         this.gravity = new GravityNone(new GradientDouble(1.0));
     }
 
-    protected ParticleBuilder(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Vector> initialDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity) {
+    protected ParticleBuilder(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity) {
         this.particleLifeTicks = particleLifeTicks;
         this.spawnOffset = spawnOffset;
-        this.initialDirection = initialDirection;
+        this.initialMovementDirection = initialMovementDirection;
         this.scaleOverLifetime = scaleOverLifetime;
         this.rotationOverVelocity = rotationOverVelocity;
         this.gravity = gravity;
@@ -60,8 +59,8 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
     public abstract ParticleBuilder spawnOffset(ValueRange<Vector> spawnOffset);
     public abstract ParticleBuilder spawnOffset(Vector spawnOffset);
 
-    public abstract ParticleBuilder initialDirection(ValueRange<Vector> initialDirection);
-    public abstract ParticleBuilder initialDirection(Vector initialDirection);
+    public abstract ParticleBuilder initialMovementDirection(ValueRange<Direction> initialMovementDirection);
+    public abstract ParticleBuilder initialMovementDirection(Direction initialMovementDirection);
 
     public abstract ParticleBuilder scaleOverLifetime(RangedGradientVector scaleGradient);
     public abstract ParticleBuilder scaleOverLifetime(GradientVector scaleGradient);
@@ -80,7 +79,7 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
         map.put("type", "none");
         map.put("particleLifeTicks", particleLifeTicks);
         map.put("spawnOffset", spawnOffset);
-        map.put("initialDirection", initialDirection);
+        map.put("initialMovementDirection", initialMovementDirection);
         map.put("scaleOverLifetime", scaleOverLifetime);
         map.put("rotationOverVelocity", rotationOverVelocity);
         map.put("gravity", gravity);
@@ -89,7 +88,7 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
     public ParticleBuilder(Map<String, Object> map) {
         this.particleLifeTicks = (ValueRange<Integer>) map.get("particleLifeTicks");
         this.spawnOffset = (ValueRange<Vector>) map.get("spawnOffset");
-        this.initialDirection = (ValueRange<Vector>) map.get("initialDirection");
+        this.initialMovementDirection = (ValueRange<Direction>) map.get("initialMovementDirection");
         this.scaleOverLifetime = (Gradient) map.get("scaleOverLifetime");
         this.rotationOverVelocity = (ValueRange<Double>) map.get("rotationOverVelocity");
         this.gravity = (Gravity) map.get("gravity");

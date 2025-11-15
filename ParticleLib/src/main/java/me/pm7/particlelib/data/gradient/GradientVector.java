@@ -1,8 +1,7 @@
-package me.pm7.particlelib.interpolation.gradient;
+package me.pm7.particlelib.data.gradient;
 
-import me.pm7.particlelib.interpolation.keyframe.EasingMode;
-import me.pm7.particlelib.interpolation.keyframe.Keyframe;
-import org.bukkit.Color;
+import me.pm7.particlelib.data.keyframe.EasingMode;
+import me.pm7.particlelib.data.keyframe.Keyframe;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;

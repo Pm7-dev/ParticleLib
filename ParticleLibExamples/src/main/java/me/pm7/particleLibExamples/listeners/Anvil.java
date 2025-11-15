@@ -3,15 +3,14 @@ package me.pm7.particleLibExamples.listeners;
 import me.pm7.particleLibExamples.ParticleLibExamples;
 import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.emitter.ParticleEmitterBurst;
-import me.pm7.particlelib.emitter.ParticleEmitterConstant;
-import me.pm7.particlelib.interpolation.gradient.GradientColor;
-import me.pm7.particlelib.interpolation.gradient.GradientDouble;
-import me.pm7.particlelib.interpolation.gradient.GradientVector;
-import me.pm7.particlelib.interpolation.gradient.RangedGradientDouble;
-import me.pm7.particlelib.interpolation.keyframe.EasingMode;
-import me.pm7.particlelib.interpolation.keyframe.Keyframe;
-import me.pm7.particlelib.interpolation.keyframe.RangedKeyframe;
-import me.pm7.particlelib.interpolation.keyframe.ValueRange;
+import me.pm7.particlelib.data.gradient.GradientColor;
+import me.pm7.particlelib.data.gradient.GradientDouble;
+import me.pm7.particlelib.data.gradient.GradientVector;
+import me.pm7.particlelib.data.gradient.RangedGradientDouble;
+import me.pm7.particlelib.data.keyframe.EasingMode;
+import me.pm7.particlelib.data.keyframe.Keyframe;
+import me.pm7.particlelib.data.keyframe.RangedKeyframe;
+import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.particlebuilder.ParticleBuilderCustomText;
 import me.pm7.particlelib.physics.GravityNone;
 import net.kyori.adventure.text.Component;
@@ -21,7 +20,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -46,7 +44,7 @@ public class Anvil implements Listener {
                     new RangedKeyframe<>(540.0, -540.0, 0.0),
                     new RangedKeyframe<>(0.0, 0.9)
             ))
-            .initialDirection(new ValueRange<>(
+            .initialMovementDirection(new ValueRange<>(
                     new Vector(-1, -0.2, -1),
                     new Vector(1, 0.2, 1))
             )
@@ -76,7 +74,7 @@ public class Anvil implements Listener {
                     new RangedKeyframe<>(-50.0, 0.0),
                     new RangedKeyframe<>(0.0, 0.9)
             ))
-            .initialDirection(new ValueRange<>(
+            .initialMovementDirection(new ValueRange<>(
                     new Vector(-0.2, 1, -0.2),
                     new Vector(0.2, 1, 0.2))
             )
