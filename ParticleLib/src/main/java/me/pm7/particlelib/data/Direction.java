@@ -1,8 +1,13 @@
 package me.pm7.particlelib.data;
 
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
-public record Direction(double yaw, double pitch) {
+import java.util.HashMap;
+import java.util.Map;
+
+public record Direction(double yaw, double pitch) implements ConfigurationSerializable {
 
     public Vector toVector() {
 
@@ -29,4 +34,15 @@ public record Direction(double yaw, double pitch) {
 
     }
 
+    // Config stuff
+    @Override
+    public @NotNull Map<String, Object> serialize() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("yaw", yaw);
+        map.put("pitch", pitch);
+        return map;
+    }
+    public Direction(Map<String, Object> map) {
+        this((double) map.get("yaw"), (double) map.get("pitch"));
+    }
 }

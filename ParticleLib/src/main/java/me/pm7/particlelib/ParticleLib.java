@@ -1,5 +1,6 @@
 package me.pm7.particlelib;
 
+import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.emitter.ParticleEmitterBurst;
 import me.pm7.particlelib.emitter.ParticleEmitterConstant;
@@ -45,6 +46,7 @@ public class ParticleLib extends JavaPlugin {
         ConfigurationSerialization.registerClass(RangedGradientColor.class);
         ConfigurationSerialization.registerClass(RangedGradientDouble.class);
         ConfigurationSerialization.registerClass(RangedGradientVector.class);
+        ConfigurationSerialization.registerClass(Direction.class);
         ConfigurationSerialization.registerClass(GravityAxis.class);
         ConfigurationSerialization.registerClass(GravityDirection.class);
         ConfigurationSerialization.registerClass(GravityLocation.class);
