@@ -32,7 +32,7 @@ public abstract class Particle {
     
     protected Display display;
 
-    protected Particle(ParticleEmitter parentEmitter, Location location, int lifeTicks, int ticksPerCalculation, Gravity gravity, Vector initialDirection, GradientVector scaleOverLifetime, ValueRange<Double> rotationOverVelocity) {
+    protected Particle(ParticleEmitter parentEmitter, Location location, int lifeTicks, int ticksPerCalculation, Gravity gravity, Vector initialMovementDirection, GradientVector scaleOverLifetime, ValueRange<Double> rotationOverVelocity) {
         this.parentEmitter = parentEmitter;
         this.random = new Random();
         this.lifeTicks = lifeTicks;
@@ -43,7 +43,7 @@ public abstract class Particle {
         this.scaleOverLifetime = scaleOverLifetime;
         this.rotationOverVelocity = rotationOverVelocity;
         this.velocityRotationDirectionPositive = random.nextDouble() > 0.5;
-        this.velocity = initialDirection.normalize();
+        this.velocity = initialMovementDirection.normalize();
 
         this.currentTick = 0;
         this.ticksLived = 0;

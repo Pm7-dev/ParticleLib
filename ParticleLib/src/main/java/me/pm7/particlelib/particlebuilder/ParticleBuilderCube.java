@@ -36,8 +36,8 @@ public class ParticleBuilderCube extends ParticleBuilder3D {
         this.shaded = false;
     }
 
-    private ParticleBuilderCube(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, Gradient rotationSpeedOverLifetime, Gradient colorOverLifetime, boolean shaded) {
-        super(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRotation, rotationSpeedOverLifetime);
+    private ParticleBuilderCube(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, boolean velocityOverridesRotation, Gradient rotationSpeedOverLifetime, Gradient colorOverLifetime, boolean shaded) {
+        super(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRotation, velocityOverridesRotation, rotationSpeedOverLifetime);
         this.colorOverLifetime = colorOverLifetime;
         this.shaded = shaded;
     }
@@ -67,7 +67,7 @@ public class ParticleBuilderCube extends ParticleBuilder3D {
         builder.customColor(color.interpolate(0));
         item.setData(DataComponentTypes.POTION_CONTENTS, builder);
 
-        return new ParticleItem(emitter, location, pLifeticks, ticksPerCalculation, offset, gravity, direction, scale, rotation, rotationSpeed, rotationOverVelocity, color, item);
+        return new ParticleItem(emitter, location, pLifeticks, ticksPerCalculation, offset, gravity, direction, scale, rotation, velocityOverridesRotation, rotationSpeed, rotationOverVelocity, color, item);
     }
 
 
@@ -82,6 +82,8 @@ public class ParticleBuilderCube extends ParticleBuilder3D {
     // Data specific to 3D particle spawners
     public ParticleBuilderCube initialRotation(ValueRange<Vector> initialRotation) {this.initialRotation = initialRotation; return this;}
     public ParticleBuilderCube initialRotation(Vector initialRotation) {this.initialRotation = new ValueRange<>(initialRotation); return this;}
+
+    public ParticleBuilderCube velocityOverridesRotation(boolean velocityOverridesRotation) {this.velocityOverridesRotation = velocityOverridesRotation; return this;}
 
     public ParticleBuilderCube rotationSpeedOverLifetime(RangedGradientVector rotationSpeedOverLifetime) {this.rotationSpeedOverLifetime = rotationSpeedOverLifetime; return this;}
     public ParticleBuilderCube rotationSpeedOverLifetime(GradientVector rotationSpeedOverLifetime) {this.rotationSpeedOverLifetime = rotationSpeedOverLifetime; return this;}
@@ -110,7 +112,7 @@ public class ParticleBuilderCube extends ParticleBuilder3D {
 
 
     public ParticleBuilderCube clone() {
-        return new ParticleBuilderCube(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, rotationSpeedOverLifetime, colorOverLifetime, shaded);
+        return new ParticleBuilderCube(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, velocityOverridesRotation, rotationSpeedOverLifetime, colorOverLifetime, shaded);
     }
 
     // Config stuff

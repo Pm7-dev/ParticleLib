@@ -30,8 +30,8 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
         this.blockData = Material.MAGENTA_GLAZED_TERRACOTTA.createBlockData();
     }
 
-    private ParticleBuilderBlock(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, Gradient rotationSpeedOverLifetime, BlockData blockData) {
-        super(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRotation, rotationSpeedOverLifetime);
+    private ParticleBuilderBlock(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, boolean velocityOverridesRotation, Gradient rotationSpeedOverLifetime, BlockData blockData) {
+        super(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRotation, velocityOverridesRotation, rotationSpeedOverLifetime);
         this.blockData = blockData;
     }
 
@@ -49,7 +49,7 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
         ItemStack item = new ItemStack(blockData.getMaterial());
 
 
-        return new ParticleItem(emitter, location, pLifeticks, ticksPerCalculation, offset, gravity, direction, scale, rotation, rotationSpeed, rotationOverVelocity, new GradientColor(Color.WHITE), item);
+        return new ParticleItem(emitter, location, pLifeticks, ticksPerCalculation, offset, gravity, direction, scale, rotation, velocityOverridesRotation, rotationSpeed, rotationOverVelocity, new GradientColor(Color.WHITE), item);
     }
 
 
@@ -60,6 +60,8 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
     // Data specific to 3D particle spawners
     public ParticleBuilderBlock initialRotation(ValueRange<Vector> initialRotation) {this.initialRotation = initialRotation; return this;}
     public ParticleBuilderBlock initialRotation(Vector initialRotation) {this.initialRotation = new ValueRange<>(initialRotation); return this;}
+
+    public ParticleBuilderBlock velocityOverridesRotation(boolean velocityOverridesRotation) {this.velocityOverridesRotation = velocityOverridesRotation; return this;}
 
     public ParticleBuilderBlock rotationSpeedOverLifetime(RangedGradientVector rotationSpeedOverLifetime) {this.rotationSpeedOverLifetime = rotationSpeedOverLifetime; return this;}
     public ParticleBuilderBlock rotationSpeedOverLifetime(GradientVector rotationSpeedOverLifetime) {this.rotationSpeedOverLifetime = rotationSpeedOverLifetime; return this;}
@@ -88,7 +90,7 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
 
 
     public ParticleBuilderBlock clone() {
-        return new ParticleBuilderBlock(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, rotationSpeedOverLifetime, blockData);
+        return new ParticleBuilderBlock(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, velocityOverridesRotation, rotationSpeedOverLifetime, blockData.clone());
     }
 
     // Config stuff

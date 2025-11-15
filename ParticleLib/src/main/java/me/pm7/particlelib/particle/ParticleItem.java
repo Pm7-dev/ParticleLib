@@ -20,14 +20,18 @@ import org.joml.Vector3f;
 
 public class ParticleItem extends Particle {
 
+    private final boolean velocityOverridesRotation;
+
     private final GradientVector rotationSpeedOverLifetime;
 
     private final GradientColor colorOverLifetime;
 
-    public ParticleItem(ParticleEmitter parentEmitter, Location location, int lifeTicks, int ticksPerCalculation, Vector spawnOffset, Gravity gravity, Vector initialDirection,
-                        GradientVector scaleOverLifetime, Vector initialRotation, GradientVector rotationSpeedOverLifetime,
+    public ParticleItem(ParticleEmitter parentEmitter, Location location, int lifeTicks, int ticksPerCalculation, Vector spawnOffset, Gravity gravity, Vector initialMovementDirection,
+                        GradientVector scaleOverLifetime, Vector initialRotation, boolean velocityOverridesRotation, GradientVector rotationSpeedOverLifetime,
                         ValueRange<Double> rotationOverVelocity, GradientColor colorOverLifetime, ItemStack item) {
-        super(parentEmitter, location, lifeTicks, ticksPerCalculation, gravity, initialDirection, scaleOverLifetime, rotationOverVelocity);
+        super(parentEmitter, location, lifeTicks, ticksPerCalculation, gravity, initialMovementDirection, scaleOverLifetime, rotationOverVelocity);
+
+        this.velocityOverridesRotation = velocityOverridesRotation;
 
         this.rotationSpeedOverLifetime = rotationSpeedOverLifetime;
 
@@ -57,11 +61,20 @@ public class ParticleItem extends Particle {
             Vector3f scalef = new Vector3f((float) scale.getX(), (float) scale.getY(), (float) scale.getZ());
 
             // Get initial rotation
-            Quaternionf rotation = new Quaternionf()
-                    .rotateX((float)(-Math.PI / 2)) // Undo initial downward rotation
-                    .rotateY((float) Math.toRadians(initialRotation.getY())) // get initial for the rest
-                    .rotateX((float) Math.toRadians(initialRotation.getX()))
-                    .rotateZ((float) Math.toRadians(initialRotation.getZ()));
+            Quaternionf rotation = new Quaternionf();
+            if(velocityOverridesRotation) {
+                double yaw = Math.atan2(velocity.getZ(), velocity.getX());
+                double pitch = Math.atan2(velocity.getY(), Math.sqrt(velocity.getX()*velocity.getX() + velocity.getZ()*velocity.getZ()));
+                rotation.rotateX((float)(-Math.PI / 2)) // Undo initial downward rotation
+                        .rotateY((float) Math.toRadians(pitch))
+                        .rotateX((float) Math.toRadians(yaw));
+            } else {
+                rotation.rotateX((float)(-Math.PI / 2)) // Undo initial downward rotation
+                        .rotateY((float) Math.toRadians(initialRotation.getY())) // get initial for the rest
+                        .rotateX((float) Math.toRadians(initialRotation.getX()))
+                        .rotateZ((float) Math.toRadians(initialRotation.getZ()));
+            }
+
 
             // Set initial transformation
             entity.setTransformation(new Transformation(new Vector3f(), rotation, scalef, new Quaternionf()));
@@ -78,28 +91,40 @@ public class ParticleItem extends Particle {
         Vector scale = scaleOverLifetime.interpolate(lifePosition);
         Vector3f scalef = new Vector3f((float) scale.getX(), (float) scale.getY(), (float) scale.getZ());
 
-        Quaternionf rotation = display.getTransformation().getLeftRotation();
+        Quaternionf rotation;
 
         // modify rotation
-        Vector rotationSpeed = rotationSpeedOverLifetime.interpolate(lifePosition);
-        float yawChange   = (float) Math.toRadians(rotationSpeed.getY() * 0.05 * steps);
-        float pitchChange = (float) Math.toRadians(rotationSpeed.getX() * 0.05 * steps);
-        float rollChange  = (float) Math.toRadians(rotationSpeed.getZ() * 0.05 * steps);
+        if(velocityOverridesRotation) {
+            rotation = new Quaternionf(); // for this we just need a basic thing
 
-        // Rotation over velocity
-        double magnitude = displacement.length();
-        int mul = velocityRotationDirectionPositive ? 1 : -1;
-        double v1 = rotationOverVelocity.getV1();
-        double v2 = rotationOverVelocity.getV2();
-        yawChange   += (float) (magnitude * mul * Math.toRadians(v2 + random.nextDouble()*(v2-v1) - v1/2));
-        pitchChange += (float) (magnitude * mul * Math.toRadians(v2 + random.nextDouble()*(v2-v1) - v1/2));
-        rollChange  += (float) (magnitude * mul * Math.toRadians(v2 + random.nextDouble()*(v2-v1) - v1/2));
+            double yaw = Math.atan2(velocity.getZ(), velocity.getX());
+            double pitch = Math.atan2(velocity.getY(), Math.sqrt(velocity.getX()*velocity.getX() + velocity.getZ()*velocity.getZ()));
+            rotation.rotateX((float)(-Math.PI / 2)) // Undo initial downward rotation
+                    .rotateY((float) Math.toRadians(pitch))
+                    .rotateX((float) Math.toRadians(yaw));
+        } else {
+            rotation = display.getTransformation().getLeftRotation(); // for this we need the current rotation since we're getting the change
 
-        // Apply change in rotation
-        rotation
-                .rotateY(yawChange)
-                .rotateX(pitchChange)
-                .rotateZ(rollChange);
+            Vector rotationSpeed = rotationSpeedOverLifetime.interpolate(lifePosition);
+            float yawChange   = (float) Math.toRadians(rotationSpeed.getY() * 0.05 * steps);
+            float pitchChange = (float) Math.toRadians(rotationSpeed.getX() * 0.05 * steps);
+            float rollChange  = (float) Math.toRadians(rotationSpeed.getZ() * 0.05 * steps);
+
+            // Rotation over velocity
+            double magnitude = displacement.length();
+            int mul = velocityRotationDirectionPositive ? 1 : -1;
+            double v1 = rotationOverVelocity.getV1();
+            double v2 = rotationOverVelocity.getV2();
+            yawChange   += (float) (magnitude * mul * Math.toRadians(v2 + random.nextDouble()*(v2-v1) - v1/2));
+            pitchChange += (float) (magnitude * mul * Math.toRadians(v2 + random.nextDouble()*(v2-v1) - v1/2));
+            rollChange  += (float) (magnitude * mul * Math.toRadians(v2 + random.nextDouble()*(v2-v1) - v1/2));
+
+            // Apply change in rotation
+            rotation
+                    .rotateY(yawChange)
+                    .rotateX(pitchChange)
+                    .rotateZ(rollChange);
+        }
 
         display.setTransformation(new Transformation(new Vector3f(), rotation, scalef, new Quaternionf()));
     }
