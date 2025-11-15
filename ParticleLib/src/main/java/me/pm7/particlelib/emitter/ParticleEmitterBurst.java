@@ -44,7 +44,7 @@ public class ParticleEmitterBurst extends ParticleEmitter {
     @Override
     public void tick() {
         for(int i=0; i<count; i++) {
-            particleBuilder.build(this, getLocation());
+            spawnParticle();
         }
         remove();
     }

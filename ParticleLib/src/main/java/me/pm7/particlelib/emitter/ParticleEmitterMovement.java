@@ -99,13 +99,7 @@ public class ParticleEmitterMovement extends ParticleEmitter {
         // Spawn particles in a line between the current location and the previous location for a smooth effect
         for(int i=0; i<particlesToSpawn; i++) {
             Location particleLoc = currentLocation.clone().add(previousLocation.clone().subtract(currentLocation).toVector().normalize().multiply(metersPerParticle * i));
-            particleBuilder.build(this, particleLoc);
-        }
-
-        // Remove particles if they are maxed out
-        while (particles.size() > maxParticles) {
-            particles.getFirst().remove();
-            particles.removeFirst();
+            spawnParticle();
         }
 
         previousLocation = currentLocation.clone();

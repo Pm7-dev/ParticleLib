@@ -95,6 +95,19 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     public boolean isActive() {return active;}
 
     /**
+     * Spawns a particle at the emitter's location and removes the oldest particle if the maxParticles limit is passed
+     */
+    public void spawnParticle() {
+        particles.add(particleBuilder.build(this, getLocation()));
+        if(maxParticles > 0) {
+            while (particles.size() > maxParticles) {
+                particles.getFirst().remove();
+                particles.removeFirst();
+            }
+        }
+    }
+
+    /**
      * Teleports the emitter to a specified location
      * @param location The location to teleport the emitter to
      */
@@ -120,7 +133,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     public void setViewDistance(int viewDistance) {this.viewDistance = viewDistance;}
 
     /**
-     * Removes this emitter and sends all currently active particles to the "orphaned particles" list in the ParticleManager
+     * Removes this emitter and sends all currently active particles to the "orphaned particles" list in ParticleManager
      */
     public void remove() {
         gameObject.remove();
@@ -146,7 +159,6 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
 
     public List<Particle> getParticles() {return particles;}
 
-    // TODO: save/load new data for config
     // Config stuff
     @Override
     public @NotNull Map<String, Object> serialize() {
@@ -155,6 +167,8 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
         map.put("uuid", gameObject.getUniqueId().toString());
         map.put("location", getLocation());
         map.put("particleBuilder", particleBuilder);
+        map.put("maxParticles", maxParticles);
+        map.put("viewDistance", viewDistance);
         return map;
     }
     public ParticleEmitter(Map<String, Object> map) {
@@ -173,5 +187,8 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
 
         this.particleBuilder = (ParticleBuilder) map.get("particleBuilder");
         this.active = false;
+
+        this.maxParticles = (long) map.get("maxParticles");
+        this.viewDistance = (int) map.get("viewDistance");
     }
 }

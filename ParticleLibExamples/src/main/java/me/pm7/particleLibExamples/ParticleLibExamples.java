@@ -1,9 +1,6 @@
 package me.pm7.particleLibExamples;
 
-import me.pm7.particleLibExamples.commands.flame;
-import me.pm7.particleLibExamples.commands.particleeditor;
-import me.pm7.particleLibExamples.commands.test;
-import me.pm7.particleLibExamples.commands.trail;
+import me.pm7.particleLibExamples.commands.*;
 import me.pm7.particleLibExamples.listeners.Anvil;
 import me.pm7.particleLibExamples.listeners.BlockBreak;
 import me.pm7.particleLibExamples.listeners.Explosion;
@@ -23,6 +20,7 @@ public final class ParticleLibExamples extends JavaPlugin {
         // Plugin startup logic
         getCommand("test").setExecutor(new test());
         getCommand("flame").setExecutor(new flame());
+        getCommand("smoke").setExecutor(new smoke());
         getCommand("particleeditor").setExecutor(new particleeditor());
         getCommand("trail").setExecutor(new trail());
         Bukkit.getPluginManager().registerEvents(new BlockBreak(), this);

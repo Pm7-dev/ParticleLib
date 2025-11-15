@@ -68,9 +68,9 @@ public class ParticleBuilderCustomItem extends ParticleBuilder3D {
 
 
     // Data specific to 3D particle spawners
-    /**{inheritDoc}*/
+    /**{@inheritDoc}*/
     public ParticleBuilderCustomItem initialRotation(ValueRange<Vector> initialRotation) {this.initialRotation = initialRotation; return this;}
-    /**{inheritDoc}*/
+    /**{@inheritDoc}*/
     public ParticleBuilderCustomItem initialRotation(Vector initialRotation) {this.initialRotation = new ValueRange<>(initialRotation); return this;}
 
     /**
@@ -94,9 +94,9 @@ public class ParticleBuilderCustomItem extends ParticleBuilder3D {
     public ParticleBuilderCustomItem spawnOffset(ValueRange<Vector> spawnOffset) {this.spawnOffset = spawnOffset; return this;}
     public ParticleBuilderCustomItem spawnOffset(Vector spawnOffset) {this.spawnOffset = new ValueRange<>(spawnOffset); return this;}
 
-    /**{inheritDoc}*/
+    /**{@inheritDoc}*/
     public ParticleBuilderCustomItem initialMovementDirection(ValueRange<Direction> initialMovementDirection) {this.initialMovementDirection = initialMovementDirection; return this;}
-    /**{inheritDoc}*/
+    /**{@inheritDoc}*/
     public ParticleBuilderCustomItem initialMovementDirection(Direction initialMovementDirection) {this.initialMovementDirection = new ValueRange<>(initialMovementDirection); return this;}
 
     public ParticleBuilderCustomItem scaleOverLifetime(RangedGradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}

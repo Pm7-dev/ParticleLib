@@ -56,11 +56,7 @@ public class ParticleEmitterConstant extends ParticleEmitter {
         if(loopTick >= ticksPerSpawn) {
             loopTick = 0;
             for(int i=0; i<particlesPerSpawn; i++) {
-                particleBuilder.build(this, getLocation());
-            }
-            while (particles.size() > maxParticles) {
-                particles.getFirst().remove();
-                particles.removeFirst();
+                spawnParticle();
             }
         }
     }

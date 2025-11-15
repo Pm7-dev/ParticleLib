@@ -24,7 +24,6 @@ public class ParticleManager {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, ParticleManager::tick, 0L, 1L);
     }
 
-    private int spawnTick = 0;
     private static void tick() {
 
         for(int i=0; i<allEmitters.size(); i++) {
@@ -35,7 +34,7 @@ public class ParticleManager {
             for(int p=0; p<particles.size(); p++) {
                 Particle particle = particles.get(p);
                 particle.tick();
-                if(!particles.contains(particle)) i--; // avoid concurrentmodificationexception if the particle dies this tick
+                if(!particles.contains(particle)) p--; // avoid concurrentmodificationexception if the particle dies this tick
             }
 
             if(!emitter.isActive()) continue;
@@ -58,6 +57,7 @@ public class ParticleManager {
 
             if(!emitter.getLocation().isChunkLoaded()) continue;
             emitter.tick();
+
             if(!allEmitters.contains(emitter)) i--;// avoid concurrentmodificationexception if the emitter dies this tick
         }
 
@@ -71,8 +71,6 @@ public class ParticleManager {
     public void addParticle(Particle particle) {
         orphanedParticles.add(particle);
     }
-
-    public int getCurrentSpawnTick() {return spawnTick;}
 
     public static List<ParticleEmitter> getAllEmitters() {return allEmitters;}
     public static List<Particle> getOrphanedParticles() {return orphanedParticles;}

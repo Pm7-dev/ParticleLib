@@ -27,9 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class flame implements CommandExecutor {
-
-    private static final ParticleManager manager = ParticleLibExamples.getParticleManager();
-
     List<ParticleEmitter> flameEmitters = new ArrayList<>();
 
     ParticleBuilderSquare flameDataOrange = new ParticleBuilderSquare()
