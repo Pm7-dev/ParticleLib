@@ -2,6 +2,7 @@ package me.pm7.particleLibExamples.listeners;
 
 import me.pm7.particleLibExamples.ParticleLibExamples;
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitterBurst;
 import me.pm7.particlelib.data.gradient.RangedGradientVector;
 import me.pm7.particlelib.data.keyframe.EasingMode;
@@ -17,7 +18,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.util.Vector;
 
 public class BlockBreak implements Listener {
-    private static final ParticleManager manager = ParticleLibExamples.getParticleManager();
 
     private final ParticleBuilderBlock particleData = new ParticleBuilderBlock()
             .particleLifeTicks(new ValueRange<>(26, 34))
@@ -31,8 +31,8 @@ public class BlockBreak implements Listener {
                     new Vector(0.4, 0.4, 0.4)
             ))
             .initialMovementDirection(new ValueRange<>(
-                    new Vector(-0.6, 0.25, -0.6),
-                    new Vector(0.6, 1, 0.6)
+                    new Direction(0, 30),
+                    new Direction(360, 150)
             ))
             .initialRotation(new ValueRange<>(
                     new Vector(0, 0, 0),
@@ -52,7 +52,7 @@ public class BlockBreak implements Listener {
         e.getBlock().setType(Material.AIR);
         Location loc = e.getBlock().getLocation().add(0.5, 0.5, 0.5);
 
-        new ParticleEmitterBurst(manager, 25, loc, particleData).start();
+        new ParticleEmitterBurst(25, particleData, loc).start();
     }
 
 }

@@ -2,6 +2,7 @@ package me.pm7.particleLibExamples.commands;
 
 import me.pm7.particleLibExamples.ParticleLibExamples;
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.emitter.ParticleEmitterConstant;
 import me.pm7.particlelib.data.gradient.GradientColor;
@@ -32,7 +33,7 @@ public class flame implements CommandExecutor {
     List<ParticleEmitter> flameEmitters = new ArrayList<>();
 
     ParticleBuilderSquare flameDataOrange = new ParticleBuilderSquare()
-            .initialMovementDirection(new ValueRange<>(new Vector(-1, -1, -1), new Vector(1, 1, 1)))
+            .initialMovementDirection(new ValueRange<>(new Direction(0, 0), new Direction(360, 360)))
             .particleLifeTicks(15)
             .colorOverLifetime(new GradientColor(
                     EasingMode.LINEAR,
@@ -122,32 +123,32 @@ public class flame implements CommandExecutor {
 
         switch (args[0].toLowerCase()) {
             case "0": {
-                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataOrange));
+                flameEmitters.add(new ParticleEmitterConstant(10, 1, flameDataOrange, location));
                 flameEmitters.getLast().start();
                 break;
             }
             case "1": {
-                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataWhite));
+                flameEmitters.add(new ParticleEmitterConstant(10, 1, flameDataWhite, location));
                 flameEmitters.getLast().start();
                 break;
             }
             case "2": {
-                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataBlue));
+                flameEmitters.add(new ParticleEmitterConstant(10, 1, flameDataBlue, location));
                 flameEmitters.getLast().start();
                 break;
             }
             case "3": {
-                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataLime));
+                flameEmitters.add(new ParticleEmitterConstant(10, 1, flameDataLime, location));
                 flameEmitters.getLast().start();
                 break;
             }
             case "4": {
-                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataPink));
+                flameEmitters.add(new ParticleEmitterConstant(10, 1, flameDataPink, location));
                 flameEmitters.getLast().start();
                 break;
             }
             case "5": {
-                flameEmitters.add(new ParticleEmitterConstant(manager, 10, 1, location, flameDataLightBlue));
+                flameEmitters.add(new ParticleEmitterConstant(10, 1, flameDataLightBlue, location));
                 flameEmitters.getLast().start();
                 break;
             }

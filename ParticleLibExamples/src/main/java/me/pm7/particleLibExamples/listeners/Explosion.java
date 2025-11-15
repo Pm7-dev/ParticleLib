@@ -2,6 +2,7 @@ package me.pm7.particleLibExamples.listeners;
 
 import me.pm7.particleLibExamples.ParticleLibExamples;
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitterBurst;
 import me.pm7.particlelib.data.gradient.RangedGradientColor;
 import me.pm7.particlelib.data.gradient.RangedGradientVector;
@@ -21,11 +22,11 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.util.Vector;
 
 public class Explosion implements Listener {
-    private static final ParticleManager manager = ParticleLibExamples.getParticleManager();
+    private static final ParticleLibExamples plugin = ParticleLibExamples.getPlugin();
 
     ParticleBuilderCube explosion = new ParticleBuilderCube()
             .shaded(false)
-            .initialMovementDirection(new ValueRange<>(new Vector(-1, -1, -1), new Vector(1, 1, 1)))
+            .initialMovementDirection(new ValueRange<>(new Direction(0, 0), new Direction(360, 360)))
             .particleLifeTicks(new ValueRange<>(17, 20))
             .colorOverLifetime(new RangedGradientColor(Color.fromRGB(252, 118, 40), Color.fromRGB(252, 234, 40)))
             .rotationOverVelocity(new ValueRange<>(120.0, 140.0))
@@ -48,7 +49,7 @@ public class Explosion implements Listener {
         Location loc = e.getLocation().clone().add(0, 0.8, 0);
 
         // explosion
-        new ParticleEmitterBurst(manager, 60, loc, explosion).start();
+        new ParticleEmitterBurst(60, explosion, loc).start();
 
         // set to a light
         Block b = loc.getBlock();
@@ -57,7 +58,7 @@ public class Explosion implements Listener {
         light.setLevel(15);
         b.setBlockData(light);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(manager.getPlugin(), () -> b.setType(org.bukkit.Material.AIR), 3L);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> b.setType(org.bukkit.Material.AIR), 3L);
 
     }
 

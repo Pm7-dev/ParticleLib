@@ -2,6 +2,7 @@ package me.pm7.particleLibExamples.listeners;
 
 import me.pm7.particleLibExamples.ParticleLibExamples;
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitterBurst;
 import me.pm7.particlelib.data.gradient.GradientColor;
 import me.pm7.particlelib.data.gradient.GradientDouble;
@@ -28,7 +29,6 @@ import org.bukkit.util.Vector;
 
 
 public class Anvil implements Listener {
-    private static final ParticleManager manager = ParticleLibExamples.getParticleManager();
 
     ParticleBuilderCustomText sparks = new ParticleBuilderCustomText()
             .particleLifeTicks(15)
@@ -45,9 +45,9 @@ public class Anvil implements Listener {
                     new RangedKeyframe<>(0.0, 0.9)
             ))
             .initialMovementDirection(new ValueRange<>(
-                    new Vector(-1, -0.2, -1),
-                    new Vector(1, 0.2, 1))
-            )
+                    new Direction(0, -30),
+                    new Direction(360, 30)
+            ))
             .scaleOverLifetime(new GradientVector(
                     EasingMode.SINE_IN_OUT,
                     new Keyframe<>(new Vector(0.4, 0.4, 0.4), 0.0),
@@ -75,8 +75,8 @@ public class Anvil implements Listener {
                     new RangedKeyframe<>(0.0, 0.9)
             ))
             .initialMovementDirection(new ValueRange<>(
-                    new Vector(-0.2, 1, -0.2),
-                    new Vector(0.2, 1, 0.2))
+                    new Direction(0, 75),
+                    new Direction(360, 105))
             )
             .scaleOverLifetime(new GradientVector(
                     EasingMode.SINE_IN_OUT,
@@ -104,16 +104,14 @@ public class Anvil implements Listener {
                 Location loc = victim.getLocation().add(0, 1, 0);
 
                 new ParticleEmitterBurst(
-                        manager,
                         20,
-                        loc,
-                        sparks
+                        sparks,
+                        loc
                 ).start();
                 new ParticleEmitterBurst(
-                        manager,
                         1,
-                        loc,
-                        bonk
+                        bonk,
+                        loc
                 ).start();
 
             }

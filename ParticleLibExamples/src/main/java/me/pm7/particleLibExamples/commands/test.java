@@ -22,7 +22,6 @@ import org.joml.Vector3f;
 
 
 public class test implements CommandExecutor {
-    private static final ParticleManager manager = ParticleLibExamples.getParticleManager();
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {

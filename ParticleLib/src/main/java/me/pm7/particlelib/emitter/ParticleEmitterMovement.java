@@ -43,6 +43,25 @@ public class ParticleEmitterMovement extends ParticleEmitter {
     }
 
     /**
+     * Creates a new constant particle emitter
+     * @param metersPerParticle The distance in meters required to spawn one particle.
+     * @param particleCutoff If the distance moved in a single tick is more than enough to spawn this number of particles, this movement
+     *                       will be ignored. This is to prevent large distance teleportations (going through portals, teleporting an emitter far away, etc. ) from lagging/crashing
+     *                            a server.
+     * @param location The location to spawn the ParticleEmitter's display entity
+     * @param particleBuilder The particle data to use when this emitter spawns a particle
+     */
+    public ParticleEmitterMovement(double metersPerParticle, int particleCutoff, ParticleBuilder particleBuilder, Location location) {
+        super(particleBuilder, location, 0, 0);
+
+        this.metersPerParticle = metersPerParticle;
+
+        this.previousLocation = location.clone();
+        this.metersWithoutParticle = 0.0d;
+        this.particleCutoff = particleCutoff;
+    }
+
+    /**
      * Advances the emitter one tick forward
      */
     @Override

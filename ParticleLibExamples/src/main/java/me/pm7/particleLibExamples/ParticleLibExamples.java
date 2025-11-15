@@ -13,11 +13,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ParticleLibExamples extends JavaPlugin {
 
-    private static ParticleManager particleManager;
+    private static ParticleLibExamples plugin;
 
     @Override
     public void onEnable() {
-        particleManager = new ParticleManager(this, 1, 1000, 0);
+
+        plugin = this;
 
         // Plugin startup logic
         getCommand("test").setExecutor(new test());
@@ -34,5 +35,6 @@ public final class ParticleLibExamples extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    public static ParticleManager getParticleManager() {return particleManager;}
+    public static ParticleLibExamples getPlugin() {return plugin;}
+
 }

@@ -20,7 +20,6 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 public class trail implements CommandExecutor {
-    private static final ParticleManager manager = ParticleLibExamples.getParticleManager();
 
     private ParticleBuilderCube trail = new ParticleBuilderCube()
             .shaded(false)
@@ -52,11 +51,10 @@ public class trail implements CommandExecutor {
             if(!p.getPassengers().isEmpty()) return true;
 
             ParticleEmitterMovement trailEmitter = new ParticleEmitterMovement(
-                    manager,
                     0.03,
                     1000,
-                    p.getLocation(),
-                    trail
+                    trail,
+                    p.getLocation()
             );
 
             p.addPassenger(trailEmitter.getGameObject());

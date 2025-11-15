@@ -43,10 +43,7 @@ public class smoke implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        new ParticleEmitterConstant()
-                .
-
-
+        new ParticleEmitterConstant(1, 2, smokeData, p.getLocation()).start();
 
         return true;
     }

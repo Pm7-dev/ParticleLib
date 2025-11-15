@@ -20,7 +20,7 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 public class particleeditor implements CommandExecutor {
-    private static final ParticleManager manager = ParticleLibExamples.getParticleManager();
+    private static final ParticleLibExamples plugin = ParticleLibExamples.getPlugin();
 
     ParticleEmitterConstant emitter = null;
 
@@ -38,14 +38,12 @@ public class particleeditor implements CommandExecutor {
             loc = p.getLocation().clone();
         }
 
-        manager.getPlugin().reloadConfig();
-        FileConfiguration config = manager.getPlugin().getConfig();
+        plugin.reloadConfig();
+        FileConfiguration config = plugin.getConfig();
         if(args[0].toLowerCase().equals("spawn")) {
             emitter = new ParticleEmitterConstant(
-                    manager,
                     3,
                     1,
-                    loc,
                     new ParticleBuilderCube()
                             .shaded(false)
                             .particleLifeTicks(45)
@@ -66,16 +64,16 @@ public class particleeditor implements CommandExecutor {
                             .spawnOffset(new ValueRange<>(
                                     new Vector(-0.03, -1.1, -0.03),
                                     new Vector(0.03, -1.0, 0.03)
-                            ))
+                            )),
+                    loc
                     );
             emitter.start();
 
             config.set("emitterEditor", emitter);
-            manager.getPlugin().saveConfig();
+            plugin.saveConfig();
 
         } else if(args[0].toLowerCase().equals("reload")) {
             emitter = (ParticleEmitterConstant) config.get("emitterEditor");
-            emitter.setParticleManager(manager);
             emitter.start();
         }
 
