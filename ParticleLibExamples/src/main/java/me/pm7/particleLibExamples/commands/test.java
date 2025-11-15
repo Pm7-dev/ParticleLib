@@ -8,6 +8,7 @@ import me.pm7.particlelib.ParticleManager;
 //import me.pm7.particlelib.interpolation.keyframe.ValueRange;
 //import me.pm7.particlelib.spawner.ParticleDataSquare;
 //import me.pm7.particlelib.physics.GravityAxis;
+import me.pm7.particlelib.data.Direction;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -26,31 +27,10 @@ public class test implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
 
-        Player p = (Player) commandSender;
-        Location spawnLocation = p.getLocation().clone();
+        Direction direction = new Direction(0, 0);
+        Direction direction2 = new Direction(360, 90);
 
-//        TextDisplay textDisplay = (TextDisplay) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.TEXT_DISPLAY);
-//        textDisplay.setText("Moving Display!");
-//        textDisplay.setBillboard(Display.Billboard.CENTER);
-//
-//        // Set the teleport duration for smooth movement
-//        textDisplay.setTeleportDuration(10);
-//
-//        // Teleport the display entity to the target location
-//        // This will initiate the interpolated movement over the specified duration
-//        textDisplay.teleport(spawnLocation.clone().add(new Vector(0, 1, 0)));
-
-        Display display = spawnLocation.getWorld().spawn(spawnLocation, BlockDisplay.class, entity -> {
-            entity.setTransformation(new Transformation(
-                    new Vector3f(1, 1, 1),
-                    new Quaternionf(),
-                    new Vector3f(1, 1, 1),
-                    new Quaternionf()
-            ));
-            entity.setBlock(Material.GRASS_BLOCK.createBlockData());
-            entity.setTeleportDuration(10);
-        });
-        display.teleport(spawnLocation.clone().add(new Vector(0, 1, 0)));
+        System.out.println(Direction.getRandomVector(direction, direction2));
 
         return true;
     }

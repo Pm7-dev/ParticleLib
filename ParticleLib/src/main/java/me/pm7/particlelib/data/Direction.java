@@ -15,9 +15,9 @@ public record Direction(double yaw, double pitch) implements ConfigurationSerial
         double pitchRad = Math.toRadians(pitch);
 
         return new Vector(
-                Math.cos(Math.toRadians(yawRad)) * Math.cos(Math.toRadians(pitchRad)),
-                Math.sin(Math.toRadians(pitchRad)),
-                Math.sin(Math.toRadians(yawRad)) * Math.cos(Math.toRadians(pitchRad))
+                Math.cos(yawRad) * Math.cos(pitchRad),
+                Math.sin(pitchRad),
+                Math.sin(yawRad) * Math.cos(pitchRad)
         );
     }
 
@@ -27,9 +27,9 @@ public record Direction(double yaw, double pitch) implements ConfigurationSerial
         double pitchRad = Math.toRadians(d1.pitch + (Math.random() * (d2.pitch - d1.pitch)));
 
         return new Vector(
-                Math.cos(Math.toRadians(yawRad)) * Math.cos(Math.toRadians(pitchRad)),
-                Math.sin(Math.toRadians(pitchRad)),
-                Math.sin(Math.toRadians(yawRad)) * Math.cos(Math.toRadians(pitchRad))
+                Math.cos(yawRad) * Math.cos(pitchRad),
+                Math.sin(pitchRad),
+                Math.sin(yawRad) * Math.cos(pitchRad)
         );
 
     }

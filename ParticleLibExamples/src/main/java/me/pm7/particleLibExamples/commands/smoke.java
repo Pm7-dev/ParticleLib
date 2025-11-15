@@ -22,19 +22,19 @@ public class smoke implements CommandExecutor {
             .particleLifeTicks(100)
             .scaleOverLifetime(new GradientVector(
                     EasingMode.SINE_IN,
-                    new Keyframe<>(new Vector(0.5, 0.5, 0.5), 0.1),
-                    new Keyframe<>(new Vector(12, 12, 12), 1.0)
+                    new Keyframe<>(new Vector(0.5, 0.5, 0.5), 0.0),
+                    new Keyframe<>(new Vector(16, 12, 16), 1.0)
             ))
             .gravity(new GravityNone(new GradientDouble(
                     EasingMode.LINEAR,
-                    new Keyframe<>(2.0, 0.0),
+                    new Keyframe<>(1.8, 0.0),
                     new Keyframe<>(0.3, 1.0)
             )))
             .shaded(false)
             .colorOverLifetime(new GradientColor(
                     EasingMode.LINEAR,
-                    new Keyframe<>(Color.fromRGB(195, 195, 195), 0.2),
-                    new Keyframe<>(Color.fromARGB(0, 195, 195, 195), 1.0)
+                    new Keyframe<>(Color.fromRGB(230, 230, 230), 0.2),
+                    new Keyframe<>(Color.fromARGB(0, 230, 230, 230), 1.0)
             ))
             ;
 
@@ -43,7 +43,7 @@ public class smoke implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        new ParticleEmitterConstant(1, 2, smokeData, p.getLocation()).start();
+        new ParticleEmitterConstant(1, 1, smokeData, p.getLocation()).start();
 
         return true;
     }
