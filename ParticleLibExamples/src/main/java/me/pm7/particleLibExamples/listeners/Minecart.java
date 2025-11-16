@@ -22,25 +22,26 @@ public class Minecart implements Listener {
     private static final ParticleLibExamples plugin = ParticleLibExamples.getPlugin();
 
     private final ParticleBuilderCube spark = new ParticleBuilderCube()
-            .particleLifeTicks(5)
+            .particleLifeTicks(8)
             .shaded(false)
             .colorOverLifetime(Color.fromRGB(250, 237, 52))
             .initialMovementDirection(new ValueRange<>(
-                    new Direction(0, 5),
+                    new Direction(0, 1),
                     new Direction(360, 10)
             ))
             .velocityOverridesRotation(true)
             .gravity(new GravityDirection()
-                    .initialSpeed(new ValueRange<>(12.0, 15.0))
+                    .initialSpeed(new ValueRange<>(9.0, 12.0))
                     .strengthOverLifetime(25)
                     .bouncinessOverLifetime(0.0)
                     .dragMultiplier(18.0)
             )
             .scaleOverLifetime(new RangedGradientVector(
                     EasingMode.LINEAR,
-                    new RangedKeyframe<>(new Vector(0.01, 0.01, 0.75), new Vector(0.01, 0.01, 0.45), 0.3),
+                    new RangedKeyframe<>(new Vector(0.01, 0.01, 0.75), new Vector(0.01, 0.01, 0.5), 0.1),
                     new RangedKeyframe<>(new Vector(0.01, 0.01, 0.0), 1.0)
             ))
+            .spawnOffset(new Vector(0, -0.075, 0))
             ;
 
     @EventHandler
@@ -48,7 +49,7 @@ public class Minecart implements Listener {
         if(e.getEntity().getType() == EntityType.MINECART) {
             org.bukkit.entity.Minecart m = (org.bukkit.entity.Minecart) e.getEntity();
             ParticleEmitterMovement trailEmitter = new ParticleEmitterMovement(
-                    0.015,
+                    0.025,
                     1000,
                     spark,
                     m.getLocation()
