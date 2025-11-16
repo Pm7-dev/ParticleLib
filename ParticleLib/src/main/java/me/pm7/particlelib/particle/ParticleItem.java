@@ -63,11 +63,14 @@ public class ParticleItem extends Particle {
             // Get initial rotation
             Quaternionf rotation = new Quaternionf();
             if(velocityOverridesRotation) {
-                double yaw = Math.atan2(velocity.getZ(), velocity.getX());
-                double pitch = Math.atan2(velocity.getY(), Math.sqrt(velocity.getX()*velocity.getX() + velocity.getZ()*velocity.getZ()));
-                rotation.rotateX((float)(-Math.PI / 2)) // Undo initial downward rotation
-                        .rotateY((float) Math.toRadians(pitch))
-                        .rotateX((float) Math.toRadians(yaw));
+                Vector v = velocity.clone();
+                v.normalize();
+                double yaw   = Math.atan2(v.getX(), v.getZ());
+                double pitch = Math.atan2(v.getY(), Math.sqrt(v.getX() * v.getX() + v.getZ() * v.getZ()));
+                rotation
+                        .rotateX((float)(-Math.PI / 2)) // Undo initial downward rotation
+                        .rotateY((float) yaw)
+                        .rotateX((float) -pitch);
             } else {
                 rotation.rotateX((float)(-Math.PI / 2)) // Undo initial downward rotation
                         .rotateY((float) Math.toRadians(initialRotation.getY())) // get initial for the rest
@@ -95,15 +98,17 @@ public class ParticleItem extends Particle {
 
         // modify rotation
         if(velocityOverridesRotation) {
-            rotation = new Quaternionf(); // for this we just need a basic thing
-
-            double yaw = Math.atan2(velocity.getZ(), velocity.getX());
-            double pitch = Math.atan2(velocity.getY(), Math.sqrt(velocity.getX()*velocity.getX() + velocity.getZ()*velocity.getZ()));
-            rotation.rotateX((float)(-Math.PI / 2)) // Undo initial downward rotation
-                    .rotateY((float) Math.toRadians(pitch))
-                    .rotateX((float) Math.toRadians(yaw));
+            rotation = new Quaternionf(); // for this we just need an empty rotation
+            Vector v = velocity.clone();
+            v.normalize();
+            double yaw   = Math.atan2(v.getX(), v.getZ());
+            double pitch = Math.atan2(v.getY(), Math.sqrt(v.getX() * v.getX() + v.getZ() * v.getZ()));
+            rotation
+                    .rotateX((float)(-Math.PI / 2)) // Undo initial downward rotation
+                    .rotateY((float) yaw)
+                    .rotateX((float) -pitch);
         } else {
-            rotation = display.getTransformation().getLeftRotation(); // for this we need the current rotation since we're getting the change
+            rotation = display.getTransformation().getLeftRotation(); // for this we need the current rotation since we're modifying it
 
             Vector rotationSpeed = rotationSpeedOverLifetime.interpolate(lifePosition);
             float yawChange   = (float) Math.toRadians(rotationSpeed.getY() * 0.05 * steps);

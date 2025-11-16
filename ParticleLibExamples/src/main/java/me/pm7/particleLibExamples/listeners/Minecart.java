@@ -38,8 +38,8 @@ public class Minecart implements Listener {
             )
             .scaleOverLifetime(new RangedGradientVector(
                     EasingMode.LINEAR,
-                    new RangedKeyframe<>(new Vector(0.02, 0.02, 0.5), new Vector(0.02, 0.02, 0.3), 0.5),
-                    new RangedKeyframe<>(new Vector(0.1, 0.0, 0.1), 1.0)
+                    new RangedKeyframe<>(new Vector(0.01, 0.01, 0.75), new Vector(0.01, 0.01, 0.45), 0.3),
+                    new RangedKeyframe<>(new Vector(0.01, 0.01, 0.0), 1.0)
             ))
             ;
 
