@@ -30,8 +30,8 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
         this.blockData = Material.MAGENTA_GLAZED_TERRACOTTA.createBlockData();
     }
 
-    private ParticleBuilderBlock(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, boolean velocityOverridesRotation, Gradient rotationSpeedOverLifetime, BlockData blockData) {
-        super(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRotation, velocityOverridesRotation, rotationSpeedOverLifetime);
+    private ParticleBuilderBlock(ValueRange<Integer> particleLifeTicks, int ticksPerCalculation, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, boolean velocityOverridesRotation, Gradient rotationSpeedOverLifetime, BlockData blockData) {
+        super(particleLifeTicks, ticksPerCalculation, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity, initialRotation, velocityOverridesRotation, rotationSpeedOverLifetime);
         this.blockData = blockData;
     }
 
@@ -98,13 +98,13 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
 
 
     public ParticleBuilderBlock clone() {
-        return new ParticleBuilderBlock(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, velocityOverridesRotation, rotationSpeedOverLifetime, blockData.clone());
+        return new ParticleBuilderBlock(particleLifeTicks, ticksPerCalculation, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, velocityOverridesRotation, rotationSpeedOverLifetime, blockData.clone());
     }
 
     // Config stuff
     @Override
     public @NotNull Map<String, Object> serialize() {
-Map<String, Object> map = new HashMap<>(super.serialize());
+        Map<String, Object> map = new HashMap<>(super.serialize());
         map.put("type", "block");
         map.put("blockData", blockData);
         return map;

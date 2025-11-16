@@ -25,8 +25,8 @@ public abstract class ParticleBuilder3D extends ParticleBuilder {
         this.rotationSpeedOverLifetime = new GradientVector(new Vector());
     }
 
-    protected ParticleBuilder3D(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, boolean velocityOverridesRotation, Gradient rotationSpeedOverLifetime) {
-        super(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity);
+    protected ParticleBuilder3D(ValueRange<Integer> particleLifeTicks, int ticksPerCalculation, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, boolean velocityOverridesRotation, Gradient rotationSpeedOverLifetime) {
+        super(particleLifeTicks, ticksPerCalculation, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity);
         this.initialRotation = initialRotation;
         this.velocityOverridesRotation = velocityOverridesRotation;
         this.rotationSpeedOverLifetime = rotationSpeedOverLifetime;
@@ -62,7 +62,7 @@ public abstract class ParticleBuilder3D extends ParticleBuilder {
     // Config stuff
     @Override
     public @NotNull Map<String, Object> serialize() {
-Map<String, Object> map = new HashMap<>(super.serialize());
+        Map<String, Object> map = new HashMap<>(super.serialize());
         map.put("type", "3d");
         map.put("initialRotation", initialRotation);
         map.put("velocityOverridesRotation", velocityOverridesRotation);

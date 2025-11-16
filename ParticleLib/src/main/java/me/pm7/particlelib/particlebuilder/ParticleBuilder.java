@@ -40,8 +40,9 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
         this.gravity = new GravityNone(new GradientDouble(1.0));
     }
 
-    protected ParticleBuilder(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity) {
+    protected ParticleBuilder(ValueRange<Integer> particleLifeTicks, int ticksPerCalculation, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity) {
         this.particleLifeTicks = particleLifeTicks;
+        this.ticksPerCalculation = ticksPerCalculation;
         this.spawnOffset = spawnOffset;
         this.initialMovementDirection = initialMovementDirection;
         this.scaleOverLifetime = scaleOverLifetime;
@@ -89,6 +90,7 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
         Map<String, Object> map = new HashMap<>();
         map.put("type", "none");
         map.put("particleLifeTicks", particleLifeTicks);
+        map.put("ticksPerCalculation", ticksPerCalculation);
         map.put("spawnOffset", spawnOffset);
         map.put("initialMovementDirection", initialMovementDirection);
         map.put("scaleOverLifetime", scaleOverLifetime);
@@ -98,6 +100,7 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
     }
     public ParticleBuilder(Map<String, Object> map) {
         this.particleLifeTicks = (ValueRange<Integer>) map.get("particleLifeTicks");
+        this.ticksPerCalculation = (int) map.get("ticksPerCalculation");
         this.spawnOffset = (ValueRange<Vector>) map.get("spawnOffset");
         this.initialMovementDirection = (ValueRange<Direction>) map.get("initialMovementDirection");
         this.scaleOverLifetime = (Gradient) map.get("scaleOverLifetime");

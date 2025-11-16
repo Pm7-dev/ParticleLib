@@ -64,6 +64,10 @@ public class ValueRange<T> implements ConfigurationSerializable {
         return new Vector(iX, iY, iZ);
     }
 
+    public ValueRange<T> clone() {
+        return new ValueRange<>(v1, v2);
+    }
+
 
     // Config stuff
     @Override

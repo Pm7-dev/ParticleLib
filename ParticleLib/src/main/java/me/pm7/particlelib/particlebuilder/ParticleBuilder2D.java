@@ -31,8 +31,8 @@ public abstract class ParticleBuilder2D extends ParticleBuilder {
         this.shaded = true;
     }
 
-    protected ParticleBuilder2D(ValueRange<Integer> particleLifeTicks, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Double> initialRoll, Gradient rollSpeedOverLifetime, Gradient colorOverLifetime, boolean shaded) {
-        super(particleLifeTicks, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity);
+    protected ParticleBuilder2D(ValueRange<Integer> particleLifeTicks, int ticksPerCalculation, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Double> initialRoll, Gradient rollSpeedOverLifetime, Gradient colorOverLifetime, boolean shaded) {
+        super(particleLifeTicks, ticksPerCalculation, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity);
         this.initialRoll = initialRoll;
         this.rollSpeedOverLifetime = rollSpeedOverLifetime;
         this.colorOverLifetime = colorOverLifetime;
@@ -54,7 +54,7 @@ public abstract class ParticleBuilder2D extends ParticleBuilder {
     // Config stuff
     @Override
     public @NotNull Map<String, Object> serialize() {
-Map<String, Object> map = new HashMap<>(super.serialize());
+        Map<String, Object> map = new HashMap<>(super.serialize());
         map.put("type", "2d");
         map.put("initialRoll", initialRoll);
         map.put("rollSpeedOverLifetime", rollSpeedOverLifetime);
