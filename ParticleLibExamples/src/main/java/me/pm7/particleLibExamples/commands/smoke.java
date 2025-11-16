@@ -1,5 +1,8 @@
 package me.pm7.particleLibExamples.commands;
 
+import me.pm7.particlelib.data.gradient.RangedGradientVector;
+import me.pm7.particlelib.data.keyframe.RangedKeyframe;
+import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.emitter.ParticleEmitterConstant;
 import me.pm7.particlelib.data.gradient.GradientColor;
 import me.pm7.particlelib.data.gradient.GradientDouble;
@@ -19,23 +22,27 @@ import org.jetbrains.annotations.NotNull;
 public class smoke implements CommandExecutor {
 
     ParticleBuilderSquare smokeData = new ParticleBuilderSquare()
-            .particleLifeTicks(100)
-            .scaleOverLifetime(new GradientVector(
+            .particleLifeTicks(240)
+            .scaleOverLifetime(new RangedGradientVector(
                     EasingMode.SINE_IN,
-                    new Keyframe<>(new Vector(0.5, 0.5, 0.5), 0.0),
-                    new Keyframe<>(new Vector(16, 12, 16), 1.0)
+                    new RangedKeyframe<>(new Vector(0.5, 0.5, 0.5), new Vector(1.2, 1.2, 1.2), 0.0),
+                    new RangedKeyframe<>(new Vector(18, 14, 18), new Vector(13, 11, 13), 1.0)
             ))
             .gravity(new GravityNone(new GradientDouble(
                     EasingMode.LINEAR,
-                    new Keyframe<>(1.8, 0.0),
-                    new Keyframe<>(0.3, 1.0)
+                    new Keyframe<>(0.5, 0.0),
+                    new Keyframe<>(0.1, 1.0)
             )))
             .shaded(false)
             .colorOverLifetime(new GradientColor(
                     EasingMode.LINEAR,
-                    new Keyframe<>(Color.fromRGB(230, 230, 230), 0.2),
+                    new Keyframe<>(Color.fromARGB(175, 230, 230, 230), 0.1),
                     new Keyframe<>(Color.fromARGB(0, 230, 230, 230), 1.0)
             ))
+            .spawnOffset(new ValueRange<>(
+                    new Vector(-0.1, 0, -0.1),
+                    new Vector(0.1, 0, 0.1))
+            )
             ;
 
     @Override
@@ -43,7 +50,7 @@ public class smoke implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        new ParticleEmitterConstant(1, 1, smokeData, p.getLocation()).start();
+        new ParticleEmitterConstant(1, 2, smokeData, p.getLocation()).start();
 
         return true;
     }
