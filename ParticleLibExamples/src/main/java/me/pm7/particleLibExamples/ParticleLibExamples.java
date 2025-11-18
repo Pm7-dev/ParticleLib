@@ -5,7 +5,6 @@ import me.pm7.particleLibExamples.listeners.Anvil;
 import me.pm7.particleLibExamples.listeners.BlockBreak;
 import me.pm7.particleLibExamples.listeners.Explosion;
 import me.pm7.particleLibExamples.listeners.Minecart;
-import me.pm7.particlelib.ParticleManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,6 +23,8 @@ public final class ParticleLibExamples extends JavaPlugin {
         getCommand("smoke").setExecutor(new smoke());
         getCommand("particleeditor").setExecutor(new particleeditor());
         getCommand("trail").setExecutor(new trail());
+        getCommand("firework").setExecutor(new firework());
+        Bukkit.getPluginManager().registerEvents(new firework(), this);
         Bukkit.getPluginManager().registerEvents(new BlockBreak(), this);
         Bukkit.getPluginManager().registerEvents(new Explosion(), this);
         Bukkit.getPluginManager().registerEvents(new Minecart(), this);

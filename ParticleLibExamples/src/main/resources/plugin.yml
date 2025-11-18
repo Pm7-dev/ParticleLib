@@ -13,4 +13,6 @@ commands:
     description: "starts/stops the trail demonstration"
   smoke:
     description: "spawns the smoke demonstration emitter"
+  firework:
+    description: "manages the firework demonstration"
 depend: [ParticleLib]
