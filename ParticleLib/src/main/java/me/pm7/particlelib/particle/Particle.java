@@ -43,7 +43,7 @@ public abstract class Particle {
         this.scaleOverLifetime = scaleOverLifetime;
         this.rotationOverVelocity = rotationOverVelocity;
         this.velocityRotationDirectionPositive = random.nextDouble() > 0.5;
-        this.velocity = initialMovementDirection.normalize();
+        this.velocity = initialMovementDirection.normalize().multiply(gravity.getInitialSpeed());
 
         this.currentTick = ticksPerCalculation;
         this.ticksLived = 0;

@@ -58,10 +58,6 @@ public class GravityDirection extends Gravity implements ConfigurationSerializab
         Display display = particle.getDisplay();
         Location loc = display.getLocation().clone();
 
-        if(particle.getTicksLived()-step == 0) {
-            particle.getVelocity().multiply(this.getInitialSpeed());
-        }
-
         for(int i=0; i<step; i++) {
             int ticksLived = particle.getTicksLived()-step+i;
             double lifePosition = (double) ticksLived/particle.getLifeTicks();

@@ -2,6 +2,7 @@ package me.pm7.particleLibExamples.commands;
 
 import me.pm7.particleLibExamples.ParticleLibExamples;
 import me.pm7.particlelib.ParticleManager;
+import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitterConstant;
 import me.pm7.particlelib.data.gradient.*;
 import me.pm7.particlelib.data.keyframe.EasingMode;
@@ -43,28 +44,22 @@ public class particleeditor implements CommandExecutor {
         if(args[0].toLowerCase().equals("spawn")) {
             emitter = new ParticleEmitterConstant(
                     3,
-                    1,
+                    5,
                     new ParticleBuilderCube()
-                            .shaded(false)
+                            .shaded(true)
                             .particleLifeTicks(45)
                             .gravity(new GravityNone(new GradientDouble(0.0)))
                             .initialRotation(new ValueRange<>(
                                     new Vector(0, 0, 0),
                                     new Vector(360, 360, 360)
                             ))
-                            .scaleOverLifetime(new GradientVector(
-                                    EasingMode.SINE_IN,
-                                    new Keyframe<>(new Vector(0.2, 0.2, 0.2), 0.9),
-                                    new Keyframe<>(new Vector(0, 0, 0), 1.0)
-                            ))
-                            .colorOverLifetime(new RangedGradientColor(
-                                    Color.fromARGB(255,0, 94, 194),
-                                    Color.fromARGB(255,0, 10, 194)
-                            ))
+                            .scaleOverLifetime(new Vector(0.25, 0.25, 0.25))
                             .spawnOffset(new ValueRange<>(
-                                    new Vector(-0.03, -1.1, -0.03),
-                                    new Vector(0.03, -1.0, 0.03)
-                            )),
+                                    new Vector(-1.0, -1.1, -1.0),
+                                    new Vector(1.0, 1.0, 1.0)
+                            ))
+                            .initialMovementDirection(new Direction(0, -90))
+                    ,
                     loc
                     );
             emitter.start();
