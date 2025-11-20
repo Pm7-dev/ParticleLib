@@ -138,8 +138,9 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     public void remove() {
         gameObject.remove();
 
-        ParticleManager.getOrphanedParticles().addAll(particles);
-        particles.clear();
+        while (!particles.isEmpty()){
+            particles.getFirst().orphan();
+        }
 
         ParticleManager.getAllEmitters().remove(this);
     }

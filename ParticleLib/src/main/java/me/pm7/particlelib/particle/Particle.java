@@ -14,7 +14,7 @@ import java.util.Random;
 
 public abstract class Particle {
 
-    protected final ParticleEmitter parentEmitter;
+    protected ParticleEmitter parentEmitter;
     protected final Random random;
     private final int lifeTicks;
     private final Vector spawnLocation;
@@ -93,8 +93,16 @@ public abstract class Particle {
         display.teleport(loc);
     }
 
+    public void orphan() {
+        if(parentEmitter != null) {
+            parentEmitter.getParticles().remove(this);
+            parentEmitter = null;
+        }
+        ParticleManager.getOrphanedParticles().add(this);
+    }
+
     public void remove() {
-        display.remove();
+        if(display != null) display.remove();
         if(parentEmitter == null) {
             ParticleManager.getOrphanedParticles().remove(this);
         } else {

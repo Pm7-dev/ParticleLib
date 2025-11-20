@@ -1,36 +1,50 @@
 package me.pm7.particleLibExamples.commands;
 
-import me.pm7.particleLibExamples.ParticleLibExamples;
 import me.pm7.particlelib.ParticleManager;
-//import me.pm7.particlelib.interpolation.keyframe.EasingMode;
-//import me.pm7.particlelib.interpolation.keyframe.Keyframe;
-//import me.pm7.particlelib.interpolation.keyframe.RangedKeyframe;
-//import me.pm7.particlelib.interpolation.keyframe.ValueRange;
-//import me.pm7.particlelib.spawner.ParticleDataSquare;
-//import me.pm7.particlelib.physics.GravityAxis;
 import me.pm7.particlelib.data.Direction;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import me.pm7.particlelib.emitter.ParticleEmitter;
+import me.pm7.particlelib.particle.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.*;
-import org.bukkit.util.Transformation;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
+
+import java.util.List;
 
 
 public class test implements CommandExecutor {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
 
-        Direction direction = new Direction(0, 0);
-        Direction direction2 = new Direction(360, 90);
+        int parts = 0;
+        int emitters = 0;
+        int orphans = 0;
 
-        System.out.println(Direction.getRandomVector(direction, direction2));
+        System.out.println("kinda Total Orphaned Particles: " + ParticleManager.getOrphanedParticles().size());
+
+        List<ParticleEmitter> allEmitters = ParticleManager.getAllEmitters();
+        while (!allEmitters.isEmpty()) {
+            ParticleEmitter emitter = allEmitters.getFirst();
+            while (!emitter.getParticles().isEmpty()) {
+                Particle p = emitter.getParticles().getFirst();
+                p.remove();
+                parts++;
+            }
+
+            emitters++;
+            emitter.remove();
+        }
+
+        while (!ParticleManager.getOrphanedParticles().isEmpty()) {
+            Particle p = ParticleManager.getOrphanedParticles().getFirst();
+            p.remove();
+            orphans++;
+        }
+
+        System.out.println("Total Particles: " + parts);
+        System.out.println("Total Emitters: " + emitters);
+        System.out.println("Total Orphaned Particles: " + orphans);
 
         return true;
     }

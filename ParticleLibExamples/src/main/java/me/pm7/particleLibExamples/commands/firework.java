@@ -10,7 +10,6 @@ import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.emitter.ParticleEmitterBurst;
 import me.pm7.particlelib.emitter.ParticleEmitterMovement;
 import me.pm7.particlelib.particlebuilder.ParticleBuilderSquare;
-import me.pm7.particlelib.physics.GravityDirection;
 import me.pm7.particlelib.physics.GravityNone;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
@@ -52,6 +51,7 @@ public class firework implements CommandExecutor, Listener {
             ))
             .shaded(false)
             .gravity(new GravityNone(new GradientDouble(0)))
+            .ticksPerCalculation(5)
     ;
     private final ParticleBuilderSquare explosion = new ParticleBuilderSquare()
             .particleLifeTicks(30)
@@ -71,6 +71,7 @@ public class firework implements CommandExecutor, Listener {
                     new RangedKeyframe<>(-120.0, 120.0, 0.0))
             )
             .shaded(false)
+            .ticksPerCalculation(5)
     ;
 
 
@@ -79,7 +80,7 @@ public class firework implements CommandExecutor, Listener {
 
         Player p = (Player) sender;
 
-        switch (args[0]) {
+        switch (args[0].toLowerCase()) {
             case "start":
 
                 if(taskID == null) {
@@ -113,7 +114,7 @@ public class firework implements CommandExecutor, Listener {
 
                 break;
             default:
-                sender.sendMessage("Invalid subcommand");
+                sender.sendMessage("Invalid args");
                 break;
         }
 
@@ -134,7 +135,7 @@ public class firework implements CommandExecutor, Listener {
     private void spawnFirework(Location location) {
         double initialY = location.getY();
         ParticleEmitterMovement smokeEmitter = new ParticleEmitterMovement(
-                0.085,
+                0.2, //0.085
                 1000,
                 smoke,
                 location
@@ -145,6 +146,7 @@ public class firework implements CommandExecutor, Listener {
 
             @Override
             public void run() {
+
 
                 Location loc = smokeEmitter.getLocation().clone().add(0, 0.6, 0);
 
@@ -179,7 +181,7 @@ public class firework implements CommandExecutor, Listener {
                             break;
                     }
 
-                    new ParticleEmitterBurst(75, colouredExplosion, loc).start();
+                    new ParticleEmitterBurst(45, colouredExplosion, loc).start(); //75
                     cancel();
                     return;
                 }
