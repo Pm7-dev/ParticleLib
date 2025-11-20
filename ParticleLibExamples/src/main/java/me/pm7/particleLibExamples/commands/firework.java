@@ -37,7 +37,7 @@ public class firework implements CommandExecutor, Listener {
     private Integer taskID = null;
 
     private final ParticleBuilderSquare smoke = new ParticleBuilderSquare()
-            .particleLifeTicks(90)
+            .particleLifeTicks(new ValueRange<>(86, 94))
             .initialRoll(new ValueRange<>(0.0, 360.0))
             .scaleOverLifetime(new RangedGradientVector(
                     EasingMode.SINE_OUT,
@@ -135,7 +135,7 @@ public class firework implements CommandExecutor, Listener {
     private void spawnFirework(Location location) {
         double initialY = location.getY();
         ParticleEmitterMovement smokeEmitter = new ParticleEmitterMovement(
-                0.2, //0.085
+                0.085,
                 1000,
                 smoke,
                 location
@@ -154,34 +154,37 @@ public class firework implements CommandExecutor, Listener {
                     smokeEmitter.remove();
 
                     ParticleBuilderSquare colouredExplosion = explosion.clone();
-                    switch (random.nextInt(8)) {
+                    switch (random.nextInt(9)) {
                         case 0:
-                            colouredExplosion.colorOverLifetime(Color.fromRGB(250, 33, 17));
+                            colouredExplosion.colorOverLifetime(Color.fromRGB(252, 38, 38));
                             break;
                         case 1:
-                            colouredExplosion.colorOverLifetime(Color.fromRGB(237, 151, 21));
+                            colouredExplosion.colorOverLifetime(Color.fromRGB(252, 156, 38));
                             break;
                         case 2:
-                            colouredExplosion.colorOverLifetime(Color.fromRGB(241, 252, 28));
+                            colouredExplosion.colorOverLifetime(Color.fromRGB(252, 252, 38));
                             break;
                         case 3:
-                            colouredExplosion.colorOverLifetime(Color.fromRGB(62, 252, 28));
+                            colouredExplosion.colorOverLifetime(Color.fromRGB(70, 252, 38));
                             break;
                         case 4:
-                            colouredExplosion.colorOverLifetime(Color.fromRGB(28, 252, 230));
+                            colouredExplosion.colorOverLifetime(Color.fromRGB(38, 124, 252));
                             break;
                         case 5:
-                            colouredExplosion.colorOverLifetime(Color.fromRGB(28, 114, 252));
+                            colouredExplosion.colorOverLifetime(Color.fromRGB(59, 38, 252));
                             break;
                         case 6:
-                            colouredExplosion.colorOverLifetime(Color.fromRGB(129, 28, 252));
+                            colouredExplosion.colorOverLifetime(Color.fromRGB(163, 38, 252));
                             break;
                         case 7:
-                            colouredExplosion.colorOverLifetime(Color.fromRGB(248, 28, 252));
+                            colouredExplosion.colorOverLifetime(Color.fromRGB(252, 38, 238));
+                            break;
+                        case 8:
+                            colouredExplosion.colorOverLifetime(Color.fromRGB(252, 38, 141));
                             break;
                     }
 
-                    new ParticleEmitterBurst(45, colouredExplosion, loc).start(); //75
+                    new ParticleEmitterBurst(75, colouredExplosion, loc).start();
                     cancel();
                     return;
                 }

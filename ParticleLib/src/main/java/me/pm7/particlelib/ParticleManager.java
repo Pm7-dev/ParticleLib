@@ -26,8 +26,28 @@ public class ParticleManager {
 
     private static void tick() {
 
+        // Iterate through each emitter
         for(int i=0; i<allEmitters.size(); i++) {
             ParticleEmitter emitter = allEmitters.get(i);
+
+            // Tick the emitter if they are both active and loaded
+            if(emitter.isActive() && emitter.getLocation().isChunkLoaded()) {
+
+                int viewDistance = emitter.getViewDistance();
+                if(viewDistance > 0) { // if the emitter has a view distance set, make sure there's someone near the emitter before ticking
+                    Location emitterLoc = emitter.getLocation();
+                    long closestDistance = Long.MAX_VALUE;
+                    for(Player p : emitterLoc.getWorld().getPlayers()) {
+                        double distanceSquared = p.getLocation().toVector().distanceSquared(emitterLoc.toVector());
+                        if(distanceSquared < closestDistance) {
+                            closestDistance = (long) distanceSquared;
+                        }
+                    }
+                    if(closestDistance <= (long) viewDistance * viewDistance) emitter.tick();
+                } else { // otherwise just tick the emitter like usual
+                    emitter.tick();
+                }
+            }
 
             // Tick the emitter's particles
             List<Particle> particles = emitter.getParticles();
@@ -37,30 +57,10 @@ public class ParticleManager {
                 if(!particles.contains(particle)) p--; // avoid concurrentmodificationexception if the particle dies this tick
             }
 
-            if(!emitter.isActive()) continue;
-
-            // Only tick emitter if there is a player close enough to it.
-            int viewDistance = emitter.getViewDistance();
-            if(viewDistance > 0) {
-                Location emitterLoc = emitter.getLocation();
-                long closestDistance = Long.MAX_VALUE;
-                for(Player p : emitterLoc.getWorld().getPlayers()) {
-                    double distanceSquared = p.getLocation().toVector().distanceSquared(emitterLoc.toVector());
-                    if(distanceSquared < closestDistance) {
-                        closestDistance = (long) distanceSquared;
-                    }
-                }
-                if(closestDistance > (long) viewDistance * viewDistance) {
-                    continue;
-                }
-            }
-
-            if(!emitter.getLocation().isChunkLoaded()) continue;
-            emitter.tick();
-
             if(!allEmitters.contains(emitter)) i--;// avoid concurrentmodificationexception if the emitter dies this tick
         }
 
+        // Tick all orphaned particles
         for(int i = 0; i< orphanedParticles.size(); i++) {
             Particle particle = orphanedParticles.get(i);
             particle.tick();

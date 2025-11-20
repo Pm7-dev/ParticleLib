@@ -45,7 +45,7 @@ public abstract class Particle {
         this.velocityRotationDirectionPositive = random.nextDouble() > 0.5;
         this.velocity = initialMovementDirection.normalize();
 
-        this.currentTick = 0;
+        this.currentTick = ticksPerCalculation;
         this.ticksLived = 0;
     }
 
