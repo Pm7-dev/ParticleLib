@@ -76,8 +76,9 @@ public class ParticleManager {
     public static List<Particle> getOrphanedParticles() {return orphanedParticles;}
     public static void killAllOrphans() {
         while (!orphanedParticles.isEmpty()) {
-            orphanedParticles.getFirst().remove();
-            orphanedParticles.removeFirst();
+            Particle p = orphanedParticles.getFirst();
+            p.remove();
+            orphanedParticles.remove(p);
         }
     }
 }

@@ -28,6 +28,23 @@ public class ParticleText extends Particle {
     private final GradientColor colorOverLifetime;
     private final Component text;
 
+    /**
+     * Makes a new text particle. Only meant for internal use but if you have something crazy you should go for it.
+     * @param parentEmitter
+     * @param location
+     * @param lifeTicks
+     * @param ticksPerCalculation
+     * @param spawnOffset
+     * @param gravity
+     * @param initialMovementDirection
+     * @param scaleOverLifetime
+     * @param initialRoll
+     * @param rotationSpeedOverLifetime
+     * @param rotationOverVelocity
+     * @param colorOverLifetime
+     * @param shaded
+     * @param text
+     */
     public ParticleText(ParticleEmitter parentEmitter, Location location, int lifeTicks, int ticksPerCalculation, Vector spawnOffset, Gravity gravity, Vector initialMovementDirection,
                         GradientVector scaleOverLifetime, double initialRoll, GradientDouble rotationSpeedOverLifetime,
                         ValueRange<Double> rotationOverVelocity, GradientColor colorOverLifetime, boolean shaded,
@@ -129,6 +146,10 @@ public class ParticleText extends Particle {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * @return {@inheritDoc}
+     */
     @Override
     public TextDisplay getDisplay() {
         return (TextDisplay) display;

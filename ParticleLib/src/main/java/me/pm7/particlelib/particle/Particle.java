@@ -12,6 +12,9 @@ import org.joml.Vector3f;
 
 import java.util.Random;
 
+/**
+ * A particle lol.
+ */
 public abstract class Particle {
 
     protected ParticleEmitter parentEmitter;
@@ -32,6 +35,17 @@ public abstract class Particle {
     
     protected Display display;
 
+    /**
+     * Makes a new particle. Only meant for internal use but if you have something crazy you should go for it.
+     * @param parentEmitter
+     * @param location
+     * @param lifeTicks
+     * @param ticksPerCalculation
+     * @param gravity
+     * @param initialMovementDirection
+     * @param scaleOverLifetime
+     * @param rotationOverVelocity
+     */
     protected Particle(ParticleEmitter parentEmitter, Location location, int lifeTicks, int ticksPerCalculation, Gravity gravity, Vector initialMovementDirection, GradientVector scaleOverLifetime, ValueRange<Double> rotationOverVelocity) {
         this.parentEmitter = parentEmitter;
         this.random = new Random();
@@ -49,7 +63,9 @@ public abstract class Particle {
         this.ticksLived = 0;
     }
 
-    // Ticks the particle a number of steps forward
+    /**
+     * Ticks the particle one tick forward. Only meant for internal use
+     */
     public void tick() {
         currentTick++;
         if(currentTick>=ticksPerCalculation) currentTick=0;
@@ -80,8 +96,12 @@ public abstract class Particle {
 
     protected abstract void transform(double lifePosition, int steps);
 
-    public abstract void color(double lifePosition);
+    protected abstract void color(double lifePosition);
 
+    /**
+     * Internal use only I guess, do what you want
+     * @param loc the location to teleport the particle to
+     */
     public void teleport(Location loc) {
         if(!loc.isChunkLoaded()) {
             remove();
@@ -93,6 +113,9 @@ public abstract class Particle {
         display.teleport(loc);
     }
 
+    /**
+     * Move the particle to the orphaned particles list in ParticleManager
+     */
     public void orphan() {
         if(parentEmitter != null) {
             parentEmitter.getParticles().remove(this);
@@ -101,6 +124,9 @@ public abstract class Particle {
         ParticleManager.getOrphanedParticles().add(this);
     }
 
+    /**
+     * kills the particle and removes it from any lists that keep track of particles
+     */
     public void remove() {
         if(display != null) display.remove();
         if(parentEmitter == null) {
@@ -110,16 +136,48 @@ public abstract class Particle {
         }
     }
 
+    /**
+     * Returns the current velocity of the particle
+     * @return the vector velocity
+     */
     public Vector getVelocity() {return velocity;}
-    public Double getLifePosition() {return (double) ticksLived / lifeTicks;}
+
+    /**
+     * Returns a position from 0.0 to 1.0 of how far the particle is through its life
+     * @return the life position
+     */
+    public double getLifePosition() {return (double) ticksLived / lifeTicks;}
+
+    /**
+     * Returns the current scale of the particle
+     * @return the scale of the particle
+     */
     public double getSize() {
         Vector3f scale = display.getTransformation().getScale();
         return (scale.x + scale.y + scale.z)/3.0d;
     }
 
+    /**
+     * Gets the display entity that this particle is visualized with
+     * @return the display entity
+     */
     public abstract Display getDisplay();
 
+    /**
+     * Gets the spawn location of this particle as a vector
+     * @return the spawn vector
+     */
     public Vector getSpawnLocation() {return spawnLocation.clone();}
+
+    /**
+     * Gets the amount of ticks this particle will live for
+     * @return the number of ticks this particle lives for
+     */
     public int getLifeTicks() {return lifeTicks;}
+
+    /**
+     * Gets the amount of ticks this particle has lived
+     * @return the number of ticks lived
+     */
     public int getTicksLived() {return ticksLived;}
 }

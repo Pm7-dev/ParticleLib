@@ -26,6 +26,23 @@ public class ParticleItem extends Particle {
 
     private final GradientColor colorOverLifetime;
 
+    /**
+     * Makes a new item particle. Only meant for internal use but if you have something crazy you should go for it.
+     * @param parentEmitter
+     * @param location
+     * @param lifeTicks
+     * @param ticksPerCalculation
+     * @param spawnOffset
+     * @param gravity
+     * @param initialMovementDirection
+     * @param scaleOverLifetime
+     * @param initialRotation
+     * @param velocityOverridesRotation
+     * @param rotationSpeedOverLifetime
+     * @param rotationOverVelocity
+     * @param colorOverLifetime
+     * @param item
+     */
     public ParticleItem(ParticleEmitter parentEmitter, Location location, int lifeTicks, int ticksPerCalculation, Vector spawnOffset, Gravity gravity, Vector initialMovementDirection,
                         GradientVector scaleOverLifetime, Vector initialRotation, boolean velocityOverridesRotation, GradientVector rotationSpeedOverLifetime,
                         ValueRange<Double> rotationOverVelocity, GradientColor colorOverLifetime, ItemStack item) {
@@ -146,6 +163,10 @@ public class ParticleItem extends Particle {
         getDisplay().setItemStack(item);
     }
 
+    /**
+     * {@inheritDoc}
+     * @return {@inheritDoc}
+     */
     @Override
     public ItemDisplay getDisplay() {
         return (ItemDisplay) display;

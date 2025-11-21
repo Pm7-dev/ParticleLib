@@ -30,6 +30,9 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
     protected ValueRange<Double> rotationOverVelocity;
     protected Gravity gravity;
 
+    /**
+     * Creates a particle builder with some default data
+     */
     public ParticleBuilder() {
         this.particleLifeTicks = new ValueRange<>(60, 60);
         this.ticksPerCalculation = 1;
@@ -40,6 +43,9 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
         this.gravity = new GravityNone(new GradientDouble(1.0));
     }
 
+    /**
+     * Creates a particle builder with some specific data, not suggested for use.
+     */
     protected ParticleBuilder(ValueRange<Integer> particleLifeTicks, int ticksPerCalculation, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity) {
         this.particleLifeTicks = particleLifeTicks;
         this.ticksPerCalculation = ticksPerCalculation;
@@ -50,6 +56,12 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
         this.gravity = gravity;
     }
 
+    /**
+     * Builds a particle with an emitter and location using this builder's data
+     * @param emitter the emitter
+     * @param location the location
+     * @return
+     */
     public abstract Particle build(ParticleEmitter emitter, Location location);
 
     public abstract ParticleBuilder particleLifeTicks(ValueRange<Integer> particleLifeTicks);

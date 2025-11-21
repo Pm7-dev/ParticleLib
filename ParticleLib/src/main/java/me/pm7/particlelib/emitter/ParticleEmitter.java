@@ -30,8 +30,10 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
 
     /**
      * Creates a new ParticleEmitter
+     * @param particleBuilder The particle builder to use when this emitter spawns a particle
      * @param location The location to spawn the ParticleEmitter's display entity
-     * @param particleBuilder The particle data to use when this emitter spawns a particle
+     * @param maxParticles The maximum amount of particles this emitter can have before it trims the oldest ones
+     * @param viewDistance At least one player must be within this range for the emitter to tick. 0 to disable
      */
     public ParticleEmitter(ParticleBuilder particleBuilder, Location location, long maxParticles, int viewDistance) {
         this.particles = new ArrayList<>();
@@ -50,9 +52,9 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     }
 
     /**
-     * Creates a new ParticleEmitter
+     * Creates a new ParticleEmitter with a bit less data
+     * @param particleBuilder The particle builder to use when this emitter spawns a particle
      * @param location The location to spawn the ParticleEmitter's display entity
-     * @param particleBuilder The particle data to use when this emitter spawns a particle
      */
     public ParticleEmitter(ParticleBuilder particleBuilder, Location location) {
         this.particles = new ArrayList<>();
@@ -71,12 +73,12 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     }
 
     /**
-     * Advances the emitter's spawn cycle by one tick
+     * Advances the emitter's spawn cycle by one tick. Only meant for internal use but you do you.
      */
     public abstract void tick();
 
     /**
-     * Enables the emitter
+     * Enables the emitter to be ticked in the ParticleManager's loop
      */
     public void start() {
         if(getLocation().isChunkLoaded()) tick();
@@ -95,7 +97,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     public boolean isActive() {return active;}
 
     /**
-     * Spawns a particle at the emitter's location and removes the oldest particle if the maxParticles limit is passed
+     * Spawns a particle at the emitter's location, removing the oldest particle if the maxParticles limit is passed
      */
     public void spawnParticle() {
         particles.add(particleBuilder.build(this, getLocation()));
@@ -108,7 +110,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     }
 
     /**
-     * Teleports the emitter to a specified location
+     * Teleports the emitter's entity to a specified location
      * @param location The location to teleport the emitter to
      */
     public void teleport(Location location) {this.gameObject.teleport(location);}
@@ -125,15 +127,33 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
      */
     public Display getGameObject() {return gameObject;}
 
-    //TODO: documentation maybe
+    /**
+     * @return the maximum number of particles this emitter can have before it starts removing old ones.
+     */
     public long getMaxParticles() {return maxParticles;}
+
+    /**
+     * Sets the maximum number of particles this emitter can have active before it starts removing old ones.
+     * @param maxParticles The new amount of max particles, 0 to disable.
+     */
     public void setMaxParticles(long maxParticles) {this.maxParticles = maxParticles;}
 
+    /**
+     * Returns the view distance of the emitter. View distance means that the emitter will stop being ticked once there
+     * is no longer any player within the distance. This optimization is meant for server lag rather than client lag.
+     * @return The view distance of the emitter
+     */
     public int getViewDistance() {return viewDistance;}
+
+    /**
+     * Sets the view distance of this emitter. View distance means that the emitter will stop being ticked once there
+     * is no longer any player within the distance. This optimization is meant for server lag rather than client lag.
+     * @param viewDistance The view distance, 0 to disable.
+     */
     public void setViewDistance(int viewDistance) {this.viewDistance = viewDistance;}
 
     /**
-     * Removes this emitter and sends all currently active particles to the "orphaned particles" list in ParticleManager
+     * Removes this emitter and orphans all its particles, sending them to the "orphaned particles" list in ParticleManager
      */
     public void remove() {
         gameObject.remove();
@@ -146,21 +166,31 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     }
 
     /**
-     * Sets the particle spawn data of this emitter and returns the emitter
+     * Sets the particle builder of this emitter and returns the emitter. The particle builder stores the data used when
+     * spawning particles.
      * @param particleBuilder The new spawn data for the emitter
      * @return The emitter after the change
      */
-    public ParticleEmitter particleBuilder(ParticleBuilder particleBuilder) {this.particleBuilder = particleBuilder; return this;}
+    public ParticleEmitter getParticleBuilder(ParticleBuilder particleBuilder) {this.particleBuilder = particleBuilder; return this;}
 
     /**
-     * Returns the particle spawn data of this emitter
-     * @return The particle spawn data
+     * Returns the particle builder of this emitter and returns the emitter. The particle builder stores the data used when
+     * spawning particles.
+     * @return The particle builder
      */
-    public ParticleBuilder particleBuilder() {return particleBuilder;}
+    public ParticleBuilder getParticleBuilder() {return particleBuilder;}
 
+    /**
+     * Returns a list of every alive particle this emitter has spawned
+     * @return the list of particles
+     */
     public List<Particle> getParticles() {return particles;}
 
-    // Config stuff
+    /**
+     * Serializes this emitter into a config-friendly map of its keys and values. Only meant to be used when saving an
+     * emitter to config.
+     * @return A map of this emitter's data
+     */
     @Override
     public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
@@ -172,6 +202,12 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
         map.put("viewDistance", viewDistance);
         return map;
     }
+
+    /**
+     * Creates a ParticleEmitter from a map of string keys and value. Only meant to be used when loading an emitter from
+     * config.
+     * @param map the data to load this emitter with
+     */
     public ParticleEmitter(Map<String, Object> map) {
         this.particles = new ArrayList<>();
 

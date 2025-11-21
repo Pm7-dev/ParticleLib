@@ -42,7 +42,7 @@ public class firework implements CommandExecutor, Listener {
             .scaleOverLifetime(new RangedGradientVector(
                     EasingMode.SINE_OUT,
                     new RangedKeyframe<>(new Vector(0.0, 0.0, 0.0), 0.0),
-                    new RangedKeyframe<>(new Vector(0.45, 0.45, 0.45), 1.0)
+                    new RangedKeyframe<>(new Vector(0.5, 0.5, 0.5), 1.0)
             ))
             .colorOverLifetime(new GradientColor(
                     EasingMode.LINEAR,
@@ -51,7 +51,6 @@ public class firework implements CommandExecutor, Listener {
             ))
             .shaded(false)
             .gravity(new GravityNone(new GradientDouble(0)))
-            .ticksPerCalculation(10)
     ;
     private final ParticleBuilderSquare explosion = new ParticleBuilderSquare()
             .particleLifeTicks(30)
@@ -71,7 +70,6 @@ public class firework implements CommandExecutor, Listener {
                     new RangedKeyframe<>(-120.0, 120.0, 0.0))
             )
             .shaded(false)
-            .ticksPerCalculation(10)
     ;
 
 

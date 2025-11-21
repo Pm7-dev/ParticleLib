@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A particle emitter that, while activated, spawns particles depending on its movement
+ * An emitter of particles bound to the location of an empty display entity. When active, this emitter spawns particles
+ * based on how far the emitter has traveled.
  */
 public class ParticleEmitterMovement extends ParticleEmitter {
 
@@ -22,15 +23,15 @@ public class ParticleEmitterMovement extends ParticleEmitter {
 
 
     /**
-     * Creates a new constant particle emitter
+     * Creates a new movement particle emitter
      * @param metersPerParticle The distance in meters required to spawn one particle.
-     * @param particleCutoff If the distance moved in a single tick is more than enough to spawn this number of particles, this movement
-     *                       will be ignored. This is to prevent large distance teleportations (going through portals, teleporting an emitter far away, etc. ) from lagging/crashing
-     *                            a server.
+     * @param particleCutoff If the distance moved in a single tick is more than enough to spawn this number of particles,
+     *                       this movement will be ignored. This is to prevent large teleportations (going through portals,
+     *                       teleporting an emitter far away, etc. ) from lagging/crashing a server.
+     * @param particleBuilder The particle builder to use when this emitter spawns a particle
      * @param location The location to spawn the ParticleEmitter's display entity
-     * @param particleBuilder The particle data to use when this emitter spawns a particle
-     * @param maxParticles {@inheritDoc}
-     * @param viewDistance {@inheritDoc}
+     * @param maxParticles The maximum amount of particles this emitter can have before it trims the oldest ones
+     * @param viewDistance At least one player must be within this range for the emitter to tick. 0 to disable
      */
     public ParticleEmitterMovement(double metersPerParticle, int particleCutoff, ParticleBuilder particleBuilder, Location location, long maxParticles, int viewDistance) {
         super(particleBuilder, location, maxParticles, viewDistance);
@@ -43,13 +44,13 @@ public class ParticleEmitterMovement extends ParticleEmitter {
     }
 
     /**
-     * Creates a new constant particle emitter
+     * Creates a new movement particle emitter with a bit less data
      * @param metersPerParticle The distance in meters required to spawn one particle.
-     * @param particleCutoff If the distance moved in a single tick is more than enough to spawn this number of particles, this movement
-     *                       will be ignored. This is to prevent large distance teleportations (going through portals, teleporting an emitter far away, etc. ) from lagging/crashing
-     *                            a server.
+     * @param particleCutoff If the distance moved in a single tick is more than enough to spawn this number of particles,
+     *                       this movement will be ignored. This is to prevent large teleportations (going through portals,
+     *                       teleporting an emitter far away, etc. ) from lagging/crashing a server.
+     * @param particleBuilder The particle builder to use when this emitter spawns a particle
      * @param location The location to spawn the ParticleEmitter's display entity
-     * @param particleBuilder The particle data to use when this emitter spawns a particle
      */
     public ParticleEmitterMovement(double metersPerParticle, int particleCutoff, ParticleBuilder particleBuilder, Location location) {
         super(particleBuilder, location, 0, 0);
@@ -62,7 +63,7 @@ public class ParticleEmitterMovement extends ParticleEmitter {
     }
 
     /**
-     * Advances the emitter one tick forward
+     * {@inheritDoc}
      */
     @Override
     public void tick() {
@@ -105,6 +106,10 @@ public class ParticleEmitterMovement extends ParticleEmitter {
         previousLocation = currentLocation.clone();
     }
 
+    /**
+     * Spawns a particle at a specified location
+     * @param loc the location to spawn the particle at
+     */
     private void spawnParticleAtLocation(Location loc) {
         particles.add(particleBuilder.build(this, loc));
         if(maxParticles > 0) {
@@ -124,7 +129,11 @@ public class ParticleEmitterMovement extends ParticleEmitter {
     }
     public double getMetersPerParticle() {return metersPerParticle;}
 
-    // Config stuff
+    /**
+     * Serializes this emitter into a config-friendly map of its keys and values. Only meant to be used when saving an
+     * emitter to config.
+     * @return A map of this emitter's data
+     */
     @Override
     public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>(super.serialize());
@@ -132,6 +141,11 @@ public class ParticleEmitterMovement extends ParticleEmitter {
         map.put("particlesPerMeter", metersPerParticle);
         return map;
     }
+    /**
+     * Creates a ParticleEmitter from a map of string keys and value. Only meant to be used when loading an emitter from
+     * config.
+     * @param map the data to load this emitter with
+     */
     public ParticleEmitterMovement(Map<String, Object> map) {
         super(map);
         this.metersPerParticle = (double) map.get("particlesPerMeter");
