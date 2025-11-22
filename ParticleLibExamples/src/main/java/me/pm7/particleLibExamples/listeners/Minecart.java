@@ -1,6 +1,5 @@
 package me.pm7.particleLibExamples.listeners;
 
-import me.pm7.particleLibExamples.ParticleLibExamples;
 import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.data.gradient.RangedGradientVector;
 import me.pm7.particlelib.data.keyframe.EasingMode;
@@ -14,13 +13,11 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPlaceEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.util.Vector;
 
 public class Minecart implements Listener {
 
-    private static final ParticleLibExamples plugin = ParticleLibExamples.getPlugin();
-
+    // Particle for sparks
     private final ParticleBuilderCube spark = new ParticleBuilderCube()
             .particleLifeTicks(8)
             .shaded(false)
@@ -29,7 +26,7 @@ public class Minecart implements Listener {
                     new Direction(0, 1),
                     new Direction(360, 10)
             ))
-            .velocityOverridesRotation(true)
+            .velocityOverridesRotation(true) // very important for this one
             .gravity(new GravityDirection()
                     .initialSpeed(new ValueRange<>(9.0, 12.0))
                     .strengthOverLifetime(25)
@@ -46,6 +43,8 @@ public class Minecart implements Listener {
 
     @EventHandler
     public void onMinecart(EntityPlaceEvent e) {
+
+        // Adds a movement emitter as a passenger to all minecarts. Yes, this does stop players from entering the minecraft, but demonstration purposes and laziness and all that
         if(e.getEntity().getType() == EntityType.MINECART) {
             org.bukkit.entity.Minecart m = (org.bukkit.entity.Minecart) e.getEntity();
             ParticleEmitterMovement trailEmitter = new ParticleEmitterMovement(
@@ -58,6 +57,8 @@ public class Minecart implements Listener {
             m.addPassenger(trailEmitter.getGameObject());
 
             trailEmitter.start();
+
+            // I also don't ever actually delete the particle emitter spawned from this, so that's another issue to tack onto this
         }
     }
 

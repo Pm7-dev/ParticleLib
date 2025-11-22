@@ -1,7 +1,6 @@
 package me.pm7.particleLibExamples.listeners;
 
 import me.pm7.particleLibExamples.ParticleLibExamples;
-import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitterBurst;
 import me.pm7.particlelib.data.gradient.RangedGradientColor;
@@ -16,6 +15,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Light;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -24,6 +24,7 @@ import org.bukkit.util.Vector;
 public class Explosion implements Listener {
     private static final ParticleLibExamples plugin = ParticleLibExamples.getPlugin();
 
+    // Explosion for normal things
     ParticleBuilderCube explosion = new ParticleBuilderCube()
             .shaded(false)
             .initialMovementDirection(new ValueRange<>(new Direction(0, 0), new Direction(360, 360)))
@@ -42,6 +43,10 @@ public class Explosion implements Listener {
                     .dragMultiplier(18.0)
             );
 
+    // Purple explosion for end crystals
+    ParticleBuilderCube purpleExplosion = explosion.clone()
+            .colorOverLifetime(new RangedGradientColor(Color.fromRGB(150, 40, 252), Color.fromRGB(224, 40, 252)));
+
 
     @EventHandler
     public void OnExplode(EntityExplodeEvent e) {
@@ -49,7 +54,11 @@ public class Explosion implements Listener {
         Location loc = e.getLocation().clone().add(0, 0.8, 0);
 
         // explosion
-        new ParticleEmitterBurst(60, explosion, loc).start();
+        if(e.getEntityType() == EntityType.END_CRYSTAL) {
+            new ParticleEmitterBurst(60, purpleExplosion, loc).start();
+        } else {
+            new ParticleEmitterBurst(60, explosion, loc).start();
+        }
 
         // set to a light
         Block b = loc.getBlock();

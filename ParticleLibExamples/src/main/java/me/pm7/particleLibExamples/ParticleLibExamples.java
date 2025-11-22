@@ -18,10 +18,8 @@ public final class ParticleLibExamples extends JavaPlugin {
         plugin = this;
 
         // Plugin startup logic
-        getCommand("test").setExecutor(new test());
         getCommand("flame").setExecutor(new flame());
         getCommand("smoke").setExecutor(new smoke());
-        getCommand("particleeditor").setExecutor(new particleeditor());
         getCommand("trail").setExecutor(new trail());
         getCommand("firework").setExecutor(new firework());
         Bukkit.getPluginManager().registerEvents(new firework(), this);

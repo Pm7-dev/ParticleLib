@@ -36,6 +36,7 @@ public class firework implements CommandExecutor, Listener {
     private Player player;
     private Integer taskID = null;
 
+    // The smoke traveling upwards with the firework
     private final ParticleBuilderSquare smoke = new ParticleBuilderSquare()
             .particleLifeTicks(new ValueRange<>(86, 94))
             .initialRoll(new ValueRange<>(0.0, 360.0))
@@ -52,6 +53,8 @@ public class firework implements CommandExecutor, Listener {
             .shaded(false)
             .gravity(new GravityNone(new GradientDouble(0)))
     ;
+
+    // The firework's explosion of colour
     private final ParticleBuilderSquare explosion = new ParticleBuilderSquare()
             .particleLifeTicks(30)
             .initialMovementDirection(new ValueRange<>(new Direction(0, 0), new Direction(360, 360)))
@@ -72,14 +75,16 @@ public class firework implements CommandExecutor, Listener {
             .shaded(false)
     ;
 
-
+    // When the command gets sent
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] args) {
 
+        // Assuming this command is sent by a player, might change
         Player p = (Player) sender;
 
+        // First argument can either be "start, stop, or item"
         switch (args[0].toLowerCase()) {
-            case "start":
+            case "start": // Starts the loop of spawning particles around the sender
 
                 if(taskID == null) {
 
@@ -97,10 +102,12 @@ public class firework implements CommandExecutor, Listener {
                 }
 
                 break;
-            case "stop":
+            case "stop": // Stops the loop if started
+                Bukkit.getScheduler().cancelTask(taskID);
+                taskID = null;
                 break;
-            case "item":
 
+            case "item": // Gives the custom firework item
                 ItemStack item = new ItemStack(Material.POPPED_CHORUS_FRUIT);
                 ItemMeta meta = item.getItemMeta();
                 meta.setItemModel(new NamespacedKey("minecraft", "firework_rocket"));
@@ -111,7 +118,7 @@ public class firework implements CommandExecutor, Listener {
                 p.getInventory().addItem(item);
 
                 break;
-            default:
+            default: // Oops.
                 sender.sendMessage("Invalid args");
                 break;
         }
@@ -120,6 +127,7 @@ public class firework implements CommandExecutor, Listener {
         return true;
     }
 
+    // Spawn a firework particle if the firework item is used
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         if(e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
@@ -130,7 +138,10 @@ public class firework implements CommandExecutor, Listener {
         spawnFirework(e.getInteractionPoint());
     }
 
+    // Method that handles spawning fireworks
     private void spawnFirework(Location location) {
+
+        // Create a new particle emitter for the smoke
         double initialY = location.getY();
         ParticleEmitterMovement smokeEmitter = new ParticleEmitterMovement(
                 0.085,
@@ -138,19 +149,22 @@ public class firework implements CommandExecutor, Listener {
                 smoke,
                 location
         );
-        smokeEmitter.start();
+        smokeEmitter.start(); // Start the emitter
 
+        // Loop this code
         new BukkitRunnable() {
-
             @Override
             public void run() {
 
-
+                // Teleport the emitter upwards
                 Location loc = smokeEmitter.getLocation().clone().add(0, 0.6, 0);
+                smokeEmitter.teleport(loc);
 
+                // Once the firework gets past a certain height, cancel the loop and make an explosion
                 if(loc.getY() - initialY > 12) {
                     smokeEmitter.remove();
 
+                    // Get a random colour
                     ParticleBuilderSquare colouredExplosion = explosion.clone();
                     switch (random.nextInt(9)) {
                         case 0:
@@ -182,13 +196,10 @@ public class firework implements CommandExecutor, Listener {
                             break;
                     }
 
+                    // Create the explosion
                     new ParticleEmitterBurst(75, colouredExplosion, loc).start();
-                    cancel();
-                    return;
+                    cancel(); // Cancel loop
                 }
-
-                smokeEmitter.teleport(loc);
-
             }
         }.runTaskTimer(plugin, 0L, 1L);
     }

@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class smoke implements CommandExecutor {
 
+    // Very simple smoke particle, likely for early on in the video
     ParticleBuilderSquare smokeData = new ParticleBuilderSquare()
             .particleLifeTicks(240)
             .scaleOverLifetime(new RangedGradientVector(

@@ -29,6 +29,7 @@ import java.util.List;
 public class flame implements CommandExecutor {
     List<ParticleEmitter> flameEmitters = new ArrayList<>();
 
+    // Main flame data gets set here, the rest are just cloned and have their colours changed
     ParticleBuilderSquare flameDataOrange = new ParticleBuilderSquare()
             .initialMovementDirection(new ValueRange<>(new Direction(0, 0), new Direction(360, 360)))
             .particleLifeTicks(15)
@@ -110,6 +111,7 @@ public class flame implements CommandExecutor {
 
         Location location;
 
+        // I want this one to be useable by players or command blocks
         if (sender instanceof Player) {
             location = ((Player) sender).getLocation();
         }
@@ -118,6 +120,7 @@ public class flame implements CommandExecutor {
         } else return false;
 
 
+        // numbers as an argument to control which flame to spawn or kill all flames
         switch (args[0].toLowerCase()) {
             case "0": {
                 flameEmitters.add(new ParticleEmitterConstant(10, 1, flameDataOrange, location));

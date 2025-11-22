@@ -21,6 +21,22 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 public class particleeditor implements CommandExecutor {
+
+
+    /*
+        plz read
+        I honestly wouldn't recommend using this for anything at all. This was mainly used when creating particle systems
+        so I could edit the config version of a particle effect and then use a simple /particleeditor reload command
+        without having to restart the entire server every time I tweaked a particle. It ended up getting really messy
+        and likely has a whole bunch of issues to the point where I understand it well enough to use it only because
+        I created it.
+
+        If you want to register the command and try to use this, go ahead, but I'd rather treat this as a demonstration
+        of how systems can be saved/loaded from config
+     */
+
+
+
     private static final ParticleLibExamples plugin = ParticleLibExamples.getPlugin();
 
     ParticleEmitterConstant emitter = null;

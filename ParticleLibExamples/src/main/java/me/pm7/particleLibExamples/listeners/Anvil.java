@@ -30,6 +30,12 @@ import org.bukkit.util.Vector;
 
 public class Anvil implements Listener {
 
+    /*
+    Makes the cartoon onomatopoeia whenever something is hit with an anvil
+     */
+
+
+    // The little red things that come out along with the text. I'm honestly not sure what they're called
     ParticleBuilderCustomText sparks = new ParticleBuilderCustomText()
             .particleLifeTicks(15)
             .text(Component.text("\uE002"))
@@ -60,6 +66,7 @@ public class Anvil implements Listener {
             ))
             .initialRoll(new ValueRange<>(0.0, 360.0));
 
+    // The main "BONK" text
     ParticleBuilderCustomText bonk = new ParticleBuilderCustomText()
             .particleLifeTicks(15)
             .text(Component.text("\uE000\uF801\uE001"))
@@ -103,6 +110,7 @@ public class Anvil implements Listener {
 
                 Location loc = victim.getLocation().add(0, 1, 0);
 
+                // Create both the sparks and the bonk
                 new ParticleEmitterBurst(
                         20,
                         sparks,

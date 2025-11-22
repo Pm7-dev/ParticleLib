@@ -21,7 +21,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class trail implements CommandExecutor {
 
-    private ParticleBuilderCube trail = new ParticleBuilderCube()
+    // Simple trail spawner
+    private final ParticleBuilderCube trail = new ParticleBuilderCube()
             .shaded(false)
             .particleLifeTicks(45)
             .gravity(new GravityNone(new GradientDouble(0.0)))
@@ -45,8 +46,10 @@ public class trail implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
-        Player p = (Player) sender;
 
+        Player p = (Player) sender; // assumes a player ran this command
+
+        // When the trail is started, start the trail by attaching a movement-based particle emitter to the player via vehicle
         if(strings[0].equalsIgnoreCase("start")) {
             if(!p.getPassengers().isEmpty()) return true;
 
@@ -62,6 +65,13 @@ public class trail implements CommandExecutor {
             trailEmitter.start();
 
         } else if(strings[0].equalsIgnoreCase("stop")) {
+            /*
+            When stopping, remove the emitter.
+
+            (this only really removes the emitter's entity, meaning there's still technically an emitter ticking until
+            the server closes, I got lazy and this should only start to matter if you enable and disable the trail like
+            100,000 times, which is a bit outside the scope of this demonstration plugin)
+             */
             if(p.getPassengers().isEmpty()) return true;
             p.getPassengers().getFirst().remove();
         }
