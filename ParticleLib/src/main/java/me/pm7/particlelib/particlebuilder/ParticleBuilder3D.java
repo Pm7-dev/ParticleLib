@@ -19,12 +19,18 @@ public abstract class ParticleBuilder3D extends ParticleBuilder {
     protected boolean velocityOverridesRotation;
     protected Gradient rotationSpeedOverLifetime;
 
+    /**
+     * Creates a 3D particle builder with some default data, meant to be modified
+     */
     public ParticleBuilder3D() {
         super();
         this.initialRotation = new ValueRange<>(new Vector(0, 0, 0));
         this.rotationSpeedOverLifetime = new GradientVector(new Vector());
     }
 
+    /**
+     * Creates a 3D particle builder with specific data, not recommended for use.
+     */
     protected ParticleBuilder3D(ValueRange<Integer> particleLifeTicks, int ticksPerCalculation, ValueRange<Vector> spawnOffset, ValueRange<Direction> initialMovementDirection, Gradient scaleOverLifetime, ValueRange<Double> rotationOverVelocity, Gravity gravity, ValueRange<Vector> initialRotation, boolean velocityOverridesRotation, Gradient rotationSpeedOverLifetime) {
         super(particleLifeTicks, ticksPerCalculation, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity);
         this.initialRotation = initialRotation;
@@ -55,8 +61,34 @@ public abstract class ParticleBuilder3D extends ParticleBuilder {
      */
     public abstract ParticleBuilder3D velocityOverridesRotation(boolean velocityOverridesRotation);
 
+    /**
+     * Sets the rotation speed of the particle over its lifetime using a ranged gradient of vectors
+     * Each component of the vector (x, y, z) represents the rotation speed around the corresponding axis (in degrees per tick).
+     * The rotation speed at any given time is interpolated from the provided ranges.
+     *
+     * @param rotationSpeedOverLifetime the gradient of vector ranges defining the rotation speed over the particle's lifetime
+     * @return this builder
+     */
     public abstract ParticleBuilder3D rotationSpeedOverLifetime(RangedGradientVector rotationSpeedOverLifetime);
+
+    /**
+     * Sets the rotation speed of the particle over its lifetime using a gradient of vectors.
+     * Each component of the vector (x, y, z) represents the rotation speed around the corresponding axis (in degrees per tick)
+     * over the particle's lifespan. The rotation speed at any given time is interpolated using the specified gradient.
+     *
+     * @param rotationSpeedOverLifetime the gradient of vectors defining the rotation speed over the particle's lifetime
+     * @return this builder
+     */
     public abstract ParticleBuilder3D rotationSpeedOverLifetime(GradientVector rotationSpeedOverLifetime);
+
+    /**
+     * Sets the rotation speed of the particle over its lifetime using a constant 3D vector.
+     * Each component of the vector (x, y, z) represents the rotation speed around the corresponding axis (in degrees per tick).
+     * The particle will maintain this rotation speed throughout its lifetime.
+     *
+     * @param rotationSpeed the vector defining the constant rotation speed of the particle around each axis
+     * @return this builder
+     */
     public abstract ParticleBuilder3D rotationSpeedOverLifetime(Vector rotationSpeed);
 
     // Config stuff
@@ -69,7 +101,7 @@ public abstract class ParticleBuilder3D extends ParticleBuilder {
         map.put("rotationSpeedOverLifetime", rotationSpeedOverLifetime);
         return map;
     }
-    public ParticleBuilder3D(Map<String, Object> map) {
+    protected ParticleBuilder3D(Map<String, Object> map) {
         super(map);
         this.initialRotation = (ValueRange<Vector>) map.get("initialRotation");
         this.velocityOverridesRotation = (boolean) map.get("velocityOverridesRotation");

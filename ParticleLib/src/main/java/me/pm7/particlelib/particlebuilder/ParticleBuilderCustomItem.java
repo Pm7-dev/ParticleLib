@@ -60,52 +60,194 @@ public class ParticleBuilderCustomItem extends ParticleBuilder3D {
 
 
     // Data specific to ParticleDataCustomItem
+
+    /**
+     * Sets the color gradient over the particle's lifetime.
+     *
+     * @param colorGradient the ranged color gradient
+     * @return this builder
+     */
     public ParticleBuilderCustomItem colorOverLifetime(RangedGradientColor colorGradient) {this.colorOverLifetime = colorGradient; return this;}
+
+    /**
+     * Sets the color gradient over the particle's lifetime.
+     *
+     * @param colorGradient the color gradient
+     * @return this builder
+     */
     public ParticleBuilderCustomItem colorOverLifetime(GradientColor colorGradient) {this.colorOverLifetime = colorGradient; return this;}
+
+    /**
+     * Sets a constant color over the particle's lifetime.
+     *
+     * @param color the color
+     * @return this builder
+     */
     public ParticleBuilderCustomItem colorOverLifetime(Color color) {this.colorOverLifetime = new GradientColor(color); return this;}
 
+    /**
+     * Sets the item stack used to render this particle.
+     *
+     * @param item the item stack
+     * @return this builder
+     */
     public ParticleBuilderCustomItem item(ItemStack item) {this.item = item; return this;}
 
 
     // Data specific to 3D particle spawners
-    /**{@inheritDoc}*/
+
+    /**
+     * {@inheritDoc}
+     * @param initialRotation {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem initialRotation(ValueRange<Vector> initialRotation) {this.initialRotation = initialRotation; return this;}
-    /**{@inheritDoc}*/
+
+    /**
+     * {@inheritDoc}
+     * @param initialRotation {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem initialRotation(Vector initialRotation) {this.initialRotation = new ValueRange<>(initialRotation); return this;}
 
     /**
      * {@inheritDoc}
+     * @param velocityOverridesRotation {@inheritDoc}
+     * @return {@inheritDoc}
      */
+    @Override
     public ParticleBuilderCustomItem velocityOverridesRotation(boolean velocityOverridesRotation) {this.velocityOverridesRotation = velocityOverridesRotation; return this;}
 
+    /**
+     * {@inheritDoc}
+     * @param rotationSpeedOverLifetime {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem rotationSpeedOverLifetime(RangedGradientVector rotationSpeedOverLifetime) {this.rotationSpeedOverLifetime = rotationSpeedOverLifetime; return this;}
+
+    /**
+     * {@inheritDoc}
+     * @param rotationSpeedOverLifetime {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem rotationSpeedOverLifetime(GradientVector rotationSpeedOverLifetime) {this.rotationSpeedOverLifetime = rotationSpeedOverLifetime; return this;}
+
+    /**
+     * {@inheritDoc}
+     * @param rotationSpeed {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem rotationSpeedOverLifetime(Vector rotationSpeed) {this.rotationSpeedOverLifetime = new GradientVector(rotationSpeed); return this;}
 
+    /**
+     * {@inheritDoc}
+     * @param rotationOverVelocity {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem rotationOverVelocity(ValueRange<Double> rotationOverVelocity) {this.rotationOverVelocity = rotationOverVelocity; return this;}
 
 
     // Data general to all ParticleSpawners
+
+    /**
+     * {@inheritDoc}
+     * @param particleLifeTicks {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem particleLifeTicks(ValueRange<Integer> particleLifeTicks) {this.particleLifeTicks = particleLifeTicks; return this;}
+
+    /**
+     * {@inheritDoc}
+     * @param particleLifeTicks {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem particleLifeTicks(int particleLifeTicks) {this.particleLifeTicks = new ValueRange<>(particleLifeTicks); return this;}
 
+    /**
+     * {@inheritDoc}
+     * @param ticksPerCalculation {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem ticksPerCalculation(int ticksPerCalculation) {this.ticksPerCalculation = ticksPerCalculation; return this;}
 
+    /**
+     * {@inheritDoc}
+     * @param spawnOffset {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem spawnOffset(ValueRange<Vector> spawnOffset) {this.spawnOffset = spawnOffset; return this;}
+
+    /**
+     * {@inheritDoc}
+     * @param spawnOffset {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem spawnOffset(Vector spawnOffset) {this.spawnOffset = new ValueRange<>(spawnOffset); return this;}
 
-    /**{@inheritDoc}*/
+    /**
+     * {@inheritDoc}
+     * @param initialMovementDirection {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem initialMovementDirection(ValueRange<Direction> initialMovementDirection) {this.initialMovementDirection = initialMovementDirection; return this;}
-    /**{@inheritDoc}*/
+
+    /**
+     * {@inheritDoc}
+     * @param initialMovementDirection {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem initialMovementDirection(Direction initialMovementDirection) {this.initialMovementDirection = new ValueRange<>(initialMovementDirection); return this;}
 
+    /**
+     * {@inheritDoc}
+     * @param scaleGradient {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem scaleOverLifetime(RangedGradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
+
+    /**
+     * {@inheritDoc}
+     * @param scaleGradient {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem scaleOverLifetime(GradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
+
+    /**
+     * {@inheritDoc}
+     * @param scale {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem scaleOverLifetime(Vector scale) {this.scaleOverLifetime = new GradientVector(scale); return this;}
 
+    /**
+     * {@inheritDoc}
+     * @param gravity {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem gravity(Gravity gravity) {this.gravity = gravity; return this;}
 
-
+    /**
+     * {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderCustomItem clone() {
         return new ParticleBuilderCustomItem(particleLifeTicks, ticksPerCalculation, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, velocityOverridesRotation, rotationSpeedOverLifetime, colorOverLifetime, item);
     }
@@ -113,7 +255,7 @@ public class ParticleBuilderCustomItem extends ParticleBuilder3D {
     // Config stuff
     @Override
     public @NotNull Map<String, Object> serialize() {
-Map<String, Object> map = new HashMap<>(super.serialize());
+        Map<String, Object> map = new HashMap<>(super.serialize());
         map.put("type", "customItem");
         map.put("colorOverLifetime", colorOverLifetime);
         map.put("item", item);

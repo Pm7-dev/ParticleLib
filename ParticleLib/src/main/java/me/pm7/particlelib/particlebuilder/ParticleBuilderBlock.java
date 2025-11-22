@@ -54,49 +54,171 @@ public class ParticleBuilderBlock extends ParticleBuilder3D {
 
 
     // data specific to ParticleDataBlock
+
+    /**
+     * Sets the block data used for particles created by this builder.
+     *
+     * @param blockData the block data to use
+     * @return this builder
+     */
     public ParticleBuilderBlock blockData(BlockData blockData) {this.blockData = blockData; return this;}
 
 
     // Data specific to 3D particle spawners
 
-    /**{inheritDoc}*/
+    /**
+     * {@inheritDoc}
+     * @param initialRotation {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock initialRotation(ValueRange<Vector> initialRotation) {this.initialRotation = initialRotation; return this;}
-    /**{inheritDoc}*/
+
+    /**
+     * {@inheritDoc}
+     * @param initialRotation {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock initialRotation(Vector initialRotation) {this.initialRotation = new ValueRange<>(initialRotation); return this;}
 
     /**
      * {@inheritDoc}
+     * @param velocityOverridesRotation {@inheritDoc}
+     * @return {@inheritDoc}
      */
+    @Override
     public ParticleBuilderBlock velocityOverridesRotation(boolean velocityOverridesRotation) {this.velocityOverridesRotation = velocityOverridesRotation; return this;}
 
+    /**
+     * {@inheritDoc}
+     * @param rotationSpeedOverLifetime {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock rotationSpeedOverLifetime(RangedGradientVector rotationSpeedOverLifetime) {this.rotationSpeedOverLifetime = rotationSpeedOverLifetime; return this;}
+
+    /**
+     * {@inheritDoc}
+     * @param rotationSpeedOverLifetime {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock rotationSpeedOverLifetime(GradientVector rotationSpeedOverLifetime) {this.rotationSpeedOverLifetime = rotationSpeedOverLifetime; return this;}
+
+    /**
+     * {@inheritDoc}
+     * @param rotationSpeed {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock rotationSpeedOverLifetime(Vector rotationSpeed) {this.rotationSpeedOverLifetime = new GradientVector(rotationSpeed); return this;}
 
+    /**
+     * {@inheritDoc}
+     * @param rotationOverVelocity {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock rotationOverVelocity(ValueRange<Double> rotationOverVelocity) {this.rotationOverVelocity = rotationOverVelocity; return this;}
 
 
     // Data general to all ParticleSpawners
+
+    /**
+     * {@inheritDoc}
+     * @param particleLifeTicks {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock particleLifeTicks(ValueRange<Integer> particleLifeTicks) {this.particleLifeTicks = particleLifeTicks; return this;}
+
+    /**
+     * {@inheritDoc}
+     * @param particleLifeTicks {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock particleLifeTicks(int particleLifeTicks) {this.particleLifeTicks = new ValueRange<>(particleLifeTicks); return this;}
 
+    /**
+     * {@inheritDoc}
+     * @param ticksPerCalculation {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock ticksPerCalculation(int ticksPerCalculation) {this.ticksPerCalculation = ticksPerCalculation; return this;}
 
+    /**
+     * {@inheritDoc}
+     * @param spawnOffset {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock spawnOffset(ValueRange<Vector> spawnOffset) {this.spawnOffset = spawnOffset; return this;}
+
+    /**
+     * {@inheritDoc}
+     * @param spawnOffset {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock spawnOffset(Vector spawnOffset) {this.spawnOffset = new ValueRange<>(spawnOffset); return this;}
 
-    /**{inheritDoc}*/
+    /**
+     * {@inheritDoc}
+     * @param initialMovementDirection {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock initialMovementDirection(ValueRange<Direction> initialMovementDirection) {this.initialMovementDirection = initialMovementDirection; return this;}
-    /**{inheritDoc}*/
+
+    /**
+     * {@inheritDoc}
+     * @param initialMovementDirection {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock initialMovementDirection(Direction initialMovementDirection) {this.initialMovementDirection = new ValueRange<>(initialMovementDirection); return this;}
 
+    /**
+     * {@inheritDoc}
+     * @param scaleGradient {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock scaleOverLifetime(RangedGradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
+
+    /**
+     * {@inheritDoc}
+     * @param scaleGradient {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock scaleOverLifetime(GradientVector scaleGradient) {this.scaleOverLifetime = scaleGradient; return this;}
+
+    /**
+     * {@inheritDoc}
+     * @param scale {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock scaleOverLifetime(Vector scale) {this.scaleOverLifetime = new GradientVector(scale); return this;}
 
+    /**
+     * {@inheritDoc}
+     * @param gravity {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock gravity(Gravity gravity) {this.gravity = gravity; return this;}
 
 
+    /**
+     * {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @Override
     public ParticleBuilderBlock clone() {
         return new ParticleBuilderBlock(particleLifeTicks, ticksPerCalculation, spawnOffset, initialMovementDirection, scaleOverLifetime, rotationOverVelocity, gravity.clone(), initialRotation, velocityOverridesRotation, rotationSpeedOverLifetime, blockData.clone());
     }
