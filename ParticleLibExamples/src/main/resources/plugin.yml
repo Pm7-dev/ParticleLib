@@ -11,4 +11,6 @@ commands:
     description: "spawns the smoke demonstration emitter"
   firework:
     description: "manages the firework demonstration"
+  volcano:
+    description: "spawns the volcano demonstration emitter"
 depend: [ParticleLib]
