@@ -5,15 +5,31 @@ Minecraft's display entities (text displays for 2d particles and item displays f
 I mainly made this library so I could create interesting particle effects for my own plugins, but I thought it would be
 interesting to try fully completing and documenting a project of mine.   
 
+# Installation
+To install to your local repository, clone this repo somewhere and run the maven install goal on the ParticleLib
+directory, or you could convert everything to gradle if you want.  
+ 
+As for putting this in your projects, you get to plop this little thing into your pom.xml dependencies. Then you just
+gotta throw the compiled version somewhere
+```xml
+<dependency>
+    <groupId>me.pm7</groupId>
+    <artifactId>particlelib</artifactId>
+    <version>1.0</version>
+    <scope>provided</scope>
+</dependency>
+```
+I promised myself I would figure out how to do this on gradle too, but I can't be bothered lol
+
+# How it works  
 If you don't want to read my waffling on about how the thingy works, I encourage you to look into the code in the
 examples part of this repository. I've tried to make it mostly clean and self explanatory. However, if you like reading
-long rambles describing a project...
-# How it works
-Attempting to sum it up in one vague sentence, ParticleEmitter objects store ParticleBuilders and use the ParticleBuilder
-to spawn Particles when some certain criteria is met.  
-
-This is about where I found out I was really bad at explaining this in an overview-y sort of way, and will instead opt 
-to start from the bottom and work my way up.
+long rambles describing a project...  
+ 
+Attempting to sum it up in one vague sentence, ParticleEmitter objects store ParticleBuilders and use the 
+ParticleBuilder to spawn Particles when some certain criteria is met. This is as far as I got before finding out I was 
+really bad at explaining this in an overview-y sort of way, so I will instead opt to start from the bottom and work my 
+way up.
 
 ## Basic Data
 Particles have to have data that determines how they act across their lifetime. In this library, particle data is either
