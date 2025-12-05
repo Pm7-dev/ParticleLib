@@ -38,7 +38,7 @@ public abstract class ParticleBuilder implements ConfigurationSerializable {
         this.ticksPerCalculation = 1;
         this.spawnOffset = new ValueRange<>(new Vector(0, 0, 0));
         this.initialMovementDirection = new ValueRange<>(new Direction(0, 60), new Direction(360, 120));
-        this.scaleOverLifetime = new GradientVector(new Vector(0.125, 0.125, 0.125));
+        this.scaleOverLifetime = new GradientVector(new Vector(1.0, 1.0, 1.0));
         this.rotationOverVelocity = new ValueRange<>(0.0);
         this.gravity = new GravityNone(new GradientDouble(1.0));
     }
