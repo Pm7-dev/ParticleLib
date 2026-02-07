@@ -20,6 +20,8 @@ gotta throw the compiled version into your plugins folder in your server along w
 </dependency>
 ```
 
+The texture pack required for the cube/shadeless cube particles is `particleLibBase.zip` in the repo
+
 # How it works  
 If you don't want to read my waffling on about how the thingy works, I encourage you to look into the code in the
 examples part of this repository. I've tried to make it mostly clean and self explanatory. However, if you like reading
