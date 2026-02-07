@@ -10,7 +10,7 @@ To install to your local repository, clone this repo somewhere and run the maven
 directory, or you could convert everything to gradle if you want.  
  
 As for putting this in your projects, you get to plop this little thing into your pom.xml dependencies. Then you just
-gotta throw the compiled version somewhere
+gotta throw the compiled version into your plugins folder in your server along with your plugin (unless you shade the dependencies)
 ```xml
 <dependency>
     <groupId>me.pm7</groupId>
@@ -19,7 +19,6 @@ gotta throw the compiled version somewhere
     <scope>provided</scope>
 </dependency>
 ```
-I promised myself I would figure out how to do this on gradle too, but I can't be bothered lol
 
 # How it works  
 If you don't want to read my waffling on about how the thingy works, I encourage you to look into the code in the
@@ -32,20 +31,20 @@ really bad at explaining this in an overview-y sort of way, so I will instead op
 way up.
 
 ## Basic Data
-Particles have to have data that determines how they act across their lifetime. In this library, particle data is either
+Particles have data that determines how they act across their lifetime. In this library, particle data is either
 in the form of a constant value (basic boolean, double, etc.), a ValueRange<> (range between two values), a Gradient 
-(GradientColor, GradientDouble, etc. Contains a list of keyframes to be interpolated between across a particle's life),
-or a RangedGradient, which contains a list of ranged keyframes to be generated into a Gradient randomly when a particle
-spawns. There is also a Direction class to store yaw & pitch for direction values.
+(list of keyframes to be interpolated between across a particle's life),
+or a RangedGradient, (list of ranged keyframes to be randomly baked into a Gradient when a particle
+spawns). There is also a Direction class to store yaw & pitch for direction values.
  
-### Bit more gradient info I guess
-Keyframes contain a value and a position between 0.0 ad 1.0, with 0.0 being the start of a particle's life, and 1.0
+### Bit more gradient info
+Keyframes contain a value and a position between 0.0 and 1.0, with 0.0 being the start of a particle's life, and 1.0
 being the end. The value is any object, but GradientColor goes with Keyframe\<Color>, GradientDouble with 
 Keyframe\<Double>, and so on. Gradients also have an EasingMode enum, but it applies to the entire gradient's range
 rather than the individual keyframes so you'll probably just use EasingMode.LINEAR most of the time. If I were smarter
-I would have made each keyframe have an EasingMode, but I didn't :3  
-RangedKeyframes contain a position between 0.0 and 1.0, but contain two values. When a particle is spawned with a 
-RangedGradient, it "bakes" the RangedKeyframes, converting them into normal Keyframes by randomly picking between the
+I would have made each keyframe have an EasingMode, but I didn't  
+RangedKeyframes contain a position between 0.0 and 1.0, but contain two values of the same type. When a particle is spawned with a 
+RangedGradient, it "bakes" the RangedKeyframes into normal Keyframes by randomly picking between the
 two values.
 
 ## Particles
@@ -108,8 +107,8 @@ both towards and along an axis
 ## Particle Emitters
 I mentioned particles were spawned by emitters, so I should probably talk about those. ParticleEmitters do in fact spawn
 particles. They are represented in physical space by an empty BlockDisplay entity. This allows emitters to be teleported
-easily, mounted to other entities, and all other wacky stuff. All emitters start paused, so remember to run the start
-method before deciding it doesn't work.
+easily, mounted to other entities, and all other wacky stuff. All emitters are paused when they are spawned, so remember to run the start
+method in your code.
   
 I made three types of emitters:
 - ParticleEmitterConstant - Emits particles at a constant, specified rate
@@ -130,9 +129,9 @@ On the client? Not at all. Every client I've tested has been able to handle mult
 once. Maybe your friend using super ultra deluxe shaders might finally drop below 144 fps, but as far as I can tell
 this works pretty smoothly on the client.  
   
-The server, however; is another story. Teleportations are computationally expensive in minecraft, which is why most of
+The server is another story. Teleportations are computationally expensive in minecraft, which is why most of
 my lag preventing measures focus on that. Every emitter can have its own maximum number of particles set and a view 
-distance at which the emitter will stop spawning particles, but ParticleData also can have the ticks per calculation 
+distance at which the emitter will stop spawning particles, but ParticleData also can have the "ticks per calculation" 
 set. By default, this number is 1, and every particle is teleported and updated every game tick, but by setting the 
 ticks per calculation to numbers greater than 1, the particle will only be updated by the plugin every x amount of 
 ticks, greatly reducing the number of teleportations per tick.
