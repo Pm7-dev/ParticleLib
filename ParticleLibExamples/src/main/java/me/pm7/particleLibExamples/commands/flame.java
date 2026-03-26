@@ -1,7 +1,5 @@
 package me.pm7.particleLibExamples.commands;
 
-import me.pm7.particleLibExamples.ParticleLibExamples;
-import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.data.Direction;
 import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.emitter.ParticleEmitterConstant;

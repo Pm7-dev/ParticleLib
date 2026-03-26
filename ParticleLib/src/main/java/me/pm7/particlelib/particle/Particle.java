@@ -1,11 +1,10 @@
 package me.pm7.particlelib.particle;
 
 import me.pm7.particlelib.ParticleManager;
-import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.data.gradient.GradientVector;
 import me.pm7.particlelib.data.keyframe.ValueRange;
+import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.physics.Gravity;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.util.Vector;

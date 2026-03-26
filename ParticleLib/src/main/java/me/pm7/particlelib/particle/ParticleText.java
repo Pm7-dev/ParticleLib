@@ -1,11 +1,11 @@
 package me.pm7.particlelib.particle;
 
 import me.pm7.particlelib.ParticleLib;
-import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.data.gradient.GradientColor;
 import me.pm7.particlelib.data.gradient.GradientDouble;
 import me.pm7.particlelib.data.gradient.GradientVector;
 import me.pm7.particlelib.data.keyframe.ValueRange;
+import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.physics.Gravity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;

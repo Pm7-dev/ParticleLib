@@ -1,7 +1,6 @@
 package me.pm7.particlelib.data.keyframe;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;

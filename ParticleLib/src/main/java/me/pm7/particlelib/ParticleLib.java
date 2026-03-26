@@ -1,13 +1,13 @@
 package me.pm7.particlelib;
 
 import me.pm7.particlelib.data.Direction;
-import me.pm7.particlelib.emitter.ParticleEmitter;
-import me.pm7.particlelib.emitter.ParticleEmitterBurst;
-import me.pm7.particlelib.emitter.ParticleEmitterConstant;
 import me.pm7.particlelib.data.gradient.*;
 import me.pm7.particlelib.data.keyframe.Keyframe;
 import me.pm7.particlelib.data.keyframe.RangedKeyframe;
 import me.pm7.particlelib.data.keyframe.ValueRange;
+import me.pm7.particlelib.emitter.ParticleEmitter;
+import me.pm7.particlelib.emitter.ParticleEmitterBurst;
+import me.pm7.particlelib.emitter.ParticleEmitterConstant;
 import me.pm7.particlelib.particlebuilder.*;
 import me.pm7.particlelib.physics.GravityAxis;
 import me.pm7.particlelib.physics.GravityDirection;

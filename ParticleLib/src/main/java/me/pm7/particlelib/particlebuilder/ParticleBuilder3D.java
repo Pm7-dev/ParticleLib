@@ -1,7 +1,9 @@
 package me.pm7.particlelib.particlebuilder;
 
 import me.pm7.particlelib.data.Direction;
-import me.pm7.particlelib.data.gradient.*;
+import me.pm7.particlelib.data.gradient.Gradient;
+import me.pm7.particlelib.data.gradient.GradientVector;
+import me.pm7.particlelib.data.gradient.RangedGradientVector;
 import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.physics.Gravity;
 import org.bukkit.util.Vector;

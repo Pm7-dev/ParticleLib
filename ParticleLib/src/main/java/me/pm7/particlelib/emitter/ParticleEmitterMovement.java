@@ -1,6 +1,5 @@
 package me.pm7.particlelib.emitter;
 
-import me.pm7.particlelib.ParticleManager;
 import me.pm7.particlelib.particlebuilder.ParticleBuilder;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
