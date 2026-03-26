@@ -8,6 +8,7 @@ import me.pm7.particlelib.data.gradient.GradientColor;
 import me.pm7.particlelib.data.gradient.GradientVector;
 import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.physics.Gravity;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.ItemDisplay;
@@ -60,7 +61,7 @@ public class ParticleItem extends Particle {
         loc.setYaw(0.0f);
 
         // Set up display entity with all its initial data
-        display = loc.getWorld().spawn(loc, ItemDisplay.class, entity -> {
+        org.bukkit.entity.ItemDisplay display = loc.getWorld().spawn(loc, ItemDisplay.class, entity -> {
 
             // Add a little tracker that makes the plugin recognize that this is a particle
             entity.getPersistentDataContainer().set(ParticleLib.PARTICLE_KEY, PersistentDataType.BOOLEAN, true);
@@ -103,6 +104,7 @@ public class ParticleItem extends Particle {
             entity.setInterpolationDuration(ticksPerCalculation);
             entity.setTeleportDuration(ticksPerCalculation);
         });
+        this.displayUUID = display.getUniqueId();
     }
 
     protected void transform(double lifePosition, int steps) {
@@ -125,7 +127,7 @@ public class ParticleItem extends Particle {
                     .rotateY((float) yaw)
                     .rotateX((float) -pitch);
         } else {
-            rotation = display.getTransformation().getLeftRotation(); // for this we need the current rotation since we're modifying it
+            rotation = getDisplay().getTransformation().getLeftRotation(); // for this we need the current rotation since we're modifying it
 
             Vector rotationSpeed = rotationSpeedOverLifetime.interpolate(lifePosition);
             float yawChange   = (float) Math.toRadians(rotationSpeed.getY() * 0.05 * steps);
@@ -148,7 +150,7 @@ public class ParticleItem extends Particle {
                     .rotateZ(rollChange);
         }
 
-        display.setTransformation(new Transformation(new Vector3f(), rotation, scalef, new Quaternionf()));
+        getDisplay().setTransformation(new Transformation(new Vector3f(), rotation, scalef, new Quaternionf()));
     }
 
     @Override
@@ -169,6 +171,6 @@ public class ParticleItem extends Particle {
      */
     @Override
     public ItemDisplay getDisplay() {
-        return (ItemDisplay) display;
+        return (ItemDisplay) Bukkit.getEntity(displayUUID);
     }
 }

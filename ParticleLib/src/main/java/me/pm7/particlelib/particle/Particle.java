@@ -5,12 +5,14 @@ import me.pm7.particlelib.emitter.ParticleEmitter;
 import me.pm7.particlelib.data.gradient.GradientVector;
 import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.physics.Gravity;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.util.Vector;
 import org.joml.Vector3f;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * A particle lol.
@@ -33,7 +35,9 @@ public abstract class Particle {
     private int ticksLived;
     protected Vector displacement;
     
-    protected Display display;
+    //protected Display display;
+    protected UUID displayUUID;
+
 
     /**
      * Makes a new particle. Only meant for internal use but if you have something crazy you should go for it.
@@ -61,6 +65,7 @@ public abstract class Particle {
 
         this.currentTick = ticksPerCalculation;
         this.ticksLived = 0;
+
     }
 
     /**
@@ -72,7 +77,7 @@ public abstract class Particle {
         else return;
 
         // If the display is dead, kill this particle
-        if(display == null || display.isDead()) {
+        if(getDisplay() == null || getDisplay().isDead()) {
             remove();
             return;
         }
@@ -89,7 +94,7 @@ public abstract class Particle {
 
         // Animate transformation and color
         double lifePosition = getLifePosition();
-        display.setInterpolationDelay(0); // I think this has to go before transformations?
+        getDisplay().setInterpolationDelay(0); // I think this has to go before transformations?
         transform(lifePosition, ticksPerCalculation);
         color(lifePosition);
     }
@@ -107,10 +112,10 @@ public abstract class Particle {
             remove();
             return;
         }
-        displacement = loc.toVector().subtract(display.getLocation().toVector());
+        displacement = loc.toVector().subtract(getDisplay().getLocation().toVector());
 
         if(displacement.equals(new Vector(0, 0, 0))) return; // no movement
-        display.teleport(loc);
+        getDisplay().teleport(loc);
     }
 
     /**
@@ -128,7 +133,7 @@ public abstract class Particle {
      * kills the particle and removes it from any lists that keep track of particles
      */
     public void remove() {
-        if(display != null) display.remove();
+        if(getDisplay() != null) getDisplay().remove();
         if(parentEmitter == null) {
             ParticleManager.getOrphanedParticles().remove(this);
         } else {
@@ -153,7 +158,7 @@ public abstract class Particle {
      * @return the scale of the particle
      */
     public double getSize() {
-        Vector3f scale = display.getTransformation().getScale();
+        Vector3f scale = getDisplay().getTransformation().getScale();
         return (scale.x + scale.y + scale.z)/3.0d;
     }
 

@@ -9,6 +9,7 @@ import me.pm7.particlelib.data.keyframe.ValueRange;
 import me.pm7.particlelib.physics.Gravity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
@@ -64,7 +65,7 @@ public class ParticleText extends Particle {
         this.text = text;
 
         // Set up display entity with all its initial data
-        display = loc.getWorld().spawn(loc, TextDisplay.class, entity -> {
+        org.bukkit.entity.TextDisplay display = loc.getWorld().spawn(loc, TextDisplay.class, entity -> {
 
             // Add a little tracker that makes the plugin recognize that this is a particle
             entity.getPersistentDataContainer().set(ParticleLib.PARTICLE_KEY, PersistentDataType.BOOLEAN, true);
@@ -101,6 +102,7 @@ public class ParticleText extends Particle {
             entity.setInterpolationDuration(ticksPerCalculation);
             entity.setTeleportDuration(ticksPerCalculation);
         });
+        this.displayUUID = display.getUniqueId();
     }
 
     protected void transform(double lifePosition, int steps) {
@@ -109,7 +111,7 @@ public class ParticleText extends Particle {
         Vector scale = scaleOverLifetime.interpolate(lifePosition);
         Vector3f scalef = new Vector3f((float) scale.getX(), (float) scale.getY(), (float) scale.getZ());
 
-        Quaternionf rotation = display.getTransformation().getLeftRotation();
+        Quaternionf rotation = getDisplay().getTransformation().getLeftRotation();
 
         // Either set up initial rotation or modify rotation
 
@@ -125,8 +127,8 @@ public class ParticleText extends Particle {
         // Apply change in rotation
         rotation.rotateZ(rollChange);
 
-        if(text == null) display.setTransformation(new Transformation(new Vector3f(), rotation, scalef.mul(SQUARE_SCALE_MULTIPLIER), new Quaternionf()));
-        else display.setTransformation(new Transformation(new Vector3f(), rotation, scalef, new Quaternionf()));
+        if(text == null) getDisplay().setTransformation(new Transformation(new Vector3f(), rotation, scalef.mul(SQUARE_SCALE_MULTIPLIER), new Quaternionf()));
+        else getDisplay().setTransformation(new Transformation(new Vector3f(), rotation, scalef, new Quaternionf()));
     }
 
     @Override
@@ -152,6 +154,6 @@ public class ParticleText extends Particle {
      */
     @Override
     public TextDisplay getDisplay() {
-        return (TextDisplay) display;
+        return (TextDisplay) Bukkit.getEntity(displayUUID);
     }
 }

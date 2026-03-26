@@ -29,6 +29,7 @@ public class ParticleManager {
         // Iterate through each emitter
         for(int i=0; i<allEmitters.size(); i++) {
             ParticleEmitter emitter = allEmitters.get(i);
+            System.out.println(emitter.getParticles().size());
 
             // Tick the emitter if they are both active and loaded
             if(emitter.isActive() && emitter.getLocation().isChunkLoaded()) {

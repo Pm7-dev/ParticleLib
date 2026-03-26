@@ -20,7 +20,8 @@ import java.util.*;
  */
 public abstract class ParticleEmitter implements ConfigurationSerializable {
 
-    protected BlockDisplay gameObject;
+    //protected BlockDisplay gameObject;
+    protected UUID gameObjectUUID;
     protected boolean active;
     protected long maxParticles;
     protected int viewDistance;
@@ -40,8 +41,9 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
 
         this.particleBuilder = particleBuilder;
 
-        this.gameObject = (BlockDisplay) location.getWorld().spawnEntity(location, EntityType.BLOCK_DISPLAY);
-        this.gameObject.getPersistentDataContainer().set(ParticleLib.EMITTER_KEY, PersistentDataType.LONG, ParticleLib.SESSION_IDENTIFIER);
+        BlockDisplay gameObject = (BlockDisplay) location.getWorld().spawnEntity(location, EntityType.BLOCK_DISPLAY);
+        gameObject.getPersistentDataContainer().set(ParticleLib.EMITTER_KEY, PersistentDataType.LONG, ParticleLib.SESSION_IDENTIFIER);
+        this.gameObjectUUID = gameObject.getUniqueId();
 
         this.maxParticles = maxParticles;
         this.viewDistance = viewDistance;
@@ -57,19 +59,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
      * @param location The location to spawn the ParticleEmitter's display entity
      */
     public ParticleEmitter(ParticleBuilder particleBuilder, Location location) {
-        this.particles = new ArrayList<>();
-
-        this.particleBuilder = particleBuilder;
-
-        this.gameObject = (BlockDisplay) location.getWorld().spawnEntity(location, EntityType.BLOCK_DISPLAY);
-        this.gameObject.getPersistentDataContainer().set(ParticleLib.EMITTER_KEY, PersistentDataType.LONG, ParticleLib.SESSION_IDENTIFIER);
-
-        this.maxParticles = 0;
-        this.viewDistance = 0;
-
-        this.active = false;
-
-        ParticleManager.getAllEmitters().add(this);
+        this(particleBuilder, location, 0, 0);
     }
 
     /**
@@ -113,19 +103,21 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
      * Teleports the emitter's entity to a specified location
      * @param location The location to teleport the emitter to
      */
-    public void teleport(Location location) {this.gameObject.teleport(location);}
+    public void teleport(Location location) {getGameObject().teleport(location);}
 
     /**
      * Gets the current location of the emitter
      * @return The location of the emitter
      */
-    public Location getLocation() {return this.gameObject.getLocation();}
+    public Location getLocation() {return getGameObject().getLocation();}
 
     /**
      * Gets the entity this emitter is represented by
      * @return The Display entity of the emitter
      */
-    public Display getGameObject() {return gameObject;}
+    public Display getGameObject() {
+        return (Display) Bukkit.getEntity(gameObjectUUID);
+    }
 
     /**
      * @return the maximum number of particles this emitter can have before it starts removing old ones.
@@ -156,7 +148,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
      * Removes this emitter and orphans all its particles, sending them to the "orphaned particles" list in ParticleManager
      */
     public void remove() {
-        gameObject.remove();
+        getGameObject().remove();
 
         while (!particles.isEmpty()){
             particles.getFirst().orphan();
@@ -195,7 +187,7 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
     public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
         map.put("type", "none");
-        map.put("uuid", gameObject.getUniqueId().toString());
+        map.put("uuid", getGameObject().getUniqueId().toString());
         map.put("location", getLocation());
         map.put("particleBuilder", particleBuilder);
         map.put("maxParticles", maxParticles);
@@ -214,13 +206,14 @@ public abstract class ParticleEmitter implements ConfigurationSerializable {
         Location loc = (Location) map.get("location");
         if(!loc.isChunkLoaded()) loc.getWorld().loadChunk(loc.getChunk());
 
-        this.gameObject = (BlockDisplay) Bukkit.getEntity(UUID.fromString( (String) map.get("uuid")));
+        BlockDisplay gameObject = (BlockDisplay) Bukkit.getEntity(UUID.fromString( (String) map.get("uuid")));
         if(gameObject == null) {
-            this.gameObject = (BlockDisplay) loc.getWorld().spawnEntity(loc, EntityType.BLOCK_DISPLAY);
-            this.gameObject.getPersistentDataContainer().set(ParticleLib.EMITTER_KEY, PersistentDataType.LONG, ParticleLib.SESSION_IDENTIFIER);
+            gameObject = (BlockDisplay) loc.getWorld().spawnEntity(loc, EntityType.BLOCK_DISPLAY);
+            gameObject.getPersistentDataContainer().set(ParticleLib.EMITTER_KEY, PersistentDataType.LONG, ParticleLib.SESSION_IDENTIFIER);
         } else {
-            this.gameObject.teleport(loc);
+            gameObject.teleport(loc);
         }
+        this.gameObjectUUID = gameObject.getUniqueId();
 
         this.particleBuilder = (ParticleBuilder) map.get("particleBuilder");
         this.active = false;
