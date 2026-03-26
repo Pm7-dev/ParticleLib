@@ -115,7 +115,6 @@ public class ParticleEmitterMovement extends ParticleEmitter {
         if(maxParticles > 0) {
             while (particles.size() > maxParticles) {
                 particles.getFirst().remove();
-                particles.removeFirst();
             }
         }
     }

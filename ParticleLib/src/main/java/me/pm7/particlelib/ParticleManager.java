@@ -78,7 +78,6 @@ public class ParticleManager {
         while (!orphanedParticles.isEmpty()) {
             Particle p = orphanedParticles.getFirst();
             p.remove();
-            orphanedParticles.remove(p);
         }
     }
 }
